@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -26,24 +26,26 @@ import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.*;
 
 public class ISOImageFileHandler implements StreamHandler {
 	private File file = null;
+    private RandomAccessFile raFile = null;
 	private DataOutputStream dataOutputStream = null;
 	private long position = 0;
-	
+
 	/**
-	 * ISO Image File Handler 
-	 * 
+	 * ISO Image File Handler
+	 *
 	 * @param file ISO image output file
 	 * @throws FileNotFoundException File not found
 	 */
 	public ISOImageFileHandler(File file) throws FileNotFoundException {
 		this.file = file;
+        this.raFile = new RandomAccessFile(file, "r");
 		this.dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(this.file)));
 	}
 
 	public void startDocument() throws HandlerException {
 		// nothing to do here
 	}
-	
+
 	public void startElement(Element element) throws HandlerException {
 		// nothing to do here
 	}
@@ -91,14 +93,14 @@ public class ISOImageFileHandler implements StreamHandler {
 			}
 		}
 	}
-	
+
 	public Fixup fixup(DataReference reference) throws HandlerException {
 		Fixup fixup = null;
-		fixup = new FileFixup(file, position, reference.getLength());
+		fixup = new FileFixup(raFile, position, reference.getLength());
 		data(reference);
 		return fixup;
 	}
-	
+
 	public long mark() throws HandlerException {
 		return position;
 	}
