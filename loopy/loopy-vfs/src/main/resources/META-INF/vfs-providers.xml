@@ -1,0 +1,6 @@
+<providers>
+    <provider class-name="net.didion.loopy.vfs.provider.iso.IsoFileProvider">
+        <scheme name="iso"/>
+        <if-available class-name="net.didion.loopy.iso9660.ISO9660FileSystem"/>
+    </provider>
+</providers>

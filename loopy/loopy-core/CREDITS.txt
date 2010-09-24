@@ -1,0 +1,2 @@
+loopy is based on the file system code from JNode (www.jnode.org). Thanks to the JNode developers for doing a lot of
+hard work :)
