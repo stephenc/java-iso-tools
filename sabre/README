@@ -1,0 +1,4 @@
+This project provides the Simple API for Binary REpresentations (SABRE) written
+by Michael Hartle, and the UDF Library (UDFLib) written by Björn Stickler for
+generating UDF images through an Ant task. Both components are licensed under
+the LGPL.

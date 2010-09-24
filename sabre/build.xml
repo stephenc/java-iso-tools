@@ -1,0 +1,80 @@
+<?xml version="1.0"?>
+<project name="Simple API for Binary REpresentations (SABRE) 1.1" default="dist">
+	<property name="src" location="src/java" />
+	<property name="build"	location="build" />
+	<property name="dist"	location="dist" />
+	<property name="lib"	location="lib" />
+	
+	<path id="classpath.libs">
+		<fileset dir="lib">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+
+	<path id="classpath.udflib">
+		<fileset dir="${dist}">
+			<include name="**/*.jar"/>
+		</fileset>
+		<fileset dir="${lib}">
+			<include name="**/*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="clean">
+		<delete dir="${dist}" />
+		<delete dir="${build}" />
+	</target>
+	
+	<target name="prepare" depends="clean">
+		<mkdir dir="${dist}"/>
+		<mkdir dir="${build}/classes"/>
+		<mkdir dir="${build}/image"/>
+	</target>
+	
+	<target name="compile" depends="prepare">
+		<javac destdir="${build}/classes" classpathref="classpath.libs" debug="on">
+		    <src path="${src}"/>
+		</javac>
+	</target>
+	
+	<target name="dist" depends="compile">
+		<!-- Build SABRE jar -->
+		<jar destfile="${dist}/sabre.jar" basedir="${build}/classes">
+			<include name="de/tu_darmstadt/informatik/rbg/mhartle/sabre/**/*.class"/>
+		</jar>
+
+		<!-- Build UDFLib jar -->
+		<jar destfile="${dist}/udflib.jar" basedir="${build}/classes">
+			<include name="de/tu_darmstadt/informatik/rbg/bstickler/udflib/**/*.class"/>
+		</jar>
+	</target>
+		
+	<target name="make-udf-image" depends="dist">
+		<!-- Define UDFLib task and type -->
+		<taskdef name="udfimage" classname="de.tu_darmstadt.informatik.rbg.bstickler.udflib.UDFImageBuilderAntTask" classpathref="classpath.udflib"/> 
+		<typedef name="filelocation" classname="de.tu_darmstadt.informatik.rbg.bstickler.udflib.UDFImageBuilderAntTask$FileLocation" classpathref="classpath.udflib"/>
+		
+		<!-- Get current timestamp -->
+		<tstamp>
+			<format property="image.date" pattern="yyyy-MM-dd"/>
+		</tstamp>
+		
+		<!-- Create test image containing the complete project -->
+		<copy todir="${build}/image">
+			<fileset dir="${basedir}">
+				<include name="src/**/*"/>
+				<include name="lib/**/*"/>
+				<include name=".classpath"/>
+				<include name=".project"/>
+				<include name="LICENSE"/>
+				<include name="README"/>
+				<include name="build.xml"/>
+			</fileset>
+		</copy>
+		
+		<!-- Create UDF image -->
+		<udfimage imageIdentifier="Disc ${image.date}" imageOutputFile="${dist}/image.udf" udfRevision="2.01">
+			<filelocation location="${build}/image" childfilesonly="true" /> 
+		</udfimage>
+	</target>
+</project>
