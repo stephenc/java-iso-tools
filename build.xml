@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project name="jiic" default="minimal" basedir=".">
+
+<property name="kernelversion" value="2.6.20"/>
+
+<taskdef name="iso"
+	classname="de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISOTask"
+	classpath="sabre.jar:iso9660.jar"
+/>
+<!--
+<iso
+  destfile
+	(File: Output file. Required.)
+  basedir
+	(File: Base directory for files to be included. Required unless using at least one fileset.)
+  includes
+	(String: Pattern of files to be included. If missing: all)
+  excludes
+	(String: Pattern of files to be excluded. If missing: none)
+  name
+	(String: Volume name)
+  system
+	(String: Volume system identifier)
+  dataPreparer
+	(String: Volume data preparer)
+  publisher
+	(String: Volume publisher)
+  movedDirectoriesStoreName
+ 	(String: Name of Moved Directories Store. Default: "rr_moved")
+  allowASCII
+	(boolean: Allow ASCII character set for ISO 9660: Default: no)
+  forceDotDelimiter
+	(boolean: Whether to add dot for files without extension. Default: yes)
+  restrictDirDepthTo8
+	(boolean: Whether to relocate directories deeper than eight levels. Default: yes)
+  interchangeLevel
+	(int: ISO 9660 Interchange Level controlling max filename length: 1=8+3, 2=31. Default: 1)
+  forcePortableFilenameCharacterSet
+	(boolean: Whether to force [-A-Za-z0-9_]+ for Rock Ridge filenames. Default: yes)
+  mkisofsCompatibility
+	(boolean: Whether to use RRIP version 1.09 like mkisofs does, else use v1.12. Default: yes)
+  enableJoliet
+	(boolean: Enable Joliet support. Default: yes)
+  enableRockRidge
+	(boolean: Enable Rock Ridge support. Default: yes)
+  hideMovedDirectoriesStore
+	(boolean: Hide Moved Directories Store (Rock Ridge: e.g. ".rr_moved"). Default: yes)
+  verbose
+	(boolean: Output all renaming actions. Default: no)
+  bootImage
+	(File: Boot image, enables El Torito support)
+  bootImageSectorCount
+	(int: Boot image sector count. Default: 1)
+  bootImageID
+	(String: Boot image identifier)
+  bootImageLoadSegment
+	(int: Boot image load segment. Default: 0x07C)
+  bootImageEmulation
+	(String: Boot image emulation type. Default: None)
+  bootImagePlatformID
+	(String: Boot image platform identifier)
+  genBootInfoTable
+	(boolean: Generate Boot Info Table, cf. mkisofs -boot-info-table)
+  padEnd
+	(boolean: Pad ISO image to 150 logical sectors, cf. mkisofs -pad)
+/>
+
+<fileset
+  dir
+	(File: Base directory for files to be included. Required.)
+  includes
+	(String: Pattern of files to be included. If missing: all)
+  excludes
+	(String: Pattern of files to be excluded. If missing: none)
+/>
+
+<isofileset
+  dir
+	(File: Base directory for files to be included. Required.)
+  includes
+	(String: Pattern of files to be included. If missing: all)
+  excludes
+	(String: Pattern of files to be excluded. If missing: none)
+  prefix
+	(String: ISO image path prefix for files to be included)
+/>
+-->
+
+<target name="boot">
+	<iso destfile="boot.iso" basedir="." name="Boot"
+		excludes="**" copyrightFile="Copyright.txt"
+		bootImage="tomsrtbt-2.0.103.ElTorito.288.img"
+		bootImageSectorCount="1" bootImageEmulation="2.88"
+		bootImagePlatformID="X86"
+	/>
+</target>
+
+<target name="minimal">
+	<iso destfile="minimal.iso" basedir="." name="Minimal"
+		includes="minimal/dummy"
+	/>
+</target>
+
+<target name="eldream">
+	<iso destfile="eldream.iso" basedir="." name="Elephants Dream"
+		includes="eldream/ed_1024.avi"
+	/>
+</target>
+
+<target name="test">
+	<iso destfile="test.iso" basedir="test" name="test"
+		excludes="/test" copyrightFile="Copyright.txt"
+	/>
+</target>
+
+<target name="linux-extract">
+    <untar compression="bzip2" src="linux-${kernelversion}.tar.bz2" dest=".">
+	    <fileset dir="." includes="linux-${kernelversion}" />
+	</untar>
+</target>
+
+<target name="linux">
+	<iso destfile="linux.iso" basedir="linux-${kernelversion}" name="Linux"
+		excludes="/linux-${kernelversion}"
+	/>
+</target>
+
+<target name="linux-norr">
+	<iso destfile="linux.iso" basedir="linux-${kernelversion}" name="Linux"
+		excludes="/linux-${kernelversion}" enableRockRidge="no"
+	/>
+</target>
+
+<target name="linux-isoonly">
+	<iso destfile="linux.iso" basedir="linux-${kernelversion}" name="Linux"
+		excludes="/linux-${kernelversion}" enableRockRidge="no" enableJoliet="no"
+	/>
+</target>
+
+<target name="jar">
+	<jar destfile="iso9660.jar">
+		<fileset dir="." includes="**/hatlak/**/*.class"/>
+		<manifest>
+			<attribute name="Built-By" value="${user.name}"/>
+		</manifest>
+	</jar>
+</target>
+
+</project>

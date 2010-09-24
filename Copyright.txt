@@ -1,0 +1,3 @@
+JIIC: Java ISO Image Creator, (C) 2007 Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
+SABRE: Simple API for Binary REpresentations, (C) 2006 Michael Hartle <mhartle@rbg.informatik.tu-darmstadt.de>
+Tux (c) Larry Ewing <lewing@isc.tamu.edu> and The GIMP

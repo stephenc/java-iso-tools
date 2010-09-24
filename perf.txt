@@ -1,0 +1,52 @@
+Bauen eines ISO-Image - ISOTest vs. mkisofs, Elapsed Time
+---------------------------------------------------------
+(jeweils Durchläufe nach Reboot -> bessere Werte)
+
+System
+------
+- AMD Athlon 64 X2 3800+
+- 1.5 GB RAM (DDR)
+- Kubuntu 6.06.1 / Linux 2.6.15-23-k7 (SMP)
+- Java 1.5.0
+- mkisofs 2.01
+  - Options: -J -R -o outputFilename.iso
+
+Test 1: Minimal (1 Datei, 0 Bytes)
+----------------------------------------
+- keine Verzeichnisverlagerung
+- ISO 9660, Joliet, Rock Ridge
+  - Laufzeit ISOTest: 0.5s, 0.446s
+  - Laufzeit mkisofs: 0.05s, 0.014s
+
+Test 2: test (32 Dateien, 23 Verzeichnisse, 416 KB)
+---------------------------------------------------
+- 2x Verzeichnisverlagerung
+- ISO 9660, Joliet, Rock Ridge
+  - Laufzeit ISOTest: 2s, 1.9s
+  - Laufzeit mkisofs: 0.15s, 0.023s
+
+Test 3: Elephants Dream (1 Datei, 425 MB)
+-----------------------------------------
+- keine Verzeichnisverlagerung
+- ISO 9660, Joliet, Rock Ridge
+  - Laufzeit ISOTest: 12.7s, 4.5s
+  - Laufzeit mkisofs: 12.5s, 2.8s
+
+Test 4: Linux-Kernel 2.6.20, 21261 Dateien, 1263 Verzeichnisse, 478 MB)
+-----------------------------------------------------------------------
+- keine Verzeichnisverlagerung
+a) ISO 9660, Joliet, Rock Ridge
+  - Laufzeit ISOTest: 208s, 172s
+    (+109s, +61s, +38s): -10 ggü. b/c diff
+  - Laufzeit mkisofs: 40s, 3.3s
+b) ISO 9660, Rock Ridge
+  - Laufzeit ISOTest: 170s, 134s
+    (+71s, +23s)
+  - Laufzeit mkisofs: 40s, 2.9s
+c) ISO 9660, Joliet
+  - Laufzeit ISOTest: 147s, 103s
+    (+48s)
+  - Laufzeit mkisofs: 40s, 3s
+d) ISO 9660
+  - Laufzeit ISOTest: 99s, 59s
+  - Laufzeit mkisofs: 40s, 2.7s
