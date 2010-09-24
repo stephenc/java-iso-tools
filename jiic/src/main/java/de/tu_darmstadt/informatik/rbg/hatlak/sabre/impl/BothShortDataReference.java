@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -26,28 +26,29 @@ import java.io.InputStream;
 import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
 
 public class BothShortDataReference implements DataReference {
-	private long value = 0;
 
-	public BothShortDataReference(long value) {
-		this.value = value;
-	}
-	
-	public long getLength() {
-		return 4;
-	}
+    private long value = 0;
 
-	public InputStream createInputStream() throws IOException {
-		byte[] buffer = new byte[4];
-		
-		// MSB first (Big Endian)
-		buffer[2] = (byte)((this.value & 0xFF00) >> 8);
-		buffer[3] = (byte)(this.value & 0x00FF);
-		
-		// LSB first (Little Endian)
-		buffer[1] = buffer[2];
-		buffer[0] = buffer[3];
-		
-		return new ByteArrayInputStream(buffer);
-	}
+    public BothShortDataReference(long value) {
+        this.value = value;
+    }
+
+    public long getLength() {
+        return 4;
+    }
+
+    public InputStream createInputStream() throws IOException {
+        byte[] buffer = new byte[4];
+
+        // MSB first (Big Endian)
+        buffer[2] = (byte) ((this.value & 0xFF00) >> 8);
+        buffer[3] = (byte) (this.value & 0x00FF);
+
+        // LSB first (Little Endian)
+        buffer[1] = buffer[2];
+        buffer[0] = buffer[3];
+
+        return new ByteArrayInputStream(buffer);
+    }
 
 }

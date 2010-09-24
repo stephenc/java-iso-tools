@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -22,31 +22,34 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.volumedescriptors;
 import java.util.HashMap;
 
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.LayoutHelper;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Constants;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Fixup;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
 import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteDataReference;
 import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ThreeByteDataReference;
 
 public class PrimaryVolumeDescriptor extends StandardVolumeDescriptor {
-	public PrimaryVolumeDescriptor(StreamHandler streamHandler, LayoutHelper helper) {
-		super(streamHandler, ISO9660Constants.PVD_TYPE, helper);
-	}
-	
-	public HashMap doPVD() throws HandlerException {
-		HashMap memory = doStandardVD();
-		
-		// Set Volume Flags to 0 (Unused Field)
-		Fixup volumeFlags = (Fixup) memory.get("volumeFlagsFixup");
-		volumeFlags.data(new ByteDataReference(0));
-		volumeFlags.close();
-		memory.remove("volumeFlagsFixup");
-		
-		// Set Escape Sequences to all 0 (Unused Field)
-		Fixup escapeSequences = (Fixup) memory.get("escapeSequencesFixup");
-		escapeSequences.data(new ThreeByteDataReference(0));
-		escapeSequences.close();
-		memory.remove("escapeSequencesFixup");
-		
-		return memory;
-	}
+
+    public PrimaryVolumeDescriptor(StreamHandler streamHandler, LayoutHelper helper) {
+        super(streamHandler, ISO9660Constants.PVD_TYPE, helper);
+    }
+
+    public HashMap doPVD() throws HandlerException {
+        HashMap memory = doStandardVD();
+
+        // Set Volume Flags to 0 (Unused Field)
+        Fixup volumeFlags = (Fixup) memory.get("volumeFlagsFixup");
+        volumeFlags.data(new ByteDataReference(0));
+        volumeFlags.close();
+        memory.remove("volumeFlagsFixup");
+
+        // Set Escape Sequences to all 0 (Unused Field)
+        Fixup escapeSequences = (Fixup) memory.get("escapeSequencesFixup");
+        escapeSequences.data(new ThreeByteDataReference(0));
+        escapeSequences.close();
+        memory.remove("escapeSequencesFixup");
+
+        return memory;
+    }
 }

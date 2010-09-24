@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007-2009, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -21,74 +21,83 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl;
 
 import java.util.Stack;
 
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.*;
+import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.EmptyByteArrayDataReference;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.ContentHandler;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Element;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Fixup;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StructureHandler;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ChainingStreamHandler;
 
 public class LogicalSectorPaddingHandler extends ChainingStreamHandler {
-	private long bytesWritten;
-	private Stack elements;
-	private boolean padEnd;
 
-	public LogicalSectorPaddingHandler(StructureHandler chainingStructureHandler, ContentHandler chainingContentHandler) {
-		super(chainingStructureHandler, chainingContentHandler);
-		bytesWritten = 0;
-		elements = new Stack();
-	}
+    private long bytesWritten;
+    private Stack elements;
+    private boolean padEnd;
 
-	public void setPadEnd(boolean padEnd) {
-		this.padEnd = padEnd;
-	}
+    public LogicalSectorPaddingHandler(StructureHandler chainingStructureHandler,
+                                       ContentHandler chainingContentHandler) {
+        super(chainingStructureHandler, chainingContentHandler);
+        bytesWritten = 0;
+        elements = new Stack();
+    }
 
-	public void startElement(Element element) throws HandlerException {
-		if (element instanceof LogicalSectorElement || isSAElement(element)) {
-			// Reset byte counter
-			bytesWritten = 0;
-		}
-		elements.push(element);
-		super.startElement(element);
-	}
+    public void setPadEnd(boolean padEnd) {
+        this.padEnd = padEnd;
+    }
 
-	private boolean isSAElement(Object element) {
-		if (element instanceof ISO9660Element) {
-			String id = (String) ((ISO9660Element) element).getId();
-			if (id.equals("SA")) {
-				return true;
-			}
-		}
-		return false;
-	}
+    public void startElement(Element element) throws HandlerException {
+        if (element instanceof LogicalSectorElement || isSAElement(element)) {
+            // Reset byte counter
+            bytesWritten = 0;
+        }
+        elements.push(element);
+        super.startElement(element);
+    }
 
-	public void data(DataReference reference) throws HandlerException {
-		bytesWritten += reference.getLength();
-		super.data(reference);
-	}
+    private boolean isSAElement(Object element) {
+        if (element instanceof ISO9660Element) {
+            String id = (String) ((ISO9660Element) element).getId();
+            if (id.equals("SA")) {
+                return true;
+            }
+        }
+        return false;
+    }
 
-	public Fixup fixup(DataReference reference) throws HandlerException {
-		bytesWritten += reference.getLength();
-		return super.fixup(reference);
-	}
+    public void data(DataReference reference) throws HandlerException {
+        bytesWritten += reference.getLength();
+        super.data(reference);
+    }
 
-	public void endElement() throws HandlerException {
-		Object element = elements.pop();
-		if (element instanceof LogicalSectorElement) {
-			// Pad to one logical block
-			int pad = (int) (ISO9660Constants.LOGICAL_SECTOR_SIZE - bytesWritten % ISO9660Constants.LOGICAL_SECTOR_SIZE);
-			super.data(new EmptyByteArrayDataReference(pad));
-		} else
-		if (isSAElement(element)) {
-			// Pad to 16 sectors
-			int pad = (int) (16*ISO9660Constants.LOGICAL_SECTOR_SIZE - bytesWritten % 16*ISO9660Constants.LOGICAL_SECTOR_SIZE);
-			super.data(new EmptyByteArrayDataReference(pad));				
-		}
-		super.endElement();
-	}
+    public Fixup fixup(DataReference reference) throws HandlerException {
+        bytesWritten += reference.getLength();
+        return super.fixup(reference);
+    }
 
-	public void endDocument() throws HandlerException {
-		if (padEnd) {
-			// Pad to 150 sectors (like mkisofs -pad does)
-			int pad = (int) (150*ISO9660Constants.LOGICAL_SECTOR_SIZE - bytesWritten % 16*ISO9660Constants.LOGICAL_SECTOR_SIZE);
-			super.data(new EmptyByteArrayDataReference(pad));
-		}
-	}
+    public void endElement() throws HandlerException {
+        Object element = elements.pop();
+        if (element instanceof LogicalSectorElement) {
+            // Pad to one logical block
+            int pad =
+                    (int) (ISO9660Constants.LOGICAL_SECTOR_SIZE - bytesWritten % ISO9660Constants.LOGICAL_SECTOR_SIZE);
+            super.data(new EmptyByteArrayDataReference(pad));
+        } else if (isSAElement(element)) {
+            // Pad to 16 sectors
+            int pad = (int) (16 * ISO9660Constants.LOGICAL_SECTOR_SIZE -
+                    bytesWritten % 16 * ISO9660Constants.LOGICAL_SECTOR_SIZE);
+            super.data(new EmptyByteArrayDataReference(pad));
+        }
+        super.endElement();
+    }
+
+    public void endDocument() throws HandlerException {
+        if (padEnd) {
+            // Pad to 150 sectors (like mkisofs -pad does)
+            int pad = (int) (150 * ISO9660Constants.LOGICAL_SECTOR_SIZE -
+                    bytesWritten % 16 * ISO9660Constants.LOGICAL_SECTOR_SIZE);
+            super.data(new EmptyByteArrayDataReference(pad));
+        }
+    }
 }

@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -21,29 +21,31 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660;
 
 import java.util.Iterator;
 
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.*;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ChainingStreamHandler;
 
 public class StandardHandler extends ChainingStreamHandler {
-	private ISO9660Directory root;
-	private StandardConfig config;
-	
-	public StandardHandler(StreamHandler streamHandler, ISO9660Directory root, StandardConfig config) {
-		super(streamHandler, streamHandler);
-		this.root = root;
-		this.config = config;
-	}
 
-	public void checkMetadataFiles() throws HandlerException {
-		// Add files to Root Directory (if not already present)
-		Iterator it = config.getFiles().iterator();
-		while (it.hasNext()) {
-			ISO9660File file = (ISO9660File) it.next();		
-			// Metadata Files must conform to 8+3 naming scheme
-			if (file!=null && !root.getFiles().contains(file)) {
-				file.enforce8plus3(true);
-				root.addFile(file);
-			}
-		}
-	}
+    private ISO9660Directory root;
+    private StandardConfig config;
+
+    public StandardHandler(StreamHandler streamHandler, ISO9660Directory root, StandardConfig config) {
+        super(streamHandler, streamHandler);
+        this.root = root;
+        this.config = config;
+    }
+
+    public void checkMetadataFiles() throws HandlerException {
+        // Add files to Root Directory (if not already present)
+        Iterator it = config.getFiles().iterator();
+        while (it.hasNext()) {
+            ISO9660File file = (ISO9660File) it.next();
+            // Metadata Files must conform to 8+3 naming scheme
+            if (file != null && !root.getFiles().contains(file)) {
+                file.enforce8plus3(true);
+                root.addFile(file);
+            }
+        }
+    }
 }

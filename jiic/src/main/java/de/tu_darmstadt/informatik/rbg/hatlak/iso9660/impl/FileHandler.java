@@ -19,59 +19,66 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.Vector;
 
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.*;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660Directory;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660File;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660RootDirectory;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Element;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ChainingStreamHandler;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.FileDataReference;
 
 public class FileHandler extends ChainingStreamHandler {
-	private ISO9660RootDirectory root;
 
-	public FileHandler(StreamHandler streamHandler, ISO9660RootDirectory root) {
-		super(streamHandler, streamHandler);
-		this.root = root;
-	}
+    private ISO9660RootDirectory root;
 
-	public void startElement(Element element) throws HandlerException {
-		if (element instanceof ISO9660Element) {
-			String id = (String) element.getId();
-			process(id);
-		}
-		super.startElement(element);
-	}
+    public FileHandler(StreamHandler streamHandler, ISO9660RootDirectory root) {
+        super(streamHandler, streamHandler);
+        this.root = root;
+    }
 
-	private void process(String id) throws HandlerException {
-		if (id.equals("FCA")) {
-			doFCA();
-		}
-	}
+    public void startElement(Element element) throws HandlerException {
+        if (element instanceof ISO9660Element) {
+            String id = (String) element.getId();
+            process(id);
+        }
+        super.startElement(element);
+    }
 
-	private void doFCA() throws HandlerException {
-		doFCADirs(root);
+    private void process(String id) throws HandlerException {
+        if (id.equals("FCA")) {
+            doFCA();
+        }
+    }
 
-		Iterator it = root.sortedIterator();
-		while (it.hasNext()) {
-			ISO9660Directory dir = (ISO9660Directory) it.next();
-			doFCADirs(dir);
-		}
-	}
+    private void doFCA() throws HandlerException {
+        doFCADirs(root);
 
-	private void doFCADirs(ISO9660Directory dir) throws HandlerException {
-		Vector files = dir.getFiles();
-		Iterator fit = files.iterator();
-		while (fit.hasNext()) {
-			ISO9660File file = (ISO9660File) fit.next();
-			doFile(file);
-		}
-	}
+        Iterator it = root.sortedIterator();
+        while (it.hasNext()) {
+            ISO9660Directory dir = (ISO9660Directory) it.next();
+            doFCADirs(dir);
+        }
+    }
 
-	private void doFile(ISO9660File file) throws HandlerException {
-		super.startElement(new FileElement(file));
+    private void doFCADirs(ISO9660Directory dir) throws HandlerException {
+        Vector files = dir.getFiles();
+        Iterator fit = files.iterator();
+        while (fit.hasNext()) {
+            ISO9660File file = (ISO9660File) fit.next();
+            doFile(file);
+        }
+    }
 
-		FileDataReference fdr = new FileDataReference(file.getFile());
-		data(fdr);
+    private void doFile(ISO9660File file) throws HandlerException {
+        super.startElement(new FileElement(file));
 
-		super.endElement();
-	}
+        FileDataReference fdr = new FileDataReference(file.getFile());
+        data(fdr);
+
+        super.endElement();
+    }
 }

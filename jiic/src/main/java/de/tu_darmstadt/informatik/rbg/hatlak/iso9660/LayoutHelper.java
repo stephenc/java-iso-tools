@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -20,40 +20,42 @@
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660;
 
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Constants;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
 
 public abstract class LayoutHelper {
-	private StreamHandler streamHandler;
-	private ISO9660RootDirectory root;
-	private NamingConventions namingConventions;
-	
-	public LayoutHelper(StreamHandler streamHandler, ISO9660RootDirectory root, NamingConventions namingConventions) {
-		this.streamHandler = streamHandler;
-		this.root = root;
-		this.namingConventions = namingConventions;
-	}
-	
-	public ISO9660RootDirectory getRoot() {
-		return root;
-	}
-	
-	public int getCurrentLocation() throws HandlerException {
-		long position = streamHandler.mark();
-		int location = (int) (position / ISO9660Constants.LOGICAL_BLOCK_SIZE);
-		return location;
-	}
 
-	public int getDifferenceTo(long position) throws HandlerException {
-		return (int) ((streamHandler.mark() - position));
-	}
-	
-	public NamingConventions getNamingConventions() {
-		return namingConventions;
-	}
-	
-	public abstract FilenameDataReference getFilenameDataReference(ISO9660Directory dir) throws HandlerException;
+    private StreamHandler streamHandler;
+    private ISO9660RootDirectory root;
+    private NamingConventions namingConventions;
 
-	public abstract FilenameDataReference getFilenameDataReference(ISO9660File file) throws HandlerException;
+    public LayoutHelper(StreamHandler streamHandler, ISO9660RootDirectory root, NamingConventions namingConventions) {
+        this.streamHandler = streamHandler;
+        this.root = root;
+        this.namingConventions = namingConventions;
+    }
 
-	public abstract byte[] pad(String string, int targetByteLength) throws HandlerException;
+    public ISO9660RootDirectory getRoot() {
+        return root;
+    }
+
+    public int getCurrentLocation() throws HandlerException {
+        long position = streamHandler.mark();
+        int location = (int) (position / ISO9660Constants.LOGICAL_BLOCK_SIZE);
+        return location;
+    }
+
+    public int getDifferenceTo(long position) throws HandlerException {
+        return (int) ((streamHandler.mark() - position));
+    }
+
+    public NamingConventions getNamingConventions() {
+        return namingConventions;
+    }
+
+    public abstract FilenameDataReference getFilenameDataReference(ISO9660Directory dir) throws HandlerException;
+
+    public abstract FilenameDataReference getFilenameDataReference(ISO9660File file) throws HandlerException;
+
+    public abstract byte[] pad(String string, int targetByteLength) throws HandlerException;
 }

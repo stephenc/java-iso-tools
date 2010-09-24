@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -20,22 +20,24 @@
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.volumedescriptors;
 
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.LayoutHelper;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Constants;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
 
 public class VolumeDescriptorSetTerminator extends ISO9660VolumeDescriptor {
-	public VolumeDescriptorSetTerminator(StreamHandler streamHandler, LayoutHelper helper) {
-		super(streamHandler, ISO9660Constants.VDST_TYPE, helper);
-	}
-	
-	public void doVDST() throws HandlerException {
-		// Volume Descriptor Type: Primary
-		streamHandler.data(getType());
 
-		// Standard Identifier
-		streamHandler.data(getStandardId());
+    public VolumeDescriptorSetTerminator(StreamHandler streamHandler, LayoutHelper helper) {
+        super(streamHandler, ISO9660Constants.VDST_TYPE, helper);
+    }
 
-		// Volume Descriptor Version
-		streamHandler.data(getVDVersion());
-	}
+    public void doVDST() throws HandlerException {
+        // Volume Descriptor Type: Primary
+        streamHandler.data(getType());
+
+        // Standard Identifier
+        streamHandler.data(getStandardId());
+
+        // Volume Descriptor Version
+        streamHandler.data(getVDVersion());
+    }
 }

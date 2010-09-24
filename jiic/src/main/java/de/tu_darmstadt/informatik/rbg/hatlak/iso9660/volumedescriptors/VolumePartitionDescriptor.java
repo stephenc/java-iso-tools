@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -23,74 +23,78 @@ import java.util.HashMap;
 
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.LayoutHelper;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.PartitionConfig;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.*;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.*;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Constants;
+import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothWordDataReference;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Fixup;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteArrayDataReference;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteDataReference;
 
 public class VolumePartitionDescriptor extends ISO9660VolumeDescriptor {
-	private String systemId, volumePartitionId;
-	
-	public VolumePartitionDescriptor(StreamHandler streamHandler, LayoutHelper helper) {
-		super(streamHandler, ISO9660Constants.VPD_TYPE, helper);
-		this.systemId = this.volumePartitionId = "";
-	}
-	
-	public void setSystemId(String systemId) {
-		this.systemId = systemId;
-	}
 
-	public void setVolumePartitionId(String volumePartitionId) {
-		this.volumePartitionId = volumePartitionId;
-	}
+    private String systemId, volumePartitionId;
 
-	public void setMetadata(PartitionConfig config) {
-		setSystemId(config.getSystemId());
-		setVolumePartitionId(config.getVolumePartitionId());
-	}
+    public VolumePartitionDescriptor(StreamHandler streamHandler, LayoutHelper helper) {
+        super(streamHandler, ISO9660Constants.VPD_TYPE, helper);
+        this.systemId = this.volumePartitionId = "";
+    }
 
-	public HashMap doVPD() throws HandlerException {
-		HashMap memory = new HashMap();
-		
-		// Volume Descriptor Type: Volume Partition
-		streamHandler.data(getType());
-		
-		// Standard Identifier
-		streamHandler.data(getStandardId());
+    public void setSystemId(String systemId) {
+        this.systemId = systemId;
+    }
 
-		// Volume Descriptor Version
-		streamHandler.data(getVDVersion());
-		
-		// Unused Field: 1 byte
-		streamHandler.data(new ByteDataReference(0));
+    public void setVolumePartitionId(String volumePartitionId) {
+        this.volumePartitionId = volumePartitionId;
+    }
 
-		// System Identifier: 32 bytes
-		streamHandler.data(getSystemId());
+    public void setMetadata(PartitionConfig config) {
+        setSystemId(config.getSystemId());
+        setVolumePartitionId(config.getVolumePartitionId());
+    }
 
-		// Volume Partition Identifier: 32 bytes
-		streamHandler.data(getVolumePartitionId());
+    public HashMap doVPD() throws HandlerException {
+        HashMap memory = new HashMap();
 
-		// Volume Partition Location
-		Fixup location = streamHandler.fixup(new BothWordDataReference(0));
-		memory.put("volumePartitionLocationFixup", location);
+        // Volume Descriptor Type: Volume Partition
+        streamHandler.data(getType());
 
-		// Volume Partition Size
-		Fixup size = streamHandler.fixup(new BothWordDataReference(0));
-		memory.put("volumePartitionSizeFixup", size);
+        // Standard Identifier
+        streamHandler.data(getStandardId());
 
-		// System Use: handle externally
-		
-		return memory;
-	}
-	
-	private ByteArrayDataReference getSystemId() throws HandlerException {
-		byte[] bytes = helper.pad(systemId, 32);
-		return new ByteArrayDataReference(bytes);
-	}
-	
-	private ByteArrayDataReference getVolumePartitionId() throws HandlerException {
-		byte[] bytes = helper.pad(volumePartitionId, 32);
-		return new ByteArrayDataReference(bytes);
-	}
+        // Volume Descriptor Version
+        streamHandler.data(getVDVersion());
+
+        // Unused Field: 1 byte
+        streamHandler.data(new ByteDataReference(0));
+
+        // System Identifier: 32 bytes
+        streamHandler.data(getSystemId());
+
+        // Volume Partition Identifier: 32 bytes
+        streamHandler.data(getVolumePartitionId());
+
+        // Volume Partition Location
+        Fixup location = streamHandler.fixup(new BothWordDataReference(0));
+        memory.put("volumePartitionLocationFixup", location);
+
+        // Volume Partition Size
+        Fixup size = streamHandler.fixup(new BothWordDataReference(0));
+        memory.put("volumePartitionSizeFixup", size);
+
+        // System Use: handle externally
+
+        return memory;
+    }
+
+    private ByteArrayDataReference getSystemId() throws HandlerException {
+        byte[] bytes = helper.pad(systemId, 32);
+        return new ByteArrayDataReference(bytes);
+    }
+
+    private ByteArrayDataReference getVolumePartitionId() throws HandlerException {
+        byte[] bytes = helper.pad(volumePartitionId, 32);
+        return new ByteArrayDataReference(bytes);
+    }
 
 }

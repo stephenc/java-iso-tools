@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -19,70 +19,75 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl;
 
-import java.io.*;
-import java.util.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
 
 public class ISO9660ShortDateDataReference implements DataReference {
-	private Date date = null;
-	
-	public ISO9660ShortDateDataReference(Date date) {
-		this.date = date;
-	}
 
-	public ISO9660ShortDateDataReference(long date) {
-		this(new Date(date));
-	}
+    private Date date = null;
 
-	public ISO9660ShortDateDataReference() {
-		this(new Date());
-	}
+    public ISO9660ShortDateDataReference(Date date) {
+        this.date = date;
+    }
 
-	public long getLength() {
-		return 7;
-	}
-	
-	public InputStream createInputStream() throws IOException {
-		byte[] buffer;
-		if (date==null) {
-			buffer = getEmptyDate();
-		} else {
-			buffer = getDate();
-		}
-		
-		return new ByteArrayInputStream(buffer);
-	}
+    public ISO9660ShortDateDataReference(long date) {
+        this(new Date(date));
+    }
 
-	private byte[] getEmptyDate() {
-		byte[] buffer = {0,0,0,0,0,0,0};		
-		return buffer;
-	}
-	
-	private byte[] getDate() {
-		byte[] buffer = new byte[7];
-		
-		GregorianCalendar cal = new GregorianCalendar();
-		cal.setTime(date);
-		
-		// Parse date
-		int year = cal.get(Calendar.YEAR) - 1900;
-		int month = cal.get(Calendar.MONTH) + 1;
-		int day = cal.get(Calendar.DAY_OF_MONTH);
-		int hour = cal.get(Calendar.HOUR_OF_DAY);
-		int minute = cal.get(Calendar.MINUTE);
-		int second = cal.get(Calendar.SECOND);
-		int gmt_offset = cal.get(Calendar.ZONE_OFFSET) / (15 * 60 * 1000);
+    public ISO9660ShortDateDataReference() {
+        this(new Date());
+    }
 
-		// Create ISO9660 date
-		buffer[0] = (byte) year;
-		buffer[1] = (byte) month;
-		buffer[2] = (byte) day;
-		buffer[3] = (byte) hour;
-		buffer[4] = (byte) minute;
-		buffer[5] = (byte) second;
-		buffer[6] = (byte) gmt_offset;
-		
-		return buffer;
-	}
+    public long getLength() {
+        return 7;
+    }
+
+    public InputStream createInputStream() throws IOException {
+        byte[] buffer;
+        if (date == null) {
+            buffer = getEmptyDate();
+        } else {
+            buffer = getDate();
+        }
+
+        return new ByteArrayInputStream(buffer);
+    }
+
+    private byte[] getEmptyDate() {
+        byte[] buffer = {0, 0, 0, 0, 0, 0, 0};
+        return buffer;
+    }
+
+    private byte[] getDate() {
+        byte[] buffer = new byte[7];
+
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(date);
+
+        // Parse date
+        int year = cal.get(Calendar.YEAR) - 1900;
+        int month = cal.get(Calendar.MONTH) + 1;
+        int day = cal.get(Calendar.DAY_OF_MONTH);
+        int hour = cal.get(Calendar.HOUR_OF_DAY);
+        int minute = cal.get(Calendar.MINUTE);
+        int second = cal.get(Calendar.SECOND);
+        int gmt_offset = cal.get(Calendar.ZONE_OFFSET) / (15 * 60 * 1000);
+
+        // Create ISO9660 date
+        buffer[0] = (byte) year;
+        buffer[1] = (byte) month;
+        buffer[2] = (byte) day;
+        buffer[3] = (byte) hour;
+        buffer[4] = (byte) minute;
+        buffer[5] = (byte) second;
+        buffer[6] = (byte) gmt_offset;
+
+        return buffer;
+    }
 }

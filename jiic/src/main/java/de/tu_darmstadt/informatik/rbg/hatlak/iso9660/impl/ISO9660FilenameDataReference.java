@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -19,27 +19,30 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.FilenameDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660Directory;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660File;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
 
 public class ISO9660FilenameDataReference extends FilenameDataReference {
-	public ISO9660FilenameDataReference(ISO9660Directory dir) throws HandlerException {
-		super(dir);
-	}
 
-	public ISO9660FilenameDataReference(ISO9660File file) throws HandlerException {
-		super(file);
-	}
-	
-	public long getLength() {
-		return getName().length();
-	}
+    public ISO9660FilenameDataReference(ISO9660Directory dir) throws HandlerException {
+        super(dir);
+    }
 
-	public InputStream createInputStream() throws IOException {
-		return new ByteArrayInputStream(getName().getBytes("ISO-8859-1"));
-	}
+    public ISO9660FilenameDataReference(ISO9660File file) throws HandlerException {
+        super(file);
+    }
+
+    public long getLength() {
+        return getName().length();
+    }
+
+    public InputStream createInputStream() throws IOException {
+        return new ByteArrayInputStream(getName().getBytes("ISO-8859-1"));
+    }
 }

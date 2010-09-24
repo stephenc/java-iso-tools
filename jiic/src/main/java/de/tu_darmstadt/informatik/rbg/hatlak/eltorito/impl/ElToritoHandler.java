@@ -19,193 +19,203 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.eltorito.impl;
 
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660File;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.LayoutHelper;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.*;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.volumedescriptors.*;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.*;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Constants;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Element;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.LogicalSectorElement;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.volumedescriptors.BootRecord;
+import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.LSBFWordDataReference;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Element;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Fixup;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ChainingStreamHandler;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.FileDataReference;
 
 public class ElToritoHandler extends ChainingStreamHandler {
-	private ElToritoConfig config;
-	private Fixup bootCatalogLocation, bootImageLocation;
 
-	public ElToritoHandler(StreamHandler streamHandler, ElToritoConfig config) {
-		super(streamHandler, streamHandler);
-		this.config = config;
-	}
+    private ElToritoConfig config;
+    private Fixup bootCatalogLocation, bootImageLocation;
 
-	public void startElement(Element element) throws HandlerException {
-		if (element instanceof ISO9660Element) {
-			String id = (String) element.getId();
-			process(id);
-		}
-		super.startElement(element);
-	}
+    public ElToritoHandler(StreamHandler streamHandler, ElToritoConfig config) {
+        super(streamHandler, streamHandler);
+        this.config = config;
+    }
 
-	private void process(String id) throws HandlerException {
-		if (id.equals("VDS")) {
-			doBVD();
-		} else
-		if (id.equals("BIA")) {
-			doCatalog();
-		}
-		if (id.equals("BDA")) {
-			doImage();
-		}
-	}
+    public void startElement(Element element) throws HandlerException {
+        if (element instanceof ISO9660Element) {
+            String id = (String) element.getId();
+            process(id);
+        }
+        super.startElement(element);
+    }
 
-	private void doBVD() throws HandlerException {
-		super.startElement(new LogicalSectorElement("BR"));
+    private void process(String id) throws HandlerException {
+        if (id.equals("VDS")) {
+            doBVD();
+        } else if (id.equals("BIA")) {
+            doCatalog();
+        }
+        if (id.equals("BDA")) {
+            doImage();
+        }
+    }
 
-		LayoutHelper helper = new ElToritoLayoutHelper(this);
-		BootRecord br = new BootRecord(this, helper);
-		br.setMetadata(config);
-		br.doBR();
+    private void doBVD() throws HandlerException {
+        super.startElement(new LogicalSectorElement("BR"));
 
-		// Remember Boot System Use (absolute pointer to first sector of Boot Catalog)
-		bootCatalogLocation = fixup(new LSBFWordDataReference(0));
+        LayoutHelper helper = new ElToritoLayoutHelper(this);
+        BootRecord br = new BootRecord(this, helper);
+        br.setMetadata(config);
+        br.doBR();
 
-		super.endElement();
-	}
+        // Remember Boot System Use (absolute pointer to first sector of Boot Catalog)
+        bootCatalogLocation = fixup(new LSBFWordDataReference(0));
 
-	private void doCatalog() throws HandlerException {
-		super.startElement(new LogicalSectorElement("BCAT"));
+        super.endElement();
+    }
 
-		// Write and close Boot Catalog Location Fixup
-		long position = mark();
-		int location = (int) (position / ISO9660Constants.LOGICAL_BLOCK_SIZE);
-		bootCatalogLocation.data(new LSBFWordDataReference(location));
-		bootCatalogLocation.close();
+    private void doCatalog() throws HandlerException {
+        super.startElement(new LogicalSectorElement("BCAT"));
 
-		ElToritoFactory etf = new ElToritoFactory(this);
+        // Write and close Boot Catalog Location Fixup
+        long position = mark();
+        int location = (int) (position / ISO9660Constants.LOGICAL_BLOCK_SIZE);
+        bootCatalogLocation.data(new LSBFWordDataReference(location));
+        bootCatalogLocation.close();
 
-		// Validation Entry
-		int platformID = config.getPlatformID();
-		String idString = config.getIDString();
-		etf.doValidationEntry(platformID, idString);
+        ElToritoFactory etf = new ElToritoFactory(this);
 
-		// Initial/Default Entry
-		boolean bootable = config.getBootable();
-		int bootMediaType = config.getBootMediaType();
-		int loadSegment = config.getLoadSegment();
-		int systemType = config.getSystemType();
-		int sectorCount = config.getSectorCount();
-		bootImageLocation = etf.doDefaultEntry(bootable, bootMediaType, loadSegment, systemType, sectorCount);
+        // Validation Entry
+        int platformID = config.getPlatformID();
+        String idString = config.getIDString();
+        etf.doValidationEntry(platformID, idString);
 
-		super.endElement();
-	}
+        // Initial/Default Entry
+        boolean bootable = config.getBootable();
+        int bootMediaType = config.getBootMediaType();
+        int loadSegment = config.getLoadSegment();
+        int systemType = config.getSystemType();
+        int sectorCount = config.getSectorCount();
+        bootImageLocation = etf.doDefaultEntry(bootable, bootMediaType, loadSegment, systemType, sectorCount);
 
-	private void doImage() throws HandlerException {
-		super.startElement(new LogicalSectorElement("BIMG"));
+        super.endElement();
+    }
 
-		// Write and close Boot Image Location Fixup
-		long position = mark();
-		int location = (int) (position / ISO9660Constants.LOGICAL_BLOCK_SIZE);
-		bootImageLocation.data(new LSBFWordDataReference(location));
-		bootImageLocation.close();
+    private void doImage() throws HandlerException {
+        super.startElement(new LogicalSectorElement("BIMG"));
 
-		if (config.getGenBootInfoTable()) {
-			this.genBootInfoTable(location);
-		}
+        // Write and close Boot Image Location Fixup
+        long position = mark();
+        int location = (int) (position / ISO9660Constants.LOGICAL_BLOCK_SIZE);
+        bootImageLocation.data(new LSBFWordDataReference(location));
+        bootImageLocation.close();
 
-		// Write Boot Image
-		FileDataReference fdr = new FileDataReference(config.getBootImage().getFile());
-		data(fdr);
+        if (config.getGenBootInfoTable()) {
+            this.genBootInfoTable(location);
+        }
 
-		super.endElement();
-	}
+        // Write Boot Image
+        FileDataReference fdr = new FileDataReference(config.getBootImage().getFile());
+        data(fdr);
 
-	private void genBootInfoTable(int lba) throws HandlerException {
-		// Patch the Boot Image: write 56 byte boot information table
-		// (cf. man mkisofs, section EL TORITO BOOT INFORMATION TABLE)
-		try {
-			String orgName = config.getBootImage().getAbsolutePath();
-			File orgFile = new File(orgName);
+        super.endElement();
+    }
 
-			// Compute the checksum over all 32-bit words starting at byte offset 64
-			FileInputStream fis = new FileInputStream(orgFile);
-			fis.skip(64);
-			long checksum = 0;
-			byte[] buffer = new byte[0x2000];
-			while (fis.available() > 0) {
-				int len = fis.read(buffer);
-				for (int i = 0; i < len;) {
-					long temp = buffer[i++]&0xFF;
-					temp |= (buffer[i++]<<8)&0xFF00;
-					temp |= (buffer[i++]<<16)&0xFF0000;
-					temp |= (buffer[i++]<<24)&0xFF000000l;
-					checksum += temp;
-				}
-			}
-			fis.close();
+    private void genBootInfoTable(int lba) throws HandlerException {
+        // Patch the Boot Image: write 56 byte boot information table
+        // (cf. man mkisofs, section EL TORITO BOOT INFORMATION TABLE)
+        try {
+            String orgName = config.getBootImage().getAbsolutePath();
+            File orgFile = new File(orgName);
 
-			// Create the patched file
-			fis = new FileInputStream(orgFile);
-			File patchedFile = new File(orgName + ".mod");
-			FileOutputStream fos = new FileOutputStream(patchedFile);
+            // Compute the checksum over all 32-bit words starting at byte offset 64
+            FileInputStream fis = new FileInputStream(orgFile);
+            fis.skip(64);
+            long checksum = 0;
+            byte[] buffer = new byte[0x2000];
+            while (fis.available() > 0) {
+                int len = fis.read(buffer);
+                for (int i = 0; i < len;) {
+                    long temp = buffer[i++] & 0xFF;
+                    temp |= (buffer[i++] << 8) & 0xFF00;
+                    temp |= (buffer[i++] << 16) & 0xFF0000;
+                    temp |= (buffer[i++] << 24) & 0xFF000000l;
+                    checksum += temp;
+                }
+            }
+            fis.close();
 
-			// Copy first 8 bytes
-			buffer = new byte[8];
-			fis.read(buffer);
-			fos.write(buffer);
+            // Create the patched file
+            fis = new FileInputStream(orgFile);
+            File patchedFile = new File(orgName + ".mod");
+            FileOutputStream fos = new FileOutputStream(patchedFile);
 
-			// Read 56 bytes and init the buffer with as many 0 bytes
-			buffer = new byte[56];
-			fis.read(buffer);
-			Arrays.fill(buffer, (byte)0);
+            // Copy first 8 bytes
+            buffer = new byte[8];
+            fis.read(buffer);
+            fos.write(buffer);
 
-			// Write boot info tables fields
-			int i = 0;
-			// PVD LBA (always 16), 7.3.1 format
-			int pvd = 16;
-			buffer[i++] = (byte) (pvd&0xFF);
-			buffer[i++] = (byte) ((pvd>>8)&0xFF);
-			buffer[i++] = (byte) ((pvd>>16)&0xFF);
-			buffer[i++] = (byte) ((pvd>>24)&0xFF);
-			// Boot file LBA, 7.3.1 format
-			buffer[i++] = (byte) (lba&0xFF);
-			buffer[i++] = (byte) ((lba>>8)&0xFF);
-			buffer[i++] = (byte) ((lba>>16)&0xFF);
-			buffer[i++] = (byte) ((lba>>24)&0xFF);
-			// Boot file length in bytes, 7.3.1 format
-			int len = (int) config.getBootImage().getAbsoluteFile().length();
-			buffer[i++] = (byte) (len&0xFF);
-			buffer[i++] = (byte) ((len>>8)&0xFF);
-			buffer[i++] = (byte) ((len>>16)&0xFF);
-			buffer[i++] = (byte) ((len>>24)&0xFF);
-			// 32-bit checksum, 7.3.1 format
-			buffer[i++] = (byte) (checksum&0xFF);
-			buffer[i++] = (byte) ((checksum>>8)&0xFF);
-			buffer[i++] = (byte) ((checksum>>16)&0xFF);
-			buffer[i++] = (byte) ((checksum>>24)&0xFF);
-			// Write 38 byte buffer
-			fos.write(buffer);
+            // Read 56 bytes and init the buffer with as many 0 bytes
+            buffer = new byte[56];
+            fis.read(buffer);
+            Arrays.fill(buffer, (byte) 0);
 
-			// Write the rest
-			buffer = new byte[0x2000];
-			while (fis.available() > 0) {
-				len = fis.read(buffer);
-				fos.write(buffer, 0, len);
-			}
-			fis.close();
-			fos.close();
+            // Write boot info tables fields
+            int i = 0;
+            // PVD LBA (always 16), 7.3.1 format
+            int pvd = 16;
+            buffer[i++] = (byte) (pvd & 0xFF);
+            buffer[i++] = (byte) ((pvd >> 8) & 0xFF);
+            buffer[i++] = (byte) ((pvd >> 16) & 0xFF);
+            buffer[i++] = (byte) ((pvd >> 24) & 0xFF);
+            // Boot file LBA, 7.3.1 format
+            buffer[i++] = (byte) (lba & 0xFF);
+            buffer[i++] = (byte) ((lba >> 8) & 0xFF);
+            buffer[i++] = (byte) ((lba >> 16) & 0xFF);
+            buffer[i++] = (byte) ((lba >> 24) & 0xFF);
+            // Boot file length in bytes, 7.3.1 format
+            int len = (int) config.getBootImage().getAbsoluteFile().length();
+            buffer[i++] = (byte) (len & 0xFF);
+            buffer[i++] = (byte) ((len >> 8) & 0xFF);
+            buffer[i++] = (byte) ((len >> 16) & 0xFF);
+            buffer[i++] = (byte) ((len >> 24) & 0xFF);
+            // 32-bit checksum, 7.3.1 format
+            buffer[i++] = (byte) (checksum & 0xFF);
+            buffer[i++] = (byte) ((checksum >> 8) & 0xFF);
+            buffer[i++] = (byte) ((checksum >> 16) & 0xFF);
+            buffer[i++] = (byte) ((checksum >> 24) & 0xFF);
+            // Write 38 byte buffer
+            fos.write(buffer);
 
-			// Replace original file by patched one
-			orgFile.delete();
-			orgFile = new File(orgName);
-			patchedFile.renameTo(orgFile);
-			config.setBootImage(new ISO9660File(orgFile));
+            // Write the rest
+            buffer = new byte[0x2000];
+            while (fis.available() > 0) {
+                len = fis.read(buffer);
+                fos.write(buffer, 0, len);
+            }
+            fis.close();
+            fos.close();
 
-			System.out.println("Patched boot image at " + orgFile.getPath());
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+            // Replace original file by patched one
+            orgFile.delete();
+            orgFile = new File(orgName);
+            patchedFile.renameTo(orgFile);
+            config.setBootImage(new ISO9660File(orgFile));
+
+            System.out.println("Patched boot image at " + orgFile.getPath());
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

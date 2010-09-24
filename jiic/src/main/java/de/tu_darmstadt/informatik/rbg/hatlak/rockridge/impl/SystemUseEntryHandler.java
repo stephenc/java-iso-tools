@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -21,60 +21,68 @@ package de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl;
 
 import java.util.Stack;
 
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.*;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.ContentHandler;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Element;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Fixup;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StructureHandler;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteArrayDataReference;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteDataReference;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ChainingStreamHandler;
 
 public class SystemUseEntryHandler extends ChainingStreamHandler {
-	private Stack elements;
-	private int length = 0;
-	private Fixup lengthFixup;
 
-	public SystemUseEntryHandler(StructureHandler chainingStructureHandler, ContentHandler chainingContentHandler) {
-		super(chainingStructureHandler, chainingContentHandler);
-		this.elements = new Stack();
-	}
+    private Stack elements;
+    private int length = 0;
+    private Fixup lengthFixup;
 
-	public void startElement(Element element) throws HandlerException {
-		elements.push(element);
-		if (element instanceof SystemUseEntryElement) {
-			SystemUseEntryElement sue = (SystemUseEntryElement) element;
+    public SystemUseEntryHandler(StructureHandler chainingStructureHandler, ContentHandler chainingContentHandler) {
+        super(chainingStructureHandler, chainingContentHandler);
+        this.elements = new Stack();
+    }
 
-			// Reset byte counter
-			length = 0;
+    public void startElement(Element element) throws HandlerException {
+        elements.push(element);
+        if (element instanceof SystemUseEntryElement) {
+            SystemUseEntryElement sue = (SystemUseEntryElement) element;
 
-			// Signature Word
-			data(new ByteArrayDataReference(sue.getSignatureWord()));
+            // Reset byte counter
+            length = 0;
 
-			// Length (including Signature Word, Length, Version and Data)
-			lengthFixup = fixup(new ByteDataReference(0));
+            // Signature Word
+            data(new ByteArrayDataReference(sue.getSignatureWord()));
 
-			// Version
-			data(new ByteDataReference(sue.getVersion()));
-		}
+            // Length (including Signature Word, Length, Version and Data)
+            lengthFixup = fixup(new ByteDataReference(0));
 
-		super.startElement(element);
-	}
+            // Version
+            data(new ByteDataReference(sue.getVersion()));
+        }
 
-	public void data(DataReference reference) throws HandlerException {
-		length += reference.getLength();
-		super.data(reference);
-	}
+        super.startElement(element);
+    }
 
-	public Fixup fixup(DataReference reference) throws HandlerException {
-		length += reference.getLength();
-		return super.fixup(reference);
-	}
+    public void data(DataReference reference) throws HandlerException {
+        length += reference.getLength();
+        super.data(reference);
+    }
 
-	public void endElement() throws HandlerException {
-		Element element = (Element) elements.pop();
-		if (element instanceof SystemUseEntryElement) {
-			// Write and close Entry Length Fixup
-			if (length > 255) {
-				throw new RuntimeException("Invalid System Use Entry length: " + length);
-			}
-			lengthFixup.data(new ByteDataReference(length));
-			lengthFixup.close();
-		}
-		super.endElement();
-	}
+    public Fixup fixup(DataReference reference) throws HandlerException {
+        length += reference.getLength();
+        return super.fixup(reference);
+    }
+
+    public void endElement() throws HandlerException {
+        Element element = (Element) elements.pop();
+        if (element instanceof SystemUseEntryElement) {
+            // Write and close Entry Length Fixup
+            if (length > 255) {
+                throw new RuntimeException("Invalid System Use Entry length: " + length);
+            }
+            lengthFixup.data(new ByteDataReference(length));
+            lengthFixup.close();
+        }
+        super.endElement();
+    }
 }

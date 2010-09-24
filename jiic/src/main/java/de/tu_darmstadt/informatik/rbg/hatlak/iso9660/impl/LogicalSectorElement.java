@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -22,18 +22,19 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl;
 import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Element;
 
 public class LogicalSectorElement extends Element {
-	/* Examples:
-	 * BR, PVD, SVD, VPD, VDST,
-	 * PT, DR, CA,
-	 * CATALOG, IMAGE
-	 */
-	private String id;
-	
-	public LogicalSectorElement(String id) {
-		this.id = id;
-	}
-	
-	public Object getId() {
-		return id;
-	}
+
+    /* Examples:
+      * BR, PVD, SVD, VPD, VDST,
+      * PT, DR, CA,
+      * CATALOG, IMAGE
+      */
+    private String id;
+
+    public LogicalSectorElement(String id) {
+        this.id = id;
+    }
+
+    public Object getId() {
+        return id;
+    }
 }

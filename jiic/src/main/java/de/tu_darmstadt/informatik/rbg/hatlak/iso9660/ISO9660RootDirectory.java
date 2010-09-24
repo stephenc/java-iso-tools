@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -22,85 +22,85 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660;
 import java.util.Iterator;
 
 public class ISO9660RootDirectory extends ISO9660Directory {
-	/**
-	 * Name of the directory containing relocated directories
-	 */
-	public static String MOVED_DIRECTORIES_STORE_NAME = "rr_moved";
-	private ISO9660Directory movedDirectoriesStore;
-	
-	/**
-	 * Root of the directory hierarchy<br>
-	 * Use addDirectory(), addFile(), addRecursively() and addContentsRecursively()
-	 * on an object of this class or one of the objects returned by those functions
-	 */
-	public ISO9660RootDirectory() {
-		super("");
-		setRoot(this);
-	}
 
-	/**
-	 * Create and Add Moved Directories Store to Directory Hierarchy
-	 */
-	public void setMovedDirectoryStore() { 
-		if (movedDirectoriesStore==null) {
-			movedDirectoriesStore = new ISO9660Directory(MOVED_DIRECTORIES_STORE_NAME);
-			addDirectory(movedDirectoriesStore);
-			// Force iterator recreation
-			sortedIterator = null;
-		}
-	}
+    /**
+     * Name of the directory containing relocated directories
+     */
+    public static String MOVED_DIRECTORIES_STORE_NAME = "rr_moved";
+    private ISO9660Directory movedDirectoriesStore;
 
-	/**
-	 * Active Moved Directory Store
-	 * 
-	 * @return Active moved directories store
-	 */
-	public ISO9660Directory getMovedDirectoriesStore() {
-		return movedDirectoriesStore;
-	}
-	
-	public int deepLevelCount() {
-		int count = getLevel();
-		Iterator it = getDirectories().iterator();
-		while (it.hasNext()) {
-			ISO9660Directory dir = (ISO9660Directory) it.next();
-			count = Math.max(count, dir.deepLevelCount());
-		}
-		return count;
-	}
+    /**
+     * Root of the directory hierarchy<br> Use addDirectory(), addFile(), addRecursively() and addContentsRecursively()
+     * on an object of this class or one of the objects returned by those functions
+     */
+    public ISO9660RootDirectory() {
+        super("");
+        setRoot(this);
+    }
 
-	public int deepFileCount() {
-		int count = getFiles().size();
-		Iterator it = getDirectories().iterator();
-		while (it.hasNext()) {
-			ISO9660Directory dir = (ISO9660Directory) it.next();
-			count += dir.deepFileCount();
-		}
-		return count;
-	}
+    /**
+     * Create and Add Moved Directories Store to Directory Hierarchy
+     */
+    public void setMovedDirectoryStore() {
+        if (movedDirectoriesStore == null) {
+            movedDirectoriesStore = new ISO9660Directory(MOVED_DIRECTORIES_STORE_NAME);
+            addDirectory(movedDirectoriesStore);
+            // Force iterator recreation
+            sortedIterator = null;
+        }
+    }
 
-	public int deepDirCount() {
-		int count = getDirectories().size();
-		Iterator it = getDirectories().iterator();
-		while (it.hasNext()) {
-			ISO9660Directory dir = (ISO9660Directory) it.next();
-			count += dir.deepDirCount();
-		}
-		return count;
-	}
-	
-	public Object clone() {
-		ISO9660RootDirectory clone = (ISO9660RootDirectory) super.clone();
-		clone.setParentDirectory(clone);
-		clone.setRoot(clone);
-		
-		// Update Root for subdirectories
-		Iterator it = clone.unsortedIterator();
-		while (it.hasNext()) {
-			ISO9660Directory dir = (ISO9660Directory) it.next();
-			dir.setRoot(clone);
-		}
-		
-		return clone;
-	}
+    /**
+     * Active Moved Directory Store
+     *
+     * @return Active moved directories store
+     */
+    public ISO9660Directory getMovedDirectoriesStore() {
+        return movedDirectoriesStore;
+    }
+
+    public int deepLevelCount() {
+        int count = getLevel();
+        Iterator it = getDirectories().iterator();
+        while (it.hasNext()) {
+            ISO9660Directory dir = (ISO9660Directory) it.next();
+            count = Math.max(count, dir.deepLevelCount());
+        }
+        return count;
+    }
+
+    public int deepFileCount() {
+        int count = getFiles().size();
+        Iterator it = getDirectories().iterator();
+        while (it.hasNext()) {
+            ISO9660Directory dir = (ISO9660Directory) it.next();
+            count += dir.deepFileCount();
+        }
+        return count;
+    }
+
+    public int deepDirCount() {
+        int count = getDirectories().size();
+        Iterator it = getDirectories().iterator();
+        while (it.hasNext()) {
+            ISO9660Directory dir = (ISO9660Directory) it.next();
+            count += dir.deepDirCount();
+        }
+        return count;
+    }
+
+    public Object clone() {
+        ISO9660RootDirectory clone = (ISO9660RootDirectory) super.clone();
+        clone.setParentDirectory(clone);
+        clone.setRoot(clone);
+
+        // Update Root for subdirectories
+        Iterator it = clone.unsortedIterator();
+        while (it.hasNext()) {
+            ISO9660Directory dir = (ISO9660Directory) it.next();
+            dir.setRoot(clone);
+        }
+
+        return clone;
+    }
 }

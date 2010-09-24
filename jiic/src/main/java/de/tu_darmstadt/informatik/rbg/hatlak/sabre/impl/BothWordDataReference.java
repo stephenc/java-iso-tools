@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -26,31 +26,32 @@ import java.io.InputStream;
 import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
 
 public class BothWordDataReference implements DataReference {
-	private long value = 0;
 
-	public BothWordDataReference(long value) {
-		this.value = value;
-	}
-	
-	public long getLength() {
-		return 8;
-	}
+    private long value = 0;
 
-	public InputStream createInputStream() throws IOException {
-		byte[] buffer = new byte[8];
-		
-		// MSB first (Big Endian)
-		buffer[4] = (byte)((this.value & 0xFF000000) >> 24);
-		buffer[5] = (byte)((this.value & 0x00FF0000) >> 16);
-		buffer[6] = (byte)((this.value & 0x0000FF00) >> 8);
-		buffer[7] = (byte)(this.value & 0x000000FF);
+    public BothWordDataReference(long value) {
+        this.value = value;
+    }
 
-		// LSB first (Little Endian)
-		buffer[3] = buffer[4];
-		buffer[2] = buffer[5];
-		buffer[1] = buffer[6];
-		buffer[0] = buffer[7];
+    public long getLength() {
+        return 8;
+    }
 
-		return new ByteArrayInputStream(buffer);
-	}
+    public InputStream createInputStream() throws IOException {
+        byte[] buffer = new byte[8];
+
+        // MSB first (Big Endian)
+        buffer[4] = (byte) ((this.value & 0xFF000000) >> 24);
+        buffer[5] = (byte) ((this.value & 0x00FF0000) >> 16);
+        buffer[6] = (byte) ((this.value & 0x0000FF00) >> 8);
+        buffer[7] = (byte) (this.value & 0x000000FF);
+
+        // LSB first (Little Endian)
+        buffer[3] = buffer[4];
+        buffer[2] = buffer[5];
+        buffer[1] = buffer[6];
+        buffer[0] = buffer[7];
+
+        return new ByteArrayInputStream(buffer);
+    }
 }

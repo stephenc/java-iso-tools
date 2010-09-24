@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -22,14 +22,15 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660File;
 
 public class FileElement extends LogicalSectorElement {
-	private ISO9660File file;
-	
-	public FileElement(ISO9660File file) {
-		super("FILE");
-		this.file = file;
-	}
-	
-	public ISO9660File getFile() {
-		return file;
-	}
+
+    private ISO9660File file;
+
+    public FileElement(ISO9660File file) {
+        super("FILE");
+        this.file = file;
+    }
+
+    public ISO9660File getFile() {
+        return file;
+    }
 }

@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -19,25 +19,30 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.FilenameDataReference;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660Directory;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660File;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
 
 public class JolietFilenameDataReference extends FilenameDataReference {
-	public JolietFilenameDataReference(ISO9660Directory dir) throws HandlerException {
-		super(dir);
-	}
 
-	public JolietFilenameDataReference(ISO9660File file) throws HandlerException {
-		super(file);
-	}
+    public JolietFilenameDataReference(ISO9660Directory dir) throws HandlerException {
+        super(dir);
+    }
 
-	public long getLength() {
-		return getName().length() * 2;
-	}
+    public JolietFilenameDataReference(ISO9660File file) throws HandlerException {
+        super(file);
+    }
 
-	public InputStream createInputStream() throws IOException {
-		return new ByteArrayInputStream(getName().getBytes("UTF-16BE")); // UCS-2
-	}
+    public long getLength() {
+        return getName().length() * 2;
+    }
+
+    public InputStream createInputStream() throws IOException {
+        return new ByteArrayInputStream(getName().getBytes("UTF-16BE")); // UCS-2
+    }
 }

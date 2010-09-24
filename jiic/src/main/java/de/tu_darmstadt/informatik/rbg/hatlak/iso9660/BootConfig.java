@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -20,50 +20,51 @@
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660;
 
 public abstract class BootConfig {
-	private String bootSystemId, bootId;
 
-	public BootConfig(String bootSystemId, String bootId) {
-		this.bootSystemId = bootSystemId;
-		this.bootId = bootId;
-	}
-	
-	public BootConfig() {
-		this("", "");
-	}
-	
-	/**
-	 * Boot System Identifier
-	 * 
-	 * @param bootSystemId Identifier for the system that can act upon the Boot System Use field
-	 */
-	public void setBootSystemId(String bootSystemId) {
-		this.bootSystemId = bootSystemId;
-	}	
+    private String bootSystemId, bootId;
 
-	/**
-	 * Active Boot System Identifier
-	 * 
-	 * @return Active Boot System identifier
-	 */
-	public String getBootSystemId() {
-		return bootSystemId;
-	}
+    public BootConfig(String bootSystemId, String bootId) {
+        this.bootSystemId = bootSystemId;
+        this.bootId = bootId;
+    }
 
-	/**
-	 * Boot Identifier
-	 * 
-	 * @param bootId Boot identifier
-	 */
-	public void setBootId(String bootId) {
-		this.bootId = bootId;
-	}
+    public BootConfig() {
+        this("", "");
+    }
 
-	/**
-	 * Active Boot Identifier
-	 * 
-	 * @return Active Boot identifier
-	 */
-	public String getBootId() {
-		return bootId;
-	}
+    /**
+     * Boot System Identifier
+     *
+     * @param bootSystemId Identifier for the system that can act upon the Boot System Use field
+     */
+    public void setBootSystemId(String bootSystemId) {
+        this.bootSystemId = bootSystemId;
+    }
+
+    /**
+     * Active Boot System Identifier
+     *
+     * @return Active Boot System identifier
+     */
+    public String getBootSystemId() {
+        return bootSystemId;
+    }
+
+    /**
+     * Boot Identifier
+     *
+     * @param bootId Boot identifier
+     */
+    public void setBootId(String bootId) {
+        this.bootId = bootId;
+    }
+
+    /**
+     * Active Boot Identifier
+     *
+     * @return Active Boot identifier
+     */
+    public String getBootId() {
+        return bootId;
+    }
 }

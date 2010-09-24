@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -26,24 +26,25 @@ import java.io.InputStream;
 import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
 
 public class EmptyByteArrayDataReference implements DataReference {
-	private int length = 0;
 
-	public EmptyByteArrayDataReference(int length) {
-		this.length = length;
-	}
-	
-	public long getLength() {
-		return length;
-	}
+    private int length = 0;
 
-	public InputStream createInputStream() throws IOException {
-		byte[] buffer = null;
-		
-		buffer = new byte[length];
-		for (int i=0; i<length; i++) {
-			buffer[i] = 0;
-		}
+    public EmptyByteArrayDataReference(int length) {
+        this.length = length;
+    }
 
-		return new ByteArrayInputStream(buffer);
-	}
+    public long getLength() {
+        return length;
+    }
+
+    public InputStream createInputStream() throws IOException {
+        byte[] buffer = null;
+
+        buffer = new byte[length];
+        for (int i = 0; i < length; i++) {
+            buffer[i] = 0;
+        }
+
+        return new ByteArrayInputStream(buffer);
+    }
 }

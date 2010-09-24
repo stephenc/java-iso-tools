@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -22,16 +22,17 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl;
 import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Element;
 
 public class ISO9660Element extends Element {
-	/* Examples:
-	 * VDS, PTA, DRA, FCA
-	 */
-	private String id;
-	
-	public ISO9660Element(String id) {
-		this.id = id;
-	}
-	
-	public Object getId() {
-		return id;
-	}
+
+    /* Examples:
+      * VDS, PTA, DRA, FCA
+      */
+    private String id;
+
+    public ISO9660Element(String id) {
+        this.id = id;
+    }
+
+    public Object getId() {
+        return id;
+    }
 }

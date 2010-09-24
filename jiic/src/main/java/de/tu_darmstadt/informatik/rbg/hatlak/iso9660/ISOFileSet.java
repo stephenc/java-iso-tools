@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -22,13 +22,14 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660;
 import org.apache.tools.ant.types.FileSet;
 
 public class ISOFileSet extends FileSet {
-	private String prefix = "";
 
-	public void setPrefix(String prefix) {
-		this.prefix = prefix;
-	}
+    private String prefix = "";
 
-	public String getPrefix() {
-		return prefix;
-	}
+    public void setPrefix(String prefix) {
+        this.prefix = prefix;
+    }
+
+    public String getPrefix() {
+        return prefix;
+    }
 }

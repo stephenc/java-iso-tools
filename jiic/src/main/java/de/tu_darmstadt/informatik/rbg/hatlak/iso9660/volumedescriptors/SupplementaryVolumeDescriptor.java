@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -22,15 +22,17 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.volumedescriptors;
 import java.util.HashMap;
 
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.LayoutHelper;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Constants;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
 
 public class SupplementaryVolumeDescriptor extends StandardVolumeDescriptor {
-	public SupplementaryVolumeDescriptor(StreamHandler streamHandler, LayoutHelper helper) {
-		super(streamHandler, ISO9660Constants.SVD_TYPE, helper);
-	}
 
-	public HashMap doSVD() throws HandlerException {
-		return doStandardVD();
-	}
+    public SupplementaryVolumeDescriptor(StreamHandler streamHandler, LayoutHelper helper) {
+        super(streamHandler, ISO9660Constants.SVD_TYPE, helper);
+    }
+
+    public HashMap doSVD() throws HandlerException {
+        return doStandardVD();
+    }
 }

@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007-2009, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -21,67 +21,72 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl;
 
 import java.io.FileNotFoundException;
 
-import de.tu_darmstadt.informatik.rbg.hatlak.eltorito.impl.*;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.*;
-import de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl.*;
-import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
+import de.tu_darmstadt.informatik.rbg.hatlak.eltorito.impl.ElToritoConfig;
+import de.tu_darmstadt.informatik.rbg.hatlak.eltorito.impl.ElToritoHandler;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660RootDirectory;
+import de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl.JolietConfig;
+import de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl.JolietHandler;
+import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeConfig;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
 
 public class CreateISO {
-	private ISO9660RootDirectory root;
-	private StreamHandler streamHandler;
 
-	public CreateISO(StreamHandler streamHandler, ISO9660RootDirectory root) throws FileNotFoundException {
-		this.streamHandler = new LogicalSectorPaddingHandler(streamHandler, streamHandler);
-		this.root = root;
-	}
+    private ISO9660RootDirectory root;
+    private StreamHandler streamHandler;
 
-	public void process(ISO9660Config iso9660Config, RockRidgeConfig rrConfig, JolietConfig jolietConfig, ElToritoConfig elToritoConfig) throws HandlerException {
-		if (iso9660Config==null) {
-			throw new NullPointerException("Cannot create ISO without ISO9660Config.");
-		}
-		((LogicalSectorPaddingHandler) streamHandler).setPadEnd(iso9660Config.getPadEnd());
+    public CreateISO(StreamHandler streamHandler, ISO9660RootDirectory root) throws FileNotFoundException {
+        this.streamHandler = new LogicalSectorPaddingHandler(streamHandler, streamHandler);
+        this.root = root;
+    }
 
-		// Last handler added processes data first
-		if (jolietConfig!=null) {
-			streamHandler = new JolietHandler(streamHandler, root, jolietConfig);
-		}
-		if (elToritoConfig!=null) {
-			streamHandler = new ElToritoHandler(streamHandler, elToritoConfig);
-		}
-		streamHandler = new ISO9660Handler(streamHandler, root, iso9660Config, rrConfig);
-		streamHandler = new FileHandler(streamHandler, root);
+    public void process(ISO9660Config iso9660Config, RockRidgeConfig rrConfig, JolietConfig jolietConfig,
+                        ElToritoConfig elToritoConfig) throws HandlerException {
+        if (iso9660Config == null) {
+            throw new NullPointerException("Cannot create ISO without ISO9660Config.");
+        }
+        ((LogicalSectorPaddingHandler) streamHandler).setPadEnd(iso9660Config.getPadEnd());
 
-		streamHandler.startDocument();
+        // Last handler added processes data first
+        if (jolietConfig != null) {
+            streamHandler = new JolietHandler(streamHandler, root, jolietConfig);
+        }
+        if (elToritoConfig != null) {
+            streamHandler = new ElToritoHandler(streamHandler, elToritoConfig);
+        }
+        streamHandler = new ISO9660Handler(streamHandler, root, iso9660Config, rrConfig);
+        streamHandler = new FileHandler(streamHandler, root);
 
-		// System Area
-		streamHandler.startElement(new ISO9660Element("SA"));
-		streamHandler.endElement();
+        streamHandler.startDocument();
 
-		// Volume Descriptor Set
-		streamHandler.startElement(new ISO9660Element("VDS"));
-		streamHandler.endElement();
+        // System Area
+        streamHandler.startElement(new ISO9660Element("SA"));
+        streamHandler.endElement();
 
-		// Boot Info Area
-		streamHandler.startElement(new ISO9660Element("BIA"));
-		streamHandler.endElement();
+        // Volume Descriptor Set
+        streamHandler.startElement(new ISO9660Element("VDS"));
+        streamHandler.endElement();
 
-		// Path Table Area
-		streamHandler.startElement(new ISO9660Element("PTA"));
-		streamHandler.endElement();
+        // Boot Info Area
+        streamHandler.startElement(new ISO9660Element("BIA"));
+        streamHandler.endElement();
 
-		// Directory Records Area
-		streamHandler.startElement(new ISO9660Element("DRA"));
-		streamHandler.endElement();
+        // Path Table Area
+        streamHandler.startElement(new ISO9660Element("PTA"));
+        streamHandler.endElement();
 
-		// Boot Data Area
-		streamHandler.startElement(new ISO9660Element("BDA"));
-		streamHandler.endElement();
+        // Directory Records Area
+        streamHandler.startElement(new ISO9660Element("DRA"));
+        streamHandler.endElement();
 
-		// File Contents Area
-		streamHandler.startElement(new ISO9660Element("FCA"));
-		streamHandler.endElement();
+        // Boot Data Area
+        streamHandler.startElement(new ISO9660Element("BDA"));
+        streamHandler.endElement();
 
-		streamHandler.endDocument();
-	}
+        // File Contents Area
+        streamHandler.startElement(new ISO9660Element("FCA"));
+        streamHandler.endElement();
+
+        streamHandler.endDocument();
+    }
 }

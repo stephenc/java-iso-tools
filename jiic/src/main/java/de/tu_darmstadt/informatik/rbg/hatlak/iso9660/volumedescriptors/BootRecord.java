@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -21,57 +21,59 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.volumedescriptors;
 
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.BootConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.LayoutHelper;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.*;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Constants;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteArrayDataReference;
 
 public class BootRecord extends ISO9660VolumeDescriptor {
-	private String bootSystemId, bootId;
 
-	public BootRecord(StreamHandler streamHandler, LayoutHelper helper) {
-		super(streamHandler, ISO9660Constants.BR_TYPE, helper);
-		this.bootSystemId = this.bootId = "";
-	}
+    private String bootSystemId, bootId;
 
-	public void setBootId(String bootId) {
-		this.bootId = bootId;
-	}
+    public BootRecord(StreamHandler streamHandler, LayoutHelper helper) {
+        super(streamHandler, ISO9660Constants.BR_TYPE, helper);
+        this.bootSystemId = this.bootId = "";
+    }
 
-	public void setBootSystemId(String bootSystemId) {
-		this.bootSystemId = bootSystemId;
-	}
+    public void setBootId(String bootId) {
+        this.bootId = bootId;
+    }
 
-	public void setMetadata(BootConfig config) {
-		setBootSystemId(config.getBootSystemId());
-		setBootId(config.getBootId());
-	}
+    public void setBootSystemId(String bootSystemId) {
+        this.bootSystemId = bootSystemId;
+    }
 
-	public void doBR() throws HandlerException {
-		// Volume Descriptor Type: Boot
-		streamHandler.data(getType());
-		
-		// Standard Identifier
-		streamHandler.data(getStandardId());
+    public void setMetadata(BootConfig config) {
+        setBootSystemId(config.getBootSystemId());
+        setBootId(config.getBootId());
+    }
 
-		// Volume Descriptor Version
-		streamHandler.data(getVDVersion());
+    public void doBR() throws HandlerException {
+        // Volume Descriptor Type: Boot
+        streamHandler.data(getType());
 
-		// Boot System Identifier: 32 bytes
-		streamHandler.data(getBootSystemId());
+        // Standard Identifier
+        streamHandler.data(getStandardId());
 
-		// Boot Identifier: 32 bytes
-		streamHandler.data(getBootId());
-		
-		// Boot System Use: handle externally
-	}
-	
-	private ByteArrayDataReference getBootSystemId() throws HandlerException {
-		byte[] bytes = helper.pad(bootSystemId, 32);
-		return new ByteArrayDataReference(bytes);
-	}
+        // Volume Descriptor Version
+        streamHandler.data(getVDVersion());
 
-	private ByteArrayDataReference getBootId() throws HandlerException {
-		byte[] bytes = helper.pad(bootId, 32);
-		return new ByteArrayDataReference(bytes);
-	}
+        // Boot System Identifier: 32 bytes
+        streamHandler.data(getBootSystemId());
+
+        // Boot Identifier: 32 bytes
+        streamHandler.data(getBootId());
+
+        // Boot System Use: handle externally
+    }
+
+    private ByteArrayDataReference getBootSystemId() throws HandlerException {
+        byte[] bytes = helper.pad(bootSystemId, 32);
+        return new ByteArrayDataReference(bytes);
+    }
+
+    private ByteArrayDataReference getBootId() throws HandlerException {
+        byte[] bytes = helper.pad(bootId, 32);
+        return new ByteArrayDataReference(bytes);
+    }
 }

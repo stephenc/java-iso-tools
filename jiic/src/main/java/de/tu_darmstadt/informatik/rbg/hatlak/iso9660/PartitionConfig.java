@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -20,50 +20,51 @@
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660;
 
 public class PartitionConfig {
-	private String systemId, volumePartitionId;
 
-	public PartitionConfig(String bootSystemId, String volumePartitionId) {
-		this.systemId = bootSystemId;
-		this.volumePartitionId = volumePartitionId;
-	}
-	
-	public PartitionConfig() {
-		this("", "");
-	}
+    private String systemId, volumePartitionId;
 
-	/**
-	 * System Identifier
-	 * 
-	 * @param systemId System identifier string
-	 */
-	public void setSystemId(String systemId) {
-		this.systemId = systemId;
-	}	
+    public PartitionConfig(String bootSystemId, String volumePartitionId) {
+        this.systemId = bootSystemId;
+        this.volumePartitionId = volumePartitionId;
+    }
 
-	/**
-	 * Active System Identifier
-	 * 
-	 * @return System identifier string
-	 */
-	public String getSystemId() {
-		return systemId;
-	}
+    public PartitionConfig() {
+        this("", "");
+    }
 
-	/**
-	 * Volume Partition Identifier
-	 * 
-	 * @param volumePartitionId Active Volume Partition identifier string
-	 */
-	public void setVolumePartitionId(String volumePartitionId) {
-		this.volumePartitionId = volumePartitionId;
-	}
+    /**
+     * System Identifier
+     *
+     * @param systemId System identifier string
+     */
+    public void setSystemId(String systemId) {
+        this.systemId = systemId;
+    }
 
-	/**
-	 * Active Volume Partition Identifier
-	 * 
-	 * @return Active Volume Partition identifier string
-	 */
-	public String getVolumePartitionId() {
-		return volumePartitionId;
-	}
+    /**
+     * Active System Identifier
+     *
+     * @return System identifier string
+     */
+    public String getSystemId() {
+        return systemId;
+    }
+
+    /**
+     * Volume Partition Identifier
+     *
+     * @param volumePartitionId Active Volume Partition identifier string
+     */
+    public void setVolumePartitionId(String volumePartitionId) {
+        this.volumePartitionId = volumePartitionId;
+    }
+
+    /**
+     * Active Volume Partition Identifier
+     *
+     * @return Active Volume Partition identifier string
+     */
+    public String getVolumePartitionId() {
+        return volumePartitionId;
+    }
 }

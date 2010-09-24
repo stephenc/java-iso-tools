@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -26,27 +26,27 @@ import java.io.InputStream;
 import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
 
 public class LSBFWordDataReference implements DataReference {
-	private long value = 0;
 
-	public LSBFWordDataReference(long value) {
-		this.value = value;
-	}
-	
-	public long getLength() {
-		return 4;
-	}
+    private long value = 0;
 
-	public InputStream createInputStream() throws IOException {
-		byte[] buffer = new byte[4];
+    public LSBFWordDataReference(long value) {
+        this.value = value;
+    }
 
-		// LSB first (Little Endian)
-		buffer[0] = (byte)(this.value & 0x000000FF);
-		buffer[1] = (byte)((this.value & 0x0000FF00) >> 8);
-		buffer[2] = (byte)((this.value & 0x00FF0000) >> 16);
-		buffer[3] = (byte)((this.value & 0xFF000000) >> 24);
-		
-		return new ByteArrayInputStream(buffer);
-	}
-	
+    public long getLength() {
+        return 4;
+    }
+
+    public InputStream createInputStream() throws IOException {
+        byte[] buffer = new byte[4];
+
+        // LSB first (Little Endian)
+        buffer[0] = (byte) (this.value & 0x000000FF);
+        buffer[1] = (byte) ((this.value & 0x0000FF00) >> 8);
+        buffer[2] = (byte) ((this.value & 0x00FF0000) >> 16);
+        buffer[3] = (byte) ((this.value & 0xFF000000) >> 24);
+
+        return new ByteArrayInputStream(buffer);
+    }
 
 }

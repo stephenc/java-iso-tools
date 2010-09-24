@@ -3,93 +3,98 @@
  *
  *	2006-06-29
  *
- *	Björn Stickler <bjoern@stickler.de>
+ *	Bjï¿½rn Stickler <bjoern@stickler.de>
  */
 
 package de.tu_darmstadt.informatik.rbg.bstickler.udflib;
 
-import java.io.*;
-import java.util.*;
-import org.apache.tools.ant.*;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.Task;
 
 public class UDFImageBuilderAntTask extends Task {
-	public static class FileLocation {
-		private String location;
 
-		private boolean childfilesonly = false;
+    public static class FileLocation {
 
-		public void setLocation(String location) {
-			this.location = location;
-		}
+        private String location;
 
-		public void setChildfilesonly(boolean childfilesonly) {
-			this.childfilesonly = childfilesonly;
-		}
-	}
+        private boolean childfilesonly = false;
 
-	private String imageIdentifier;
+        public void setLocation(String location) {
+            this.location = location;
+        }
 
-	private String imageOutputFile;
+        public void setChildfilesonly(boolean childfilesonly) {
+            this.childfilesonly = childfilesonly;
+        }
+    }
 
-	private String udfRevision = "2.60";
+    private String imageIdentifier;
 
-	private List<FileLocation> fileLocations = new ArrayList<FileLocation>();
+    private String imageOutputFile;
 
-	public void setImageIdentifier(String imageIdentifier) {
-		this.imageIdentifier = imageIdentifier;
-	}
+    private String udfRevision = "2.60";
 
-	public void setImageOutputFile(String imageOutputFile) {
-		this.imageOutputFile = imageOutputFile;
-	}
+    private List<FileLocation> fileLocations = new ArrayList<FileLocation>();
 
-	public void setUdfRevision(String udfRevision) {
-		this.udfRevision = udfRevision;
-	}
+    public void setImageIdentifier(String imageIdentifier) {
+        this.imageIdentifier = imageIdentifier;
+    }
 
-	public void addFileLocation(FileLocation myFileLocation) {
-		fileLocations.add(myFileLocation);
-	}
+    public void setImageOutputFile(String imageOutputFile) {
+        this.imageOutputFile = imageOutputFile;
+    }
 
-	public void execute() throws BuildException {
-		try {
-			log("Creating UDF image " + imageOutputFile);			
-			UDFImageBuilder myUDFImageBuilder = new UDFImageBuilder();
+    public void setUdfRevision(String udfRevision) {
+        this.udfRevision = udfRevision;
+    }
 
-			myUDFImageBuilder.setImageIdentifier(imageIdentifier);
+    public void addFileLocation(FileLocation myFileLocation) {
+        fileLocations.add(myFileLocation);
+    }
 
-			for (int i = 0; i < fileLocations.size(); ++i) {
-				FileLocation myFileLocation = fileLocations.get(i);
+    public void execute() throws BuildException {
+        try {
+            log("Creating UDF image " + imageOutputFile);
+            UDFImageBuilder myUDFImageBuilder = new UDFImageBuilder();
 
-				File myFile = new File(myFileLocation.location);
+            myUDFImageBuilder.setImageIdentifier(imageIdentifier);
 
-				if (myFileLocation.childfilesonly && myFile.isDirectory()) {
-					File[] childFiles = myFile.listFiles();
-					for (int j = 0; j < childFiles.length; ++j) {
-						myUDFImageBuilder.addFileToRootDirectory(childFiles[j]);
-					}
-				} else {
-					myUDFImageBuilder.addFileToRootDirectory(myFile);
-				}
-			}
+            for (int i = 0; i < fileLocations.size(); ++i) {
+                FileLocation myFileLocation = fileLocations.get(i);
 
-			UDFRevision myUDFRevision = UDFRevision.Revision201;
+                File myFile = new File(myFileLocation.location);
 
-			if (udfRevision.equals("1.02")) {
-				myUDFRevision = UDFRevision.Revision102;
-			} else if (udfRevision.equals("2.01")) {
-				myUDFRevision = UDFRevision.Revision201;
-			} else if (udfRevision.equals("2.60")) {
-				myUDFRevision = UDFRevision.Revision260;
-			} else {
-				throw new BuildException("Unkown UDF-Revision [" + udfRevision + "]");
-			}
+                if (myFileLocation.childfilesonly && myFile.isDirectory()) {
+                    File[] childFiles = myFile.listFiles();
+                    for (int j = 0; j < childFiles.length; ++j) {
+                        myUDFImageBuilder.addFileToRootDirectory(childFiles[j]);
+                    }
+                } else {
+                    myUDFImageBuilder.addFileToRootDirectory(myFile);
+                }
+            }
 
-			myUDFImageBuilder.writeImage(imageOutputFile, myUDFRevision);
+            UDFRevision myUDFRevision = UDFRevision.Revision201;
 
-		} catch (Exception ex) {
-			throw new BuildException(ex.toString());
+            if (udfRevision.equals("1.02")) {
+                myUDFRevision = UDFRevision.Revision102;
+            } else if (udfRevision.equals("2.01")) {
+                myUDFRevision = UDFRevision.Revision201;
+            } else if (udfRevision.equals("2.60")) {
+                myUDFRevision = UDFRevision.Revision260;
+            } else {
+                throw new BuildException("Unkown UDF-Revision [" + udfRevision + "]");
+            }
 
-		}
-	}
+            myUDFImageBuilder.writeImage(imageOutputFile, myUDFRevision);
+
+        } catch (Exception ex) {
+            throw new BuildException(ex.toString());
+
+        }
+    }
 }

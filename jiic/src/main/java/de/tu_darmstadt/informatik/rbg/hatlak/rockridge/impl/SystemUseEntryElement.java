@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -22,26 +22,27 @@ package de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl;
 import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Element;
 
 public class SystemUseEntryElement extends Element {
-	private String signature;
-	private int version;
-	
-	public SystemUseEntryElement(String signature, int version) {
-		this.signature = signature;
-		this.version = version;
-	}
-	
-	public byte[] getSignatureWord() {
-		if (signature != null) {
-			return signature.getBytes();
-		}
-		return null;
-	}
-	
-	public int getVersion() {
-		return version;
-	}
-	
-	public Object getId() {
-		return signature;
-	}
+
+    private String signature;
+    private int version;
+
+    public SystemUseEntryElement(String signature, int version) {
+        this.signature = signature;
+        this.version = version;
+    }
+
+    public byte[] getSignatureWord() {
+        if (signature != null) {
+            return signature.getBytes();
+        }
+        return null;
+    }
+
+    public int getVersion() {
+        return version;
+    }
+
+    public Object getId() {
+        return signature;
+    }
 }

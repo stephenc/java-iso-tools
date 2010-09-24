@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -19,34 +19,37 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
 
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
+import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
 
 public abstract class FilenameDataReference implements DataReference {
-	private String name;
-	
-	public FilenameDataReference(ISO9660Directory dir) throws HandlerException {
-		setName(dir.getName());
-	}
 
-	public FilenameDataReference(ISO9660File file) throws HandlerException {
-		setName(file.getFullName());
-	}
+    private String name;
 
-	public FilenameDataReference(String name) {
-		setName(name);
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public abstract long getLength();
+    public FilenameDataReference(ISO9660Directory dir) throws HandlerException {
+        setName(dir.getName());
+    }
 
-	public abstract InputStream createInputStream() throws IOException;
+    public FilenameDataReference(ISO9660File file) throws HandlerException {
+        setName(file.getFullName());
+    }
+
+    public FilenameDataReference(String name) {
+        setName(name);
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public abstract long getLength();
+
+    public abstract InputStream createInputStream() throws IOException;
 }

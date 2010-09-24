@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -20,9 +20,10 @@
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660;
 
 public class ConfigException extends Exception {
-	private static final long serialVersionUID = -6845620304573548666L;
 
-	public ConfigException(Object config, String string) {
-		super(config.getClass().getName() + ": " + string);
-	}
+    private static final long serialVersionUID = -6845620304573548666L;
+
+    public ConfigException(Object config, String string) {
+        super(config.getClass().getName() + ": " + string);
+    }
 }
