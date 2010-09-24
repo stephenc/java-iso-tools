@@ -51,7 +51,7 @@ public class ISOImageFileHandler implements StreamHandler {
      */
     public ISOImageFileHandler(File file) throws FileNotFoundException {
         this.file = file;
-        this.raFile = new RandomAccessFile(file, "r");
+        this.raFile = new RandomAccessFile(file, "rw");
         this.dataOutputStream = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(this.file)));
     }
 
