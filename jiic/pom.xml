@@ -12,4 +12,12 @@
     <artifactId>jiic</artifactId>
     <name>JIIC</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.github.stephenc.jiic</groupId>
+            <artifactId>sabre</artifactId>
+            <version>1.2-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
+
 </project>
