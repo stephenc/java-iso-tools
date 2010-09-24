@@ -10,13 +10,18 @@
     </parent>
 
     <artifactId>jiic</artifactId>
-    <name>JIIC</name>
+    <name>Java ISO Image Creator</name>
 
     <dependencies>
         <dependency>
             <groupId>com.github.stephenc.jiic</groupId>
             <artifactId>sabre</artifactId>
             <version>1.2-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
         </dependency>
     </dependencies>
 
