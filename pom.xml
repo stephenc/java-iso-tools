@@ -12,6 +12,7 @@
     <modules>
         <module>jiic</module>
         <module>sabre</module>
+        <module>loopy</module>
     </modules>
 
     <scm>

@@ -31,6 +31,10 @@ import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660RootDirectory;
 import de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl.JolietConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeConfig;
 import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
+import org.apache.commons.vfs.FileObject;
+import org.apache.commons.vfs.FileSystemManager;
+import org.apache.commons.vfs.FileType;
+import org.apache.commons.vfs.VFS;
 import org.codehaus.plexus.util.IOUtil;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -57,7 +61,7 @@ public class CreateISOTest {
             IOUtil.close(is);
         }
         workDir = new File(props.getProperty("work-directory"));
-        assertThat("We can create our work directory", workDir.mkdirs(), is(true));
+        assertThat("We can create our work directory", workDir.mkdirs() || workDir.isDirectory(), is(true));
     }
 
     @Test
@@ -80,11 +84,12 @@ public class CreateISOTest {
 
     @Test
     public void canCreateAnIsoWithOneFile() throws Exception {
+        final String contentString = "This is a test file";
         // Output file
         File outfile = new File(workDir, "one-file.iso");
         File contents = new File(workDir, "readme.txt");
         OutputStream os = new FileOutputStream(contents);
-        IOUtil.copy("This is a test file", os);
+        IOUtil.copy(contentString, os);
         IOUtil.close(os);
 
         // Directory hierarchy, starting from the root
@@ -116,5 +121,13 @@ public class CreateISOTest {
         assertThat(outfile.length(), not(is(0L)));
 
         // TODO use loopy to check that the iso is empty
+        FileSystemManager fsManager = VFS.getManager();
+        FileObject isoFile = fsManager.resolveFile("iso:" + outfile.getPath());
+
+        FileObject[] children = isoFile.getChildren();
+        assertThat(children.length, is(1));
+        assertThat(children[0].getName().getBaseName(), is("readme.txt"));
+        assertThat(children[0].getType(), is(FileType.FILE));
+        assertThat(IOUtil.toString(children[0].getContent().getInputStream()), is(contentString));
     }
 }

@@ -3,6 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.github.stephenc.jiic</groupId>
+        <artifactId>jiic-parent</artifactId>
+        <version>1.2-SNAPSHOT</version>
+    </parent>
+
     <name>loopy</name>
     <description>
         loopy is a library for working with file-based file systems, i.e. file systems
@@ -10,9 +17,9 @@
         example. loopy is being developed for use by Apache Jakarta Commons VFS.
     </description>
 
-    <groupId>net.didion.loopy</groupId>
+    <groupId>com.github.stephenc.jiic</groupId>
     <artifactId>loopy</artifactId>
-    <version>0.3</version>
+    <version>1.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <modules>
@@ -41,18 +48,16 @@
                 <groupId>commons-logging</groupId>
                 <artifactId>commons-logging</artifactId>
                 <version>1.0.4</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
                 <groupId>commons-vfs</groupId>
                 <artifactId>commons-vfs</artifactId>
                 <version>1.0</version>
-                <scope>provided</scope>
             </dependency>
             <dependency>
-                <groupId>net.didion.loopy</groupId>
+                <groupId>com.github.stephenc.jiic</groupId>
                 <artifactId>loopy-core</artifactId>
-                <version>${version}</version>
+                <version>1.2-SNAPSHOT</version>
             </dependency>
             <dependency>
                 <groupId>junit</groupId>

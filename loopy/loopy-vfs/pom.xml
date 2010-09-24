@@ -7,9 +7,9 @@
     <description>commons-vfs provider implementation for loopy.</description>
 
     <parent>
-        <groupId>net.didion.loopy</groupId>
+        <groupId>com.github.stephenc.jiic</groupId>
         <artifactId>loopy</artifactId>
-        <version>0.3</version>
+        <version>1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>loopy-vfs</artifactId>
@@ -39,23 +39,9 @@
             <artifactId>commons-vfs</artifactId>
         </dependency>
         <dependency>
-            <groupId>net.didion.loopy</groupId>
+            <groupId>com.github.stephenc.jiic</groupId>
             <artifactId>loopy-core</artifactId>
         </dependency>
     </dependencies>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.2-beta-1</version>
-                <configuration>
-                    <descriptorRefs>
-                        <descriptorRef>jar-with-dependencies</descriptorRef>
-                    </descriptorRefs>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
 </project>

@@ -28,6 +28,13 @@
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-utils</artifactId>
             <version>2.0.5</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.github.stephenc.jiic</groupId>
+            <artifactId>loopy-vfs</artifactId>
+            <version>1.2-SNAPSHOT</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

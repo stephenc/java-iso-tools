@@ -7,9 +7,9 @@
     <description>loopy core library.</description>
 
     <parent>
-        <groupId>net.didion.loopy</groupId>
+        <groupId>com.github.stephenc.jiic</groupId>
         <artifactId>loopy</artifactId>
-        <version>0.3</version>
+        <version>1.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>loopy-core</artifactId>
@@ -26,11 +26,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <configuration>
-                    <excludes>
-                        <exclude>net/didion/loopy/udf/*.*</exclude>
-                    </excludes>
-                </configuration>
             </plugin>
         </plugins>
     </build>
