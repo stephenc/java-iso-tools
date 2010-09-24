@@ -114,7 +114,7 @@ public class ElToritoHandler extends ChainingStreamHandler {
 		}
 
 		// Write Boot Image
-		FileDataReference fdr = new FileDataReference(config.getBootImage());
+		FileDataReference fdr = new FileDataReference(config.getBootImage().getFile());
 		data(fdr);
 
 		super.endElement();

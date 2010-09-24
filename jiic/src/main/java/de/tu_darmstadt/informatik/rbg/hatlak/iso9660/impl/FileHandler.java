@@ -1,4 +1,4 @@
-/*  
+/*
  *  JIIC: Java ISO Image Creator. Copyright (C) 2007, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  *  This library is free software; you can redistribute it and/or
@@ -27,12 +27,12 @@ import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.*;
 
 public class FileHandler extends ChainingStreamHandler {
 	private ISO9660RootDirectory root;
-	
+
 	public FileHandler(StreamHandler streamHandler, ISO9660RootDirectory root) {
 		super(streamHandler, streamHandler);
 		this.root = root;
 	}
-	
+
 	public void startElement(Element element) throws HandlerException {
 		if (element instanceof ISO9660Element) {
 			String id = (String) element.getId();
@@ -44,19 +44,19 @@ public class FileHandler extends ChainingStreamHandler {
 	private void process(String id) throws HandlerException {
 		if (id.equals("FCA")) {
 			doFCA();
-		}	
+		}
 	}
-	
+
 	private void doFCA() throws HandlerException {
 		doFCADirs(root);
-				
+
 		Iterator it = root.sortedIterator();
 		while (it.hasNext()) {
 			ISO9660Directory dir = (ISO9660Directory) it.next();
 			doFCADirs(dir);
 		}
 	}
-	
+
 	private void doFCADirs(ISO9660Directory dir) throws HandlerException {
 		Vector files = dir.getFiles();
 		Iterator fit = files.iterator();
@@ -65,11 +65,11 @@ public class FileHandler extends ChainingStreamHandler {
 			doFile(file);
 		}
 	}
-	
+
 	private void doFile(ISO9660File file) throws HandlerException {
 		super.startElement(new FileElement(file));
 
-		FileDataReference fdr = new FileDataReference(file);
+		FileDataReference fdr = new FileDataReference(file.getFile());
 		data(fdr);
 
 		super.endElement();
