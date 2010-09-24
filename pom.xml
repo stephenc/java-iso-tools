@@ -16,9 +16,9 @@
     </modules>
 
     <scm>
-        <connection>scm:git:git://github.com/stephenc/jiic.git</connection>
-        <developerConnection>scm:git:git@github.com:stephenc/jiic.git</developerConnection>
-        <url>http://github.com/stephenc/jiic/tree/master/</url>
+        <connection>scm:git:git://github.com/stephenc/java-iso-tools.git</connection>
+        <developerConnection>scm:git:git@github.com:stephenc/java-iso-tools.git</developerConnection>
+        <url>http://github.com/stephenc/java-iso-tools/tree/master/</url>
     </scm>
 
     <licenses>
