@@ -26,7 +26,9 @@ import java.io.OutputStream;
 import java.util.Properties;
 
 import org.junit.*;
+import org.hamcrest.*;
 
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660Directory;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660RootDirectory;
 import de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl.JolietConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeConfig;
@@ -120,14 +122,75 @@ public class CreateISOTest {
         assertThat(outfile.isFile(), is(true));
         assertThat(outfile.length(), not(is(0L)));
 
-        // TODO use loopy to check that the iso is empty
         FileSystemManager fsManager = VFS.getManager();
-        FileObject isoFile = fsManager.resolveFile("iso:" + outfile.getPath());
+        // TODO figure out why we can't just do
+        // FileObject isoFile = fsManager.resolveFile("iso:" + outfile.getPath() + "!/");
+        // smells like a bug between loopy and commons-vfs
+        FileObject isoFile = fsManager.resolveFile("iso:" + outfile.getPath() + "!/readme.txt").getParent();
+        assertThat(isoFile.getType(), is(FileType.FOLDER));
 
         FileObject[] children = isoFile.getChildren();
         assertThat(children.length, is(1));
         assertThat(children[0].getName().getBaseName(), is("readme.txt"));
         assertThat(children[0].getType(), is(FileType.FILE));
         assertThat(IOUtil.toString(children[0].getContent().getInputStream()), is(contentString));
+    }
+
+    @Test
+    public void canCreateAnIsoWithSomeFiles() throws Exception {
+        // Output file
+        File outfile = new File(workDir, "test.iso");
+        File contentsA = new File(workDir, "a.txt");
+        OutputStream os = new FileOutputStream(contentsA);
+        IOUtil.copy("Hello", os);
+        IOUtil.close(os);
+        File contentsB = new File(workDir, "b.txt");
+        os = new FileOutputStream(contentsB);
+        IOUtil.copy("Goodbye", os);
+        IOUtil.close(os);
+
+        // Directory hierarchy, starting from the root
+        ISO9660RootDirectory.MOVED_DIRECTORIES_STORE_NAME = "rr_moved";
+        ISO9660RootDirectory root = new ISO9660RootDirectory();
+
+        ISO9660Directory dir = root.addDirectory("root");
+        dir.addFile(contentsA);
+        dir.addFile(contentsB);
+
+        StreamHandler streamHandler = new ISOImageFileHandler(outfile);
+        CreateISO iso = new CreateISO(streamHandler, root);
+        ISO9660Config iso9660Config = new ISO9660Config();
+        iso9660Config.allowASCII(false);
+        iso9660Config.setInterchangeLevel(2);
+        iso9660Config.restrictDirDepthTo8(true);
+        iso9660Config.setVolumeID("ISO Test");
+        iso9660Config.forceDotDelimiter(true);
+        RockRidgeConfig rrConfig = new RockRidgeConfig();
+        rrConfig.setMkisofsCompatibility(true);
+        rrConfig.hideMovedDirectoriesStore(true);
+        rrConfig.forcePortableFilenameCharacterSet(true);
+
+        JolietConfig jolietConfig = new JolietConfig();
+        jolietConfig.setVolumeID("Joliet Test");
+        jolietConfig.forceDotDelimiter(true);
+
+        iso.process(iso9660Config, rrConfig, jolietConfig, null);
+
+        assertThat(outfile.isFile(), is(true));
+        assertThat(outfile.length(), not(is(0L)));
+
+        FileSystemManager fsManager = VFS.getManager();
+        FileObject isoFile = fsManager.resolveFile("iso:" + outfile.getPath() + "!/root");
+
+        FileObject t = isoFile.getChild("a.txt");
+        assertThat(t, CoreMatchers.<Object>notNullValue());
+        assertThat(t.getType(), is(FileType.FILE));
+        assertThat(t.getContent().getSize(), is(5L));
+        assertThat(IOUtil.toString(t.getContent().getInputStream()), is("Hello"));
+        t = isoFile.getChild("b.txt");
+        assertThat(t, CoreMatchers.<Object>notNullValue());
+        assertThat(t.getType(), is(FileType.FILE));
+        assertThat(t.getContent().getSize(), is(7L));
+        assertThat(IOUtil.toString(t.getContent().getInputStream()), is("Goodbye"));
     }
 }
