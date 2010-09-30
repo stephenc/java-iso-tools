@@ -74,6 +74,7 @@ public class IsoFileSystem extends AbstractFileSystem {
         final List strongRef = new ArrayList(100);
 
         final Enumeration entries = this.fileSystem.getEntries();
+        boolean skipRoot = false;
 
         while (entries.hasMoreElements()) {
             final ISO9660FileEntry entry = (ISO9660FileEntry) entries.nextElement();
@@ -82,7 +83,11 @@ public class IsoFileSystem extends AbstractFileSystem {
 
             // skip entries without names (should only be one - the root entry)
             if ("".equals(name)) {
-                continue;
+                if (!skipRoot) {
+                    skipRoot = true;
+                } else {
+                    continue;
+                }
             }
 
             final FileName filename = getFileSystemManager().
