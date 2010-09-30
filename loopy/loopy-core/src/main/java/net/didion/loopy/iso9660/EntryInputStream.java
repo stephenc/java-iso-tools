@@ -47,7 +47,7 @@ class EntryInputStream extends InputStream {
     public int read(final byte b[], final int off, final int len) throws IOException {
         ensureOpen();
 
-        if (this.rem == 0) {
+        if (this.rem <= 0) {
             return -1;
         }
         if (len <= 0) {
@@ -75,10 +75,6 @@ class EntryInputStream extends InputStream {
             this.rem -= len;
         }
 
-        if (this.rem == 0) {
-            close();
-        }
-
         return read;
     }
 
@@ -102,7 +98,7 @@ class EntryInputStream extends InputStream {
         this.pos += len;
         this.rem -= len;
 
-        if (this.rem == 0) {
+        if (this.rem <= 0) {
             close();
         }
 
@@ -110,7 +106,7 @@ class EntryInputStream extends InputStream {
     }
 
     public int available() {
-        return this.rem;
+        return Math.max(this.rem, 0);
     }
 
     public int size() {
