@@ -3,7 +3,67 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.stephenc.jiic</groupId>
+    <groupId>com.github.stephenc.javaisotools
+        <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+            <modelVersion>4.0.0</modelVersion>
+
+            <parent>
+                <groupId>com.github.stephenc.jiic</groupId>
+                <artifactId>jiic-parent</artifactId>
+                <version>1.2-SNAPSHOT</version>
+            </parent>
+
+            <artifactId>jiic</artifactId>
+            <name>Java ISO Image Creator</name>
+
+            <dependencies>
+                <dependency>
+                    <groupId>com.github.stephenc.jiic</groupId>
+                    <artifactId>sabre</artifactId>
+                    <version>1.2-SNAPSHOT</version>
+                </dependency>
+                <dependency>
+                    <groupId>junit</groupId>
+                    <artifactId>junit</artifactId>
+                    <version>4.8.1</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>org.codehaus.plexus</groupId>
+                    <artifactId>plexus-utils</artifactId>
+                    <version>2.0.5</version>
+                    <scope>test</scope>
+                </dependency>
+                <dependency>
+                    <groupId>com.github.stephenc.jiic</groupId>
+                    <artifactId>loopy-vfs</artifactId>
+                    <version>1.2-SNAPSHOT</version>
+                    <scope>test</scope>
+                </dependency>
+            </dependencies>
+
+            <build>
+                <testResources>
+                    <testResource>
+                        <directory>${basedir}/src/test/resources</directory>
+                        <excludes>
+                            <exclude>test.properties</exclude>
+                        </excludes>
+                        <filtering>false</filtering>
+                    </testResource>
+                    <testResource>
+                        <directory>${basedir}/src/test/resources</directory>
+                        <includes>
+                            <include>test.properties</include>
+                        </includes>
+                        <filtering>true</filtering>
+                    </testResource>
+                </testResources>
+            </build>
+
+        </project>
+    </groupId>
     <artifactId>jiic-parent</artifactId>
     <version>1.2-SNAPSHOT</version>
     <packaging>pom</packaging>
