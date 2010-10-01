@@ -14,6 +14,7 @@
         <module>sabre</module>
         <module>loopy</module>
         <module>iso9660-maven-plugin</module>
+        <module>iso9660-ant-tasks</module>
     </modules>
 
     <scm>
