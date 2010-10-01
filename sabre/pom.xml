@@ -12,6 +12,23 @@
     <artifactId>sabre</artifactId>
     <name>Simple API for Binary Representations</name>
 
+    <developers>
+        <developer>
+            <id>stephenc</id>
+            <name>Stephen Connolly</name>
+        </developer>
+        <developer>
+            <id>mhartle</id>
+            <name>Michael Hartle</name>
+            <email>mhartle@rbg.informatik.tu-darmstadt.de</email>
+        </developer>
+        <developer>
+            <id>lewing</id>
+            <name>Larry Ewing</name>
+            <email>lewing@isc.tamu.edu</email>
+        </developer>
+    </developers>
+
     <dependencies>
         <dependency>
             <groupId>commons-lang</groupId>

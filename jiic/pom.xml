@@ -12,6 +12,18 @@
     <artifactId>jiic</artifactId>
     <name>Java ISO Image Creator</name>
 
+    <developers>
+        <developer>
+            <id>stephenc</id>
+            <name>Stephen Connolly</name>
+        </developer>
+        <developer>
+            <id>hatlak</id>
+            <name>Jens Hatlak</name>
+            <email>hatlak@rbg.informatik.tu-darmstadt.de</email>
+        </developer>
+    </developers>
+
     <dependencies>
         <dependency>
             <groupId>com.github.stephenc.javaisotools</groupId>

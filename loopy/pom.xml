@@ -33,6 +33,10 @@
             <name>John Didion</name>
             <email>jdidion@loudeye.com</email>
         </developer>
+        <developer>
+            <id>stephenc</id>
+            <name>Stephen Connolly</name>
+        </developer>
     </developers>
 
     <licenses>
