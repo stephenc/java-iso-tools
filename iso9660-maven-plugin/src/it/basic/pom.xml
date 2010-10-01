@@ -20,4 +20,8 @@
         </plugins>
     </build>
 
+    <organization>
+        <name>Foobar Ltd</name>
+    </organization>
+
 </project>

@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ConfigException;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660RootDirectory;
+import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.StandardConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.CreateISO;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Config;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISOImageFileHandler;
@@ -15,6 +16,7 @@ import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Creates an iso9660 image.
@@ -44,6 +46,60 @@ public class PackageMojo extends AbstractMojo {
      */
     private String finalName;
 
+    /**
+     * The system id.
+     *
+     * @parameter
+     */
+    private String systemId;
+
+    /**
+     * The volume id.
+     *
+     * @parameter default-value="${project.artifactId}"
+     */
+    private String volumeId;
+
+    /**
+     * The volume set id.
+     *
+     * @parameter
+     */
+    private String volumeSetId;
+
+    /**
+     * The publisher.
+     *
+     * @parameter default-value="${project.organization.name}"
+     */
+    private String publisher;
+
+    /**
+     * The preparer.
+     *
+     * @parameter default-value="${project.organization.name}"
+     */
+    private String preparer;
+
+    /**
+     * The application.
+     *
+     * @parameter default-value="iso9660-maven-plugin"
+     */
+    private String application;
+
+    /**
+     * The volume sequence number.
+     *
+     * @parameter
+     */
+    private Integer volumeSequenceNumber;
+
+    /**
+     * The volume set size.
+     */
+    private Integer volumeSetSize;
+
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (outputDirectory.isFile()) {
             throw new MojoExecutionException("Output directory: " + outputDirectory + " is a file");
@@ -67,16 +123,16 @@ public class PackageMojo extends AbstractMojo {
             iso9660Config.allowASCII(false);
             iso9660Config.setInterchangeLevel(1);
             iso9660Config.restrictDirDepthTo8(true);
-            iso9660Config.setVolumeID("ISO Test");
             iso9660Config.forceDotDelimiter(true);
+            applyConfig(iso9660Config);
             RockRidgeConfig rrConfig = new RockRidgeConfig();
             rrConfig.setMkisofsCompatibility(false);
             rrConfig.hideMovedDirectoriesStore(true);
             rrConfig.forcePortableFilenameCharacterSet(true);
 
             JolietConfig jolietConfig = new JolietConfig();
-            jolietConfig.setVolumeID("Joliet Test");
             jolietConfig.forceDotDelimiter(true);
+            applyConfig(jolietConfig);
 
             iso.process(iso9660Config, rrConfig, jolietConfig, null);
         } catch (HandlerException e) {
@@ -85,6 +141,27 @@ public class PackageMojo extends AbstractMojo {
             throw new MojoExecutionException(e.getMessage(), e);
         } catch (ConfigException e) {
             throw new MojoExecutionException(e.getMessage(), e);
+        }
+    }
+
+    private void applyConfig(StandardConfig config) throws ConfigException {
+        if (StringUtils.isNotEmpty(systemId)) {
+            config.setSystemID(systemId);
+        }
+        if (StringUtils.isNotEmpty(volumeId)) {
+            config.setVolumeID(volumeId);
+        }
+        if (StringUtils.isNotEmpty(volumeSetId)) {
+            config.setVolumeSetID(volumeSetId);
+        }
+        if (StringUtils.isNotEmpty(publisher)) {
+            config.setPublisher(publisher);
+        }
+        if (StringUtils.isNotEmpty(preparer)) {
+            config.setDataPreparer(preparer);
+        }
+        if (StringUtils.isNotEmpty(application)) {
+            config.setApp(application);
         }
     }
 }
