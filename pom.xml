@@ -29,6 +29,13 @@
         </license>
     </licenses>
 
+    <developers>
+        <developer>
+            <id>stephenc</id>
+            <name>Stephen Connolly</name>
+        </developer>
+    </developers>
+
     <build>
         <pluginManagement>
             <plugins>
