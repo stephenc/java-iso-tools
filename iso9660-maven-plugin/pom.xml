@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.github.stephenc.javaisotools</groupId>
         <artifactId>java-iso-tools-parent</artifactId>
-        <version>1.3-SNAPSHOT</version>
+        <version>1.2.1</version>
     </parent>
 
     <artifactId>iso9660-maven-plugin</artifactId>
@@ -21,7 +21,7 @@
         <dependency>
             <groupId>com.github.stephenc.javaisotools</groupId>
             <artifactId>jiic</artifactId>
-            <version>1.3-SNAPSHOT</version>
+            <version>1.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.codehaus.plexus</groupId>
