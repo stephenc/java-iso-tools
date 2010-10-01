@@ -5,7 +5,7 @@
     <parent>
         <groupId>com.github.stephenc.javaisotools</groupId>
         <artifactId>java-iso-tools-parent</artifactId>
-        <version>1.2.1</version>
+        <version>1.2.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>jiic</artifactId>
@@ -27,7 +27,7 @@
         <dependency>
             <groupId>com.github.stephenc.javaisotools</groupId>
             <artifactId>sabre</artifactId>
-            <version>1.2.1</version>
+            <version>1.2.2-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -44,7 +44,7 @@
         <dependency>
             <groupId>com.github.stephenc.javaisotools</groupId>
             <artifactId>loopy-vfs</artifactId>
-            <version>1.2.1</version>
+            <version>1.2.2-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
