@@ -10,7 +10,7 @@
 
     <groupId>com.github.stephenc.java-iso-tools</groupId>
     <artifactId>java-iso-tools-parent</artifactId>
-    <version>1.2.2-SNAPSHOT</version>
+    <version>1.2.2</version>
     <packaging>pom</packaging>
     <name>Java ISO9660 Tools Parent</name>
 
