@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.github.stephenc.javaisotools</groupId>
+        <groupId>com.github.stephenc.java-iso-tools</groupId>
         <artifactId>java-iso-tools-parent</artifactId>
         <version>1.2.2-SNAPSHOT</version>
     </parent>
@@ -19,7 +19,7 @@
             <version>2.0.9</version>
         </dependency>
         <dependency>
-            <groupId>com.github.stephenc.javaisotools</groupId>
+            <groupId>com.github.stephenc.java-iso-tools</groupId>
             <artifactId>jiic</artifactId>
             <version>1.2.2-SNAPSHOT</version>
         </dependency>

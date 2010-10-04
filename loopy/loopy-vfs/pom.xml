@@ -5,7 +5,7 @@
     <description>commons-vfs provider implementation for loopy.</description>
 
     <parent>
-        <groupId>com.github.stephenc.javaisotools</groupId>
+        <groupId>com.github.stephenc.java-iso-tools</groupId>
         <artifactId>loopy</artifactId>
         <version>1.2.2-SNAPSHOT</version>
     </parent>
@@ -37,7 +37,7 @@
             <artifactId>commons-vfs</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.stephenc.javaisotools</groupId>
+            <groupId>com.github.stephenc.java-iso-tools</groupId>
             <artifactId>loopy-core</artifactId>
         </dependency>
     </dependencies>

@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>com.github.stephenc.javaisotools</groupId>
+        <groupId>com.github.stephenc.java-iso-tools</groupId>
         <artifactId>java-iso-tools-parent</artifactId>
         <version>1.2.2-SNAPSHOT</version>
     </parent>
@@ -15,7 +15,7 @@
         example. loopy is being developed for use by Apache Jakarta Commons VFS.
     </description>
 
-    <groupId>com.github.stephenc.javaisotools</groupId>
+    <groupId>com.github.stephenc.java-iso-tools</groupId>
     <artifactId>loopy</artifactId>
     <version>1.2.2-SNAPSHOT</version>
     <packaging>pom</packaging>
@@ -57,7 +57,7 @@
                 <version>1.0</version>
             </dependency>
             <dependency>
-                <groupId>com.github.stephenc.javaisotools</groupId>
+                <groupId>com.github.stephenc.java-iso-tools</groupId>
                 <artifactId>loopy-core</artifactId>
                 <version>1.2.2-SNAPSHOT</version>
             </dependency>
