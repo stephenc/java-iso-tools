@@ -20,11 +20,6 @@
     <version>1.2.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <modules>
-        <module>loopy-core</module>
-        <module>iso9660-vfs-impl</module>
-    </modules>
-
     <developers>
         <developer>
             <id>jdidion</id>
