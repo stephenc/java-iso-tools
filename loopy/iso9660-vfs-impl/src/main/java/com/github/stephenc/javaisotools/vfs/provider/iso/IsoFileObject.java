@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.github.stephenc.javaisotools.loopy.iso9660.ISO9660FileEntry;
+import com.github.stephenc.javaisotools.loopfs.iso9660.ISO9660FileEntry;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;

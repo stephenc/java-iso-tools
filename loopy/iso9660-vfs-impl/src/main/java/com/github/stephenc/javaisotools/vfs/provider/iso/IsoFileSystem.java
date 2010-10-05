@@ -26,8 +26,8 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 
-import com.github.stephenc.javaisotools.loopy.iso9660.ISO9660FileEntry;
-import com.github.stephenc.javaisotools.loopy.iso9660.ISO9660FileSystem;
+import com.github.stephenc.javaisotools.loopfs.iso9660.ISO9660FileEntry;
+import com.github.stephenc.javaisotools.loopfs.iso9660.ISO9660FileSystem;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileName;
