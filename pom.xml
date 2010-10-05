@@ -15,7 +15,7 @@
     <name>Java ISO9660 Tools Parent</name>
 
     <modules>
-        <module>jiic</module>
+        <module>iso9660-writer</module>
         <module>sabre</module>
         <module>loopy</module>
         <module>iso9660-maven-plugin</module>

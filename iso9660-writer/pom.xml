@@ -8,8 +8,8 @@
         <version>1.2.3-SNAPSHOT</version>
     </parent>
 
-    <artifactId>jiic</artifactId>
-    <name>Java ISO Image Creator</name>
+    <artifactId>iso9660-writer</artifactId>
+    <name>Iso9660 Writer</name>
 
     <developers>
         <developer>
@@ -43,7 +43,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.stephenc.java-iso-tools</groupId>
-            <artifactId>loopy-vfs</artifactId>
+            <artifactId>iso9660-vfs-impl</artifactId>
             <version>1.2.3-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>

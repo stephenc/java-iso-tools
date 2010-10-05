@@ -9,7 +9,7 @@
     </parent>
 
     <artifactId>iso9660-maven-plugin</artifactId>
-    <name>ISO9660 Maven Plugin</name>
+    <name>Iso9660 Maven Plugin</name>
     <packaging>maven-plugin</packaging>
 
     <dependencies>
@@ -20,7 +20,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.stephenc.java-iso-tools</groupId>
-            <artifactId>jiic</artifactId>
+            <artifactId>iso9660-writer</artifactId>
             <version>1.2.3-SNAPSHOT</version>
         </dependency>
         <dependency>
