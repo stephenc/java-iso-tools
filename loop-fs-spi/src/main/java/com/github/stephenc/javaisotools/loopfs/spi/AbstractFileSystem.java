@@ -100,20 +100,4 @@ public abstract class AbstractFileSystem<T extends FileEntry> implements FileSys
         return this.channel.read(buffer, offset, length);
     }
 
-    public Iterator<T> iterator() {
-        return new Iterator<T>() {
-            private final Enumeration delegate = getEntries();
-            public boolean hasNext() {
-                return delegate.hasMoreElements();
-            }
-
-            public T next() {
-                return (T) delegate.nextElement();
-            }
-
-            public void remove() {
-                throw new UnsupportedOperationException();
-            }
-        };
-    }
 }

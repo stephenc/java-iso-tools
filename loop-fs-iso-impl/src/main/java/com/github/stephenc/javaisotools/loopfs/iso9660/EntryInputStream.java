@@ -41,7 +41,7 @@ class EntryInputStream extends InputStream {
         this.fileSystem = fileSystem;
         this.entry = entry;
         this.pos = 0;
-        this.rem = entry.getSize();
+        this.rem = (int) entry.getSize();
     }
 
     public int read(final byte b[], final int off, final int len) throws IOException {
@@ -112,7 +112,7 @@ class EntryInputStream extends InputStream {
     public int size() {
         ensureOpen();
 
-        return this.entry.getSize();
+        return (int) this.entry.getSize();
     }
 
     public void close() {

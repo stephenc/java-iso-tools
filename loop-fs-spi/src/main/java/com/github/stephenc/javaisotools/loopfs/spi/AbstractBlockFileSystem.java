@@ -21,6 +21,7 @@ package com.github.stephenc.javaisotools.loopfs.spi;
 import java.io.File;
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.Iterator;
 
 import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
 
@@ -32,7 +33,7 @@ public abstract class AbstractBlockFileSystem<T extends FileEntry> extends Abstr
 
     private final int blockSize;
     private final int reservedBlocks;
-    private VolumeDescriptorSet volumeDescriptorSet;
+    private VolumeDescriptorSet<T> volumeDescriptorSet;
 
     protected AbstractBlockFileSystem(final File file, final boolean readOnly, final int blockSize,
                                       final int reservedBlocks)
@@ -50,7 +51,7 @@ public abstract class AbstractBlockFileSystem<T extends FileEntry> extends Abstr
         this.reservedBlocks = reservedBlocks;
     }
 
-    public Enumeration getEntries() {
+    public Iterator<T> iterator() {
         ensureOpen();
 
         // load the volume descriptors if necessary
@@ -63,7 +64,7 @@ public abstract class AbstractBlockFileSystem<T extends FileEntry> extends Abstr
             }
         }
 
-        return enumerate(this.volumeDescriptorSet.getRootEntry());
+        return iterator(this.volumeDescriptorSet.getRootEntry());
     }
 
     protected void loadVolumeDescriptors() throws IOException {
@@ -119,12 +120,12 @@ public abstract class AbstractBlockFileSystem<T extends FileEntry> extends Abstr
     }
 
     /**
-     * Returns an enumeration of the file entries starting at <code>root</code>.
+     * Returns an iterator of the file entries starting at <code>root</code>.
      */
-    protected abstract Enumeration enumerate(FileEntry root);
+    protected abstract Iterator<T> iterator(T root);
 
     /**
      * Creates the VolumeDescriptorSet that deserializes volume descriptors for this file system.
      */
-    protected abstract VolumeDescriptorSet createVolumeDescriptorSet();
+    protected abstract VolumeDescriptorSet<T> createVolumeDescriptorSet();
 }

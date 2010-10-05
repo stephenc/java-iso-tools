@@ -46,7 +46,7 @@ import org.apache.commons.logging.LogFactory;
  * 1 1          883     0 512        884     reserved for application use (usually zeros) 653        1396    zeroes
  * </pre>
  */
-public class Iso9660VolumeDescriptorSet implements VolumeDescriptorSet {
+public class Iso9660VolumeDescriptorSet implements VolumeDescriptorSet<Iso9660FileEntry> {
 
     public static final int TYPE_BOOTRECORD = 0;
     public static final int TYPE_PRIMARY_DESCRIPTOR = 1;
@@ -286,7 +286,7 @@ public class Iso9660VolumeDescriptorSet implements VolumeDescriptorSet {
         return this.application;
     }
 
-    public FileEntry getRootEntry() {
+    public Iso9660FileEntry getRootEntry() {
         return this.rootDirectoryEntry;
     }
 

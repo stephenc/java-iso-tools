@@ -21,9 +21,8 @@ package com.github.stephenc.javaisotools.loopfs.iso9660;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
+import java.util.Iterator;
 
-import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
 import com.github.stephenc.javaisotools.loopfs.spi.AbstractBlockFileSystem;
 import com.github.stephenc.javaisotools.loopfs.spi.VolumeDescriptorSet;
 
@@ -37,13 +36,13 @@ public class Iso9660FileSystem extends AbstractBlockFileSystem<Iso9660FileEntry>
         return ((Iso9660VolumeDescriptorSet) getVolumeDescriptorSet()).getEncoding();
     }
 
-    public InputStream getInputStream(FileEntry entry) {
+    public InputStream getInputStream(Iso9660FileEntry entry) {
         ensureOpen();
-        return new EntryInputStream((Iso9660FileEntry) entry, this);
+        return new EntryInputStream(entry, this);
     }
 
     byte[] getBytes(Iso9660FileEntry entry) throws IOException {
-        int size = entry.getSize();
+        int size = (int) entry.getSize();
 
         byte[] buf = new byte[size];
 
@@ -58,11 +57,11 @@ public class Iso9660FileSystem extends AbstractBlockFileSystem<Iso9660FileEntry>
         return readData(startPos, buffer, bufferOffset, len);
     }
 
-    protected Enumeration enumerate(FileEntry rootEntry) {
-        return new EntryEnumeration(this, (Iso9660FileEntry) rootEntry);
+    protected Iterator<Iso9660FileEntry> iterator(Iso9660FileEntry rootEntry) {
+        return new EntryIterator(this, rootEntry);
     }
 
-    protected VolumeDescriptorSet createVolumeDescriptorSet() {
+    protected VolumeDescriptorSet<Iso9660FileEntry> createVolumeDescriptorSet() {
         return new Iso9660VolumeDescriptorSet(this);
     }
 }

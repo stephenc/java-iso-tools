@@ -127,7 +127,7 @@ public final class Iso9660FileEntry implements FileEntry {
         return (this.flags & 0x03) != 0;
     }
 
-    public int getSize() {
+    public long getSize() {
         return this.dataLength;
     }
 

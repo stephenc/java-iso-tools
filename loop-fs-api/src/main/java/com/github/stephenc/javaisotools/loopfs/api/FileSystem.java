@@ -18,6 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.github.stephenc.javaisotools.loopfs.api;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
@@ -26,14 +27,7 @@ import java.util.Enumeration;
  * A loopy file system, which is deserialize-only and consists of zero or more entries. The data for each entry can be
  * retrieved using {@link #getInputStream(FileEntry)}.
  */
-public interface FileSystem<T extends FileEntry> extends Iterable<T> {
-
-    /**
-     * Returns an enumeration of the entries within this file system.
-     *
-     * @return an enumeration of the entries within this file system
-     */
-    Enumeration getEntries();
+public interface FileSystem<T extends FileEntry> extends Iterable<T>, Closeable {
 
     /**
      * Returns an input stream that reads the data for the given entry.
@@ -42,15 +36,7 @@ public interface FileSystem<T extends FileEntry> extends Iterable<T> {
      *
      * @return an input stream that reads the contents of the given entry
      */
-    InputStream getInputStream(FileEntry entry);
-
-    /**
-     * Closes this file system. This automatically closes all input streams opened via {@link
-     * FileSystem#getInputStream(FileEntry entry)}.
-     *
-     * @throws IOException if there was an error closing the FileSystem.
-     */
-    void close() throws IOException;
+    InputStream getInputStream(T entry);
 
     /**
      * Returns whether or not this FileSystem has been closed.

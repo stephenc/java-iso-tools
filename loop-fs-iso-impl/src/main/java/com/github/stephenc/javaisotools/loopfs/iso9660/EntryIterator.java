@@ -20,6 +20,7 @@ package com.github.stephenc.javaisotools.loopfs.iso9660;
 
 import java.io.IOException;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -27,30 +28,30 @@ import java.util.NoSuchElementException;
 import com.github.stephenc.javaisotools.loopfs.util.LittleEndian;
 
 /**
- * A breadth-first Enumeration of the entries in a ISO9660 file system.
+ * A breadth-first iterator of the entries in a ISO9660 file system.
  */
-class EntryEnumeration implements Enumeration {
+class EntryIterator implements Iterator<Iso9660FileEntry> {
 
     private final Iso9660FileSystem fileSystem;
-    private final List queue;
+    private final List<Iso9660FileEntry> queue;
 
-    public EntryEnumeration(final Iso9660FileSystem fileSystem, final Iso9660FileEntry rootEntry) {
+    public EntryIterator(final Iso9660FileSystem fileSystem, final Iso9660FileEntry rootEntry) {
         this.fileSystem = fileSystem;
-        this.queue = new LinkedList();
+        this.queue = new LinkedList<Iso9660FileEntry>();
         this.queue.add(rootEntry);
     }
 
-    public boolean hasMoreElements() {
+    public boolean hasNext() {
         return !this.queue.isEmpty();
     }
 
-    public Object nextElement() {
-        if (!hasMoreElements()) {
+    public Iso9660FileEntry next() {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
 
         // pop next entry from the queue
-        final Iso9660FileEntry entry = (Iso9660FileEntry) this.queue.remove(0);
+        final Iso9660FileEntry entry = this.queue.remove(0);
 
         // if the entry is a directory, queue all its children
         if (entry.isDirectory()) {
@@ -90,5 +91,9 @@ class EntryEnumeration implements Enumeration {
         }
 
         return entry;
+    }
+
+    public void remove() {
+        throw new UnsupportedOperationException();
     }
 }

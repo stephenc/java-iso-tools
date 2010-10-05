@@ -56,9 +56,9 @@ public class Iso9660FileSystemTest {
 
     @Test
     public void smokes() throws Exception {
-        FileSystem image = new Iso9660FileSystem(new File(testProperties.getProperty("source-image")), true);
+        Iso9660FileSystem image = new Iso9660FileSystem(new File(testProperties.getProperty("source-image")), true);
         File source = new File(testProperties.getProperty("source-root"));
-        for (FileEntry entry : image) {
+        for (Iso9660FileEntry entry : image) {
             File sourceFile = new File(source, entry.getPath());
             assertThat(sourceFile.isDirectory(), is(entry.isDirectory()));
             if (!sourceFile.isDirectory()) {

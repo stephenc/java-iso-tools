@@ -22,12 +22,13 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
+import java.util.Iterator;
 
 import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
 import com.github.stephenc.javaisotools.loopfs.spi.AbstractBlockFileSystem;
 import com.github.stephenc.javaisotools.loopfs.spi.VolumeDescriptorSet;
 
-public class UDFFileSystem extends AbstractBlockFileSystem {
+public class UDFFileSystem extends AbstractBlockFileSystem<UDFFileEntry> {
 
     public UDFFileSystem(File file, boolean readOnly) throws IOException {
         this(file, readOnly, Constants.DEFAULT_BLOCK_SIZE);
@@ -37,15 +38,15 @@ public class UDFFileSystem extends AbstractBlockFileSystem {
         super(file, readOnly, sectorSize, Constants.RESERVED_SECTORS);
     }
 
-    public InputStream getInputStream(FileEntry entry) {
+    public InputStream getInputStream(UDFFileEntry entry) {
         return null;
     }
 
-    protected Enumeration enumerate(FileEntry root) {
+    protected Iterator<UDFFileEntry> iterator(UDFFileEntry root) {
         return null;
     }
 
-    protected VolumeDescriptorSet createVolumeDescriptorSet() {
+    protected VolumeDescriptorSet<UDFFileEntry> createVolumeDescriptorSet() {
         return new UDFVolumeDescriptorSet(this);
     }
 }

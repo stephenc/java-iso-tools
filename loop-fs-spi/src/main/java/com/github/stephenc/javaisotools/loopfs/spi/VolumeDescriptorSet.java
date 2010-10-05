@@ -25,7 +25,7 @@ import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
 /**
  * Contains all the volume descriptors for a block file system.
  */
-public interface VolumeDescriptorSet {
+public interface VolumeDescriptorSet<T extends FileEntry> {
 
     /**
      * Load a volume descriptor from the specified byte array.
@@ -43,5 +43,5 @@ public interface VolumeDescriptorSet {
      *
      * @return the root file entry for the file system
      */
-    FileEntry getRootEntry();
+    T getRootEntry();
 }

@@ -57,5 +57,5 @@ public interface FileEntry {
      *
      * @return the entry size
      */
-    int getSize();
+    long getSize();
 }
