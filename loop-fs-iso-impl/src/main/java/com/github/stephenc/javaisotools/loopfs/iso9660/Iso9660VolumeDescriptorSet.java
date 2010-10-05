@@ -1,20 +1,21 @@
 /*
-Copyright (C) 2006-2007 loopy project (http://loopy.sourceforge.net)
-
-This library is free software; you can redistribute it and/or
-modify it under the terms of the GNU Lesser General Public
-License as published by the Free Software Foundation; either
-version 2.1 of the License, or (at your option) any later version.
-
-This library is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-Lesser General Public License for more details.
-
-You should have received a copy of the GNU Lesser General Public
-License along with this library; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-*/
+ * Copyright (c) 2010. Stephen Connolly.
+ * Copyright (c) 2006-2007. loopy project (http://loopy.sourceforge.net).
+ *  
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public
+ * License as published by the Free Software Foundation; either
+ * version 2.1 of the License, or (at your option) any later version.
+ *  
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Lesser General Public License for more details.
+ *  
+ * You should have received a copy of the GNU Lesser General Public
+ * License along with this library; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+ */
 
 package com.github.stephenc.javaisotools.loopfs.iso9660;
 
@@ -26,26 +27,6 @@ import com.github.stephenc.javaisotools.loopfs.spi.VolumeDescriptorSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-/**
- * Layout of Primary Volume Descriptor: <pre/> length     pos     contents ---------  ------
- * --------------------------------------------------------- 1          1       volume descriptor type: 1 5          2
- * standard identifier: 67, 68, 48, 48, 49 (CD001) 1          8       0 32         9       system identifier 32 41
- * volume identifier 8          73      zeroes 8          81      total number of blocks, as a both endian double word
- * 32         89      zeroes 4          121     1, as a both endian word [volume set size] 4          125 1, as a both
- * endian word [volume sequence number] 4          129     2048 (the block size), as a both endian word 8 133     path
- * table length in bytes, as a both endian double word 4          141     number of first sector in first little endian
- * path table, as a little endian double word 4          145     number of first sector in second little endian path
- * table, as a little endian double word, or zero if there is no second little endian path table 4 149     number of
- * first sector in first big endian path table, as a big endian double word 4          153 number of first sector in
- * second big endian path table, as a big endian double word, or zero if there is no second big endian path table 34
- *     157     root directory record, as described below 128        191     volume set identifier 128        319
- * publisher identifier 128        447     data preparer identifier 128        575 application identifier 37         703
- *     copyright file identifier 37         740     abstract file identifier 37 777     bibliographical file identifier
- * 17         814     date and time of volume creation 17         831 date and time of most recent modification 17
- *   848     date and time when volume expires 17         865 date and time when volume is effective 1          882
- * 1 1          883     0 512        884     reserved for application use (usually zeros) 653        1396    zeroes
- * </pre>
- */
 public class Iso9660VolumeDescriptorSet implements VolumeDescriptorSet<Iso9660FileEntry> {
 
     public static final int TYPE_BOOTRECORD = 0;
