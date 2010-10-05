@@ -67,7 +67,7 @@ public abstract class AbstractFileSystem<T extends FileEntry> implements FileSys
         }
     }
 
-    public boolean isClosed() {
+    public synchronized boolean isClosed() {
         return (null == this.channel);
     }
 
