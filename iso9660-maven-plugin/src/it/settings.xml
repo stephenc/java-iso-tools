@@ -1,35 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
-    <profiles>
-        <profile>
-            <id>it-repo</id>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-            <repositories>
-                <repository>
-                    <id>central</id>
-                    <url>file:///@localRepository@</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                </repository>
-            </repositories>
-            <pluginRepositories>
-                <pluginRepository>
-                    <id>local.central</id>
-                    <url>file:///@localRepository@</url>
-                    <releases>
-                        <enabled>true</enabled>
-                    </releases>
-                    <snapshots>
-                        <enabled>true</enabled>
-                    </snapshots>
-                </pluginRepository>
-            </pluginRepositories>
-        </profile>
-    </profiles>
+    <mirrors>
+        <mirror>
+            <mirrorOf>*</mirrorOf>
+            <id>localRepository</id>
+            <url>file:///@localRepository@</url>
+        </mirror>
+    </mirrors>
 </settings>
