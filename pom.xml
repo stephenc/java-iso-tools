@@ -57,6 +57,11 @@
         </license>
     </licenses>
 
+    <issueManagement>
+        <system>github</system>
+        <url>http://github.com/stephenc/java-iso-tools/issues</url>
+    </issueManagement>
+    
     <developers>
         <developer>
             <id>stephenc</id>
