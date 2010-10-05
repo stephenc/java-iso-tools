@@ -26,7 +26,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
+import com.github.stephenc.javaisotools.sabre.DataReference;
 
 public class ISO9660ShortDateDataReference implements DataReference {
 

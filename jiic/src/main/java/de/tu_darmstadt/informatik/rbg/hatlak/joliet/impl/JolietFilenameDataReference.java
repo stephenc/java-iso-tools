@@ -26,7 +26,7 @@ import java.io.InputStream;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.FilenameDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660Directory;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660File;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 
 public class JolietFilenameDataReference extends FilenameDataReference {
 

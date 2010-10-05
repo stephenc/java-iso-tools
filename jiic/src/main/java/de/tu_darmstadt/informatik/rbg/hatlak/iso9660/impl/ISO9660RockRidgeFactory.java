@@ -23,6 +23,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
+import com.github.stephenc.javaisotools.sabre.DataReference;
+import com.github.stephenc.javaisotools.sabre.Fixup;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.FilenameDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660Directory;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660File;
@@ -35,10 +38,7 @@ import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RRIPFactory;
 import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeLayoutHelper;
 import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeNamingConventions;
 import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothWordDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Fixup;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
 
 public class ISO9660RockRidgeFactory extends ISO9660Factory {
 

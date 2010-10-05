@@ -25,7 +25,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.Vector;
 
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 
 public class ISO9660Directory implements ISO9660HierarchyObject {
 
@@ -229,7 +229,7 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
      *
      * @return Added directory
      *
-     * @throws HandlerException Not a directory
+     * @throws com.github.stephenc.javaisotools.sabre.HandlerException Not a directory
      */
     public ISO9660Directory addDirectory(File file) throws HandlerException {
         ISO9660Directory dir = new ISO9660Directory(file);
@@ -325,7 +325,7 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
      *
      * @param file File to be added
      *
-     * @throws HandlerException Problems converting to ISO9660File
+     * @throws com.github.stephenc.javaisotools.sabre.HandlerException Problems converting to ISO9660File
      */
     public void addFile(File file) throws HandlerException {
         addFile(new ISO9660File(file));
@@ -337,7 +337,7 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
      * @param pathname File to be added
      * @param version  File version
      *
-     * @throws HandlerException Problems converting to ISO9660File
+     * @throws com.github.stephenc.javaisotools.sabre.HandlerException Problems converting to ISO9660File
      */
     public void addFile(String pathname, int version) throws HandlerException {
         addFile(new ISO9660File(pathname, version));

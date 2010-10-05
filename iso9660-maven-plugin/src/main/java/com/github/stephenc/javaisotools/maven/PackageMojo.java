@@ -3,6 +3,7 @@ package com.github.stephenc.javaisotools.maven;
 import java.io.File;
 import java.io.FileNotFoundException;
 
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ConfigException;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660RootDirectory;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.StandardConfig;
@@ -11,8 +12,7 @@ import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Config;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISOImageFileHandler;
 import de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl.JolietConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeConfig;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;

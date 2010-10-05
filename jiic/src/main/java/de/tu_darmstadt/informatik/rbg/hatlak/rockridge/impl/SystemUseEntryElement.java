@@ -19,7 +19,7 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl;
 
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Element;
+import com.github.stephenc.javaisotools.sabre.Element;
 
 public class SystemUseEntryElement extends Element {
 

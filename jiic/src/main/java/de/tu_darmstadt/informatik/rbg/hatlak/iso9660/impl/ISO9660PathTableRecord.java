@@ -19,15 +19,15 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl;
 
+import com.github.stephenc.javaisotools.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.impl.ByteDataReference;
+import com.github.stephenc.javaisotools.sabre.impl.WordDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.LSBFShortDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.LSBFWordDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Fixup;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ShortDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.WordDataReference;
+import com.github.stephenc.javaisotools.sabre.DataReference;
+import com.github.stephenc.javaisotools.sabre.Fixup;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
+import com.github.stephenc.javaisotools.sabre.impl.ShortDataReference;
 
 public class ISO9660PathTableRecord {
 

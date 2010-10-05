@@ -22,14 +22,14 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl;
 import java.util.Iterator;
 import java.util.Vector;
 
+import com.github.stephenc.javaisotools.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
+import com.github.stephenc.javaisotools.sabre.impl.FileDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660Directory;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660File;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660RootDirectory;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Element;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ChainingStreamHandler;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.FileDataReference;
+import com.github.stephenc.javaisotools.sabre.Element;
+import com.github.stephenc.javaisotools.sabre.impl.ChainingStreamHandler;
 
 public class FileHandler extends ChainingStreamHandler {
 

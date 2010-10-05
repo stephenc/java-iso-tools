@@ -21,13 +21,13 @@ package de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl;
 
 import java.util.HashMap;
 
+import com.github.stephenc.javaisotools.sabre.DataReference;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothWordDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.EmptyByteArrayDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Fixup;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteDataReference;
+import com.github.stephenc.javaisotools.sabre.Fixup;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
+import com.github.stephenc.javaisotools.sabre.impl.ByteDataReference;
 
 public class SUSPFactory {
 

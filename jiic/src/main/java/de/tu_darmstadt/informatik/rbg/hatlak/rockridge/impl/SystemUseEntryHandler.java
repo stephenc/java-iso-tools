@@ -21,15 +21,15 @@ package de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl;
 
 import java.util.Stack;
 
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.ContentHandler;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Element;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Fixup;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StructureHandler;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteArrayDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ChainingStreamHandler;
+import com.github.stephenc.javaisotools.sabre.ContentHandler;
+import com.github.stephenc.javaisotools.sabre.DataReference;
+import com.github.stephenc.javaisotools.sabre.Element;
+import com.github.stephenc.javaisotools.sabre.Fixup;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.impl.ByteDataReference;
+import com.github.stephenc.javaisotools.sabre.impl.ChainingStreamHandler;
+import com.github.stephenc.javaisotools.sabre.StructureHandler;
+import com.github.stephenc.javaisotools.sabre.impl.ByteArrayDataReference;
 
 public class SystemUseEntryHandler extends ChainingStreamHandler {
 

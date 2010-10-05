@@ -19,9 +19,9 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660;
 
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Constants;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
 
 public abstract class LayoutHelper {
 

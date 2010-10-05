@@ -22,6 +22,9 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl;
 import java.util.HashMap;
 import java.util.Stack;
 
+import com.github.stephenc.javaisotools.sabre.Element;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660RootDirectory;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.LayoutHelper;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.StandardHandler;
@@ -29,10 +32,7 @@ import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.volumedescriptors.PrimaryVo
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.volumedescriptors.VolumeDescriptorSetTerminator;
 import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothWordDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Element;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Fixup;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
+import com.github.stephenc.javaisotools.sabre.Fixup;
 
 public class ISO9660Handler extends StandardHandler {
 

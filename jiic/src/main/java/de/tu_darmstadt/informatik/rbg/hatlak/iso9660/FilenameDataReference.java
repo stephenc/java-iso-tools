@@ -22,8 +22,8 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660;
 import java.io.IOException;
 import java.io.InputStream;
 
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.DataReference;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 
 public abstract class FilenameDataReference implements DataReference {
 

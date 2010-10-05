@@ -23,7 +23,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
+import com.github.stephenc.javaisotools.sabre.DataReference;
 
 public class BothShortDataReference implements DataReference {
 

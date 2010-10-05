@@ -28,11 +28,11 @@ import java.util.Properties;
 import org.junit.*;
 import org.hamcrest.*;
 
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660Directory;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660RootDirectory;
 import de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl.JolietConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeConfig;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileType;

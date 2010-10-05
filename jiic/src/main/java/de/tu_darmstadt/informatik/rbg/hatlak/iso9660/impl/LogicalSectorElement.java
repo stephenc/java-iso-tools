@@ -19,7 +19,7 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl;
 
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Element;
+import com.github.stephenc.javaisotools.sabre.Element;
 
 public class LogicalSectorElement extends Element {
 

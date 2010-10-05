@@ -21,9 +21,9 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660;
 
 import java.util.Iterator;
 
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ChainingStreamHandler;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
+import com.github.stephenc.javaisotools.sabre.impl.ChainingStreamHandler;
 
 public class StandardHandler extends ChainingStreamHandler {
 

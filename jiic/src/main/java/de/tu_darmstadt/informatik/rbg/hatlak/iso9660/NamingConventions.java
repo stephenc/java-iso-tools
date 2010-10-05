@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Vector;
 
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 
 public abstract class NamingConventions {
 

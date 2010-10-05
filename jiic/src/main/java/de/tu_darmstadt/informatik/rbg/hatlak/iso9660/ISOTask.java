@@ -24,13 +24,13 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
 
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 import de.tu_darmstadt.informatik.rbg.hatlak.eltorito.impl.ElToritoConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.CreateISO;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Config;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISOImageFileHandler;
 import de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl.JolietConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeConfig;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.taskdefs.MatchingTask;

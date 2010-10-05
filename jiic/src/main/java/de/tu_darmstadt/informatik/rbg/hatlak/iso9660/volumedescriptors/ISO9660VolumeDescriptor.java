@@ -19,11 +19,11 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.volumedescriptors;
 
+import com.github.stephenc.javaisotools.sabre.impl.ByteArrayDataReference;
+import com.github.stephenc.javaisotools.sabre.impl.ByteDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.LayoutHelper;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Constants;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteArrayDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteDataReference;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
 
 public abstract class ISO9660VolumeDescriptor {
 

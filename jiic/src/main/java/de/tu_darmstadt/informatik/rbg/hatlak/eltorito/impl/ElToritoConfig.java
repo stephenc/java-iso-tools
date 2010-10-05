@@ -24,7 +24,7 @@ import java.io.File;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.BootConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ConfigException;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660File;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 
 public class ElToritoConfig extends BootConfig {
 

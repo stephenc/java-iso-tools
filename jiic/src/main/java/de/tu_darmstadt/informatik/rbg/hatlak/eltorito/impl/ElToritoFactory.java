@@ -19,15 +19,15 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.eltorito.impl;
 
+import com.github.stephenc.javaisotools.sabre.Fixup;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
+import com.github.stephenc.javaisotools.sabre.impl.ByteArrayDataReference;
+import com.github.stephenc.javaisotools.sabre.impl.ByteDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.EmptyByteArrayDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.LSBFShortDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.LSBFWordDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.DataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Fixup;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteArrayDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteDataReference;
+import com.github.stephenc.javaisotools.sabre.DataReference;
 
 public class ElToritoFactory {
 

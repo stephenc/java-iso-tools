@@ -23,8 +23,8 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Constants;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
 
 /**
  * Note: this class has a natural ordering that is inconsistent with equals.

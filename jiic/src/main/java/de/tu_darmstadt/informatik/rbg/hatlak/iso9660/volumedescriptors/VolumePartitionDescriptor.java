@@ -21,15 +21,15 @@ package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.volumedescriptors;
 
 import java.util.HashMap;
 
+import com.github.stephenc.javaisotools.sabre.Fixup;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
+import com.github.stephenc.javaisotools.sabre.impl.ByteArrayDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.LayoutHelper;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.PartitionConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Constants;
 import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothWordDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Fixup;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteArrayDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ByteDataReference;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.impl.ByteDataReference;
 
 public class VolumePartitionDescriptor extends ISO9660VolumeDescriptor {
 

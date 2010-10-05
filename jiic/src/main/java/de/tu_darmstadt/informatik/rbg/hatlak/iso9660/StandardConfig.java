@@ -23,7 +23,7 @@ import java.io.File;
 import java.util.Date;
 import java.util.Vector;
 
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 
 public abstract class StandardConfig {
 

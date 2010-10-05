@@ -19,10 +19,10 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.iso9660.volumedescriptors;
 
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.LayoutHelper;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Constants;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 
 public class VolumeDescriptorSetTerminator extends ISO9660VolumeDescriptor {
 

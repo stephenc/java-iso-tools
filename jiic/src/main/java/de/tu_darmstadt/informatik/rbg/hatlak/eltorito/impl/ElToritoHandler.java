@@ -26,6 +26,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 
+import com.github.stephenc.javaisotools.sabre.Element;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.impl.ChainingStreamHandler;
+import com.github.stephenc.javaisotools.sabre.impl.FileDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660File;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.LayoutHelper;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Constants;
@@ -33,12 +37,8 @@ import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660Element;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.LogicalSectorElement;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.volumedescriptors.BootRecord;
 import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.LSBFWordDataReference;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Element;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.Fixup;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.StreamHandler;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.ChainingStreamHandler;
-import de.tu_darmstadt.informatik.rbg.mhartle.sabre.impl.FileDataReference;
+import com.github.stephenc.javaisotools.sabre.Fixup;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
 
 public class ElToritoHandler extends ChainingStreamHandler {
 
