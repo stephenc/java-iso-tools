@@ -1,7 +1,7 @@
 <providers>
-    <provider class-name="net.didion.loopy.vfs.provider.iso.IsoFileProvider">
+    <provider class-name="com.github.stephenc.javaisotools.loopy.vfs.provider.iso.IsoFileProvider">
         <scheme name="iso"/>
-        <if-available class-name="net.didion.loopy.iso9660.ISO9660FileSystem"/>
+        <if-available class-name="com.github.stephenc.javaisotools.loopy.iso9660.ISO9660FileSystem"/>
     </provider>
     <extension-map extension="iso" scheme="iso"/>
     <mime-type-map mime-type="application/x-iso9660-image" scheme="iso"/>
