@@ -5,8 +5,7 @@
 <property name="kernelversion" value="2.6.20"/>
 
 <taskdef name="iso"
-	classname="de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISOTask"
-	classpath="sabre.jar:iso9660.jar"
+	classname="ISOTaskasspath="sabre.jar:iso9660.jar"
 />
 <!--
 <iso

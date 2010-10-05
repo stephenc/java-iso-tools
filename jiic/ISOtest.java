@@ -19,9 +19,14 @@
 
 import java.io.*;
 
+import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
+import com.github.stephenc.javaisotools.iso9660.ISO9660File;
+import com.github.stephenc.javaisotools.iso9660.ISO9660RootDirectory;
+import com.github.stephenc.javaisotools.iso9660.impl.CreateISO;
+import com.github.stephenc.javaisotools.iso9660.impl.ISO9660Config;
+import com.github.stephenc.javaisotools.iso9660.impl.ISOImageFileHandler;
 import com.github.stephenc.javaisotools.sabre.StreamHandler;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.*;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.*;
 import de.tu_darmstadt.informatik.rbg.hatlak.eltorito.impl.ElToritoConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl.JolietConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeConfig;

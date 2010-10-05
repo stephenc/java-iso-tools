@@ -19,9 +19,9 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl;
 
+import com.github.stephenc.javaisotools.iso9660.ConfigException;
 import com.github.stephenc.javaisotools.sabre.impl.ByteArrayDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ConfigException;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.StandardConfig;
+import com.github.stephenc.javaisotools.iso9660.StandardConfig;
 
 public class JolietConfig extends StandardConfig {
 

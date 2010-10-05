@@ -17,32 +17,20 @@
  *
  */
 
-package de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl;
+package com.github.stephenc.javaisotools.iso9660.impl;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
-import com.github.stephenc.javaisotools.iso9660.FilenameDataReference;
 import com.github.stephenc.javaisotools.iso9660.ISO9660File;
-import com.github.stephenc.javaisotools.sabre.HandlerException;
 
-public class JolietFilenameDataReference extends FilenameDataReference {
+public class FileElement extends LogicalSectorElement {
 
-    public JolietFilenameDataReference(ISO9660Directory dir) throws HandlerException {
-        super(dir);
+    private ISO9660File file;
+
+    public FileElement(ISO9660File file) {
+        super("FILE");
+        this.file = file;
     }
 
-    public JolietFilenameDataReference(ISO9660File file) throws HandlerException {
-        super(file);
-    }
-
-    public long getLength() {
-        return getName().length() * 2;
-    }
-
-    public InputStream createInputStream() throws IOException {
-        return new ByteArrayInputStream(getName().getBytes("UTF-16BE")); // UCS-2
+    public ISO9660File getFile() {
+        return file;
     }
 }

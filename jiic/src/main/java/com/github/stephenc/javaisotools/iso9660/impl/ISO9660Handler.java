@@ -17,50 +17,59 @@
  *
  */
 
-package de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl;
+package com.github.stephenc.javaisotools.iso9660.impl;
 
 import java.util.HashMap;
+import java.util.Stack;
 
 import com.github.stephenc.javaisotools.iso9660.ISO9660RootDirectory;
-import com.github.stephenc.javaisotools.iso9660.StandardHandler;
-import com.github.stephenc.javaisotools.iso9660.impl.FileElement;
-import com.github.stephenc.javaisotools.iso9660.volumedescriptors.SupplementaryVolumeDescriptor;
-import com.github.stephenc.javaisotools.sabre.Element;
-import com.github.stephenc.javaisotools.sabre.Fixup;
-import com.github.stephenc.javaisotools.sabre.StreamHandler;
-import com.github.stephenc.javaisotools.sabre.impl.ByteDataReference;
 import com.github.stephenc.javaisotools.iso9660.LayoutHelper;
-import com.github.stephenc.javaisotools.iso9660.impl.ISO9660Constants;
-import com.github.stephenc.javaisotools.iso9660.impl.ISO9660Element;
-import com.github.stephenc.javaisotools.iso9660.impl.ISO9660Factory;
-import com.github.stephenc.javaisotools.iso9660.impl.LogicalSectorElement;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothWordDataReference;
+import com.github.stephenc.javaisotools.iso9660.StandardHandler;
+import com.github.stephenc.javaisotools.iso9660.volumedescriptors.PrimaryVolumeDescriptor;
+import com.github.stephenc.javaisotools.iso9660.volumedescriptors.VolumeDescriptorSetTerminator;
+import com.github.stephenc.javaisotools.sabre.Element;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
+import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeConfig;
+import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothWordDataReference;
+import com.github.stephenc.javaisotools.sabre.Fixup;
 
-public class JolietHandler extends StandardHandler {
+public class ISO9660Handler extends StandardHandler {
 
-    private JolietConfig config;
+    private Stack elements;
+    private ISO9660Config config;
     private LayoutHelper helper;
     private HashMap volumeFixups;
     private ISO9660Factory factory;
 
-    public JolietHandler(StreamHandler streamHandler, ISO9660RootDirectory root, JolietConfig config)
-            throws HandlerException {
+    public ISO9660Handler(StreamHandler streamHandler, ISO9660RootDirectory root, ISO9660Config config,
+                          RockRidgeConfig rrConfig) throws HandlerException {
         super(streamHandler, root, config);
+        this.elements = new Stack();
         this.config = config;
         this.volumeFixups = new HashMap();
 
         checkMetadataFiles();
 
-        // Use a copy of the original root for Joliet
-        ISO9660RootDirectory jolietRoot = (ISO9660RootDirectory) root.clone();
-        this.helper = new JolietLayoutHelper(this, jolietRoot);
-        this.factory = new ISO9660Factory(this, config, helper, jolietRoot, volumeFixups);
+        // Use a copy of the original root for ISO 9660
+        ISO9660RootDirectory isoRoot = (ISO9660RootDirectory) root.clone();
+        this.helper = new ISO9660LayoutHelper(this, isoRoot);
+
+        if (rrConfig != null) {
+            this.factory = new ISO9660RockRidgeFactory(this, config, helper, root, isoRoot, volumeFixups);
+        } else {
+            this.factory = new ISO9660Factory(this, config, helper, isoRoot, volumeFixups);
+        }
+
+        if (config.dirDepthRestrictedTo8()) {
+            factory.relocateDirectories();
+        }
 
         factory.applyNamingConventions();
     }
 
     public void startElement(Element element) throws HandlerException {
+        elements.push(element);
         if (element instanceof ISO9660Element) {
             String id = (String) element.getId();
             process(id);
@@ -73,7 +82,7 @@ public class JolietHandler extends StandardHandler {
 
     private void process(String id) throws HandlerException {
         if (id.equals("VDS")) {
-            doSVD();
+            doPVD();
         } else if (id.equals("PTA")) {
             factory.doPT(ISO9660Constants.TYPE_L_PT);
             factory.doPT(ISO9660Constants.TYPE_M_PT);
@@ -82,29 +91,39 @@ public class JolietHandler extends StandardHandler {
         }
     }
 
-    private void doSVD() throws HandlerException {
-        super.startElement(new LogicalSectorElement("SVD"));
+    private void doPVD() throws HandlerException {
+        super.startElement(new LogicalSectorElement("PVD"));
 
-        SupplementaryVolumeDescriptor svd = new SupplementaryVolumeDescriptor(this, helper);
-        svd.setMetadata(config);
-        volumeFixups.putAll(svd.doSVD());
-
-        // Set Volume Flags to 0 (Unused Field)
-        Fixup volumeFlags = (Fixup) volumeFixups.get("volumeFlagsFixup");
-        volumeFlags.data(new ByteDataReference(0));
-        volumeFlags.close();
-        volumeFixups.remove("volumeFlagsFixup");
-
-        // Set Escape Sequences for UCS-2 level
-        Fixup escapeSequences = (Fixup) volumeFixups.get("escapeSequencesFixup");
-        escapeSequences.data(config.getUCS2LevelEscapeSequence());
-        escapeSequences.close();
-        volumeFixups.remove("escapeSequencesFixup");
+        PrimaryVolumeDescriptor pvd = new PrimaryVolumeDescriptor(this, helper);
+        pvd.setMetadata(config);
+        volumeFixups.putAll(pvd.doPVD());
 
         super.endElement();
     }
 
+    public void endElement() throws HandlerException {
+        Element element = (Element) elements.pop();
+        if (element instanceof ISO9660Element) {
+            String id = (String) element.getId();
+            if (id.equals("VDS")) {
+                // Add VDST
+                doVDST();
+            }
+        }
+        super.endElement();
+    }
+
+    private void doVDST() throws HandlerException {
+        super.startElement(new LogicalSectorElement("VDST"));
+        VolumeDescriptorSetTerminator vdst = new VolumeDescriptorSetTerminator(this, helper);
+        vdst.doVDST();
+        super.endElement();
+    }
+
     public void endDocument() throws HandlerException {
+        // Write and close Empty File Fixups
+        factory.doEmptyFileFixups();
+
         // Write and close Volume Space Size Fixup
         Fixup volumeSpaceSizeFixup = (Fixup) volumeFixups.get("volumeSpaceSizeFixup");
         volumeSpaceSizeFixup.data(new BothWordDataReference(helper.getCurrentLocation()));

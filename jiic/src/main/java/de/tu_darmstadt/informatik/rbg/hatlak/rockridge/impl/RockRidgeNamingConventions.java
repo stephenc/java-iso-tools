@@ -21,9 +21,9 @@ package de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl;
 
 import java.util.Vector;
 
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660Directory;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660File;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.NamingConventions;
+import com.github.stephenc.javaisotools.iso9660.ISO9660File;
+import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
+import com.github.stephenc.javaisotools.iso9660.NamingConventions;
 
 public class RockRidgeNamingConventions extends NamingConventions {
 

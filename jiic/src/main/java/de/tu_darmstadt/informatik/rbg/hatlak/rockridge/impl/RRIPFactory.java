@@ -19,12 +19,12 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl;
 
+import com.github.stephenc.javaisotools.iso9660.impl.ISO9660ShortDateDataReference;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
 import com.github.stephenc.javaisotools.sabre.StreamHandler;
 import com.github.stephenc.javaisotools.sabre.impl.ByteArrayDataReference;
 import com.github.stephenc.javaisotools.sabre.impl.ByteDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660DateDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.impl.ISO9660ShortDateDataReference;
+import com.github.stephenc.javaisotools.iso9660.impl.ISO9660DateDataReference;
 import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothWordDataReference;
 import com.github.stephenc.javaisotools.sabre.DataReference;
 import com.github.stephenc.javaisotools.sabre.Fixup;

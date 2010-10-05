@@ -1,20 +1,34 @@
-package com.github.stephenc.javaisotools.ant;
+/*
+ *  JIIC: Java ISO Image Creator. Copyright (C) 2007-2009, Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
+ *
+ *  This library is free software; you can redistribute it and/or
+ *  modify it under the terms of the GNU Lesser General Public
+ *  License as published by the Free Software Foundation; either
+ *  version 2.1 of the License, or (at your option) any later version.
+ *
+ *  This library is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *  Lesser General Public License for more details.
+ *
+ *  You should have received a copy of the GNU Lesser General Public
+ *  License along with this library; if not, write to the Free Software
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+ *
+ */
+
+package com.github.stephenc.javaisotools.iso9660;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Vector;
 
-import com.github.stephenc.javaisotools.iso9660.ConfigException;
-import com.github.stephenc.javaisotools.iso9660.ISO9660RootDirectory;
-import com.github.stephenc.javaisotools.iso9660.ISOFileSet;
 import com.github.stephenc.javaisotools.iso9660.impl.CreateISO;
 import com.github.stephenc.javaisotools.iso9660.impl.ISO9660Config;
 import com.github.stephenc.javaisotools.iso9660.impl.ISOImageFileHandler;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
 import de.tu_darmstadt.informatik.rbg.hatlak.eltorito.impl.ElToritoConfig;
-import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
-import com.github.stephenc.javaisotools.iso9660.NamingConventions;
 import de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl.JolietConfig;
 import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeConfig;
 import org.apache.tools.ant.BuildException;
@@ -22,41 +36,17 @@ import org.apache.tools.ant.DirectoryScanner;
 import org.apache.tools.ant.taskdefs.MatchingTask;
 import org.apache.tools.ant.types.FileSet;
 
-/**
- * Created by IntelliJ IDEA.
- *
- * @author connollys
- * @since Oct 1, 2010 3:30:13 PM
- */
-public class IsoTask extends MatchingTask {
+public class ISOTask extends MatchingTask {
 
-    private File baseDir;
-    private File destFile;
-    private File bootImage;
+    private File baseDir, destFile, bootImage;
     private Vector filesets;
-    private String name;
-    private String system;
-    private String publisher;
-    private String dataPreparer;
-    private String copyrightFile;
-    private String bootImageID;
-    private String bootImageEmulation;
-    private String bootImagePlatformID;
-    private String movedDirectoriesStoreName;
-    private boolean allowASCII;
-    private boolean restrictDirDepthTo8;
-    private boolean forceDotDelimiter;
-    private boolean mkisofsCompatibility;
-    private boolean forcePortableFilenameCharacterSet;
-    private boolean enableJoliet;
-    private boolean enableRockRidge;
-    private boolean hideMovedDirectoriesStore;
-    private boolean verbose;
-    private boolean genBootInfoTable;
-    private boolean padEnd;
-    private int interchangeLevel;
-    private int bootImageSectorCount;
-    private int bootImageLoadSegment;
+    private String name, system, publisher, dataPreparer, copyrightFile, bootImageID,
+            bootImageEmulation, bootImagePlatformID, movedDirectoriesStoreName;
+    private boolean allowASCII, restrictDirDepthTo8, forceDotDelimiter,
+            mkisofsCompatibility, forcePortableFilenameCharacterSet,
+            enableJoliet, enableRockRidge, hideMovedDirectoriesStore, verbose,
+            genBootInfoTable, padEnd;
+    private int interchangeLevel, bootImageSectorCount, bootImageLoadSegment;
 
     public void init() {
         baseDir = destFile = bootImage = null;
@@ -387,5 +377,4 @@ public class IsoTask extends MatchingTask {
     public void setPadEnd(boolean padEnd) {
         this.padEnd = padEnd;
     }
-
 }

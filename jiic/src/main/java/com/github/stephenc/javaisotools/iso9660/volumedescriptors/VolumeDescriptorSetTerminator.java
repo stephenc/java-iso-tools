@@ -17,32 +17,27 @@
  *
  */
 
-package de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl;
+package com.github.stephenc.javaisotools.iso9660.volumedescriptors;
 
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
-import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
-import com.github.stephenc.javaisotools.iso9660.FilenameDataReference;
-import com.github.stephenc.javaisotools.iso9660.ISO9660File;
+import com.github.stephenc.javaisotools.iso9660.LayoutHelper;
+import com.github.stephenc.javaisotools.iso9660.impl.ISO9660Constants;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
 
-public class JolietFilenameDataReference extends FilenameDataReference {
+public class VolumeDescriptorSetTerminator extends ISO9660VolumeDescriptor {
 
-    public JolietFilenameDataReference(ISO9660Directory dir) throws HandlerException {
-        super(dir);
+    public VolumeDescriptorSetTerminator(StreamHandler streamHandler, LayoutHelper helper) {
+        super(streamHandler, ISO9660Constants.VDST_TYPE, helper);
     }
 
-    public JolietFilenameDataReference(ISO9660File file) throws HandlerException {
-        super(file);
-    }
+    public void doVDST() throws HandlerException {
+        // Volume Descriptor Type: Primary
+        streamHandler.data(getType());
 
-    public long getLength() {
-        return getName().length() * 2;
-    }
+        // Standard Identifier
+        streamHandler.data(getStandardId());
 
-    public InputStream createInputStream() throws IOException {
-        return new ByteArrayInputStream(getName().getBytes("UTF-16BE")); // UCS-2
+        // Volume Descriptor Version
+        streamHandler.data(getVDVersion());
     }
 }

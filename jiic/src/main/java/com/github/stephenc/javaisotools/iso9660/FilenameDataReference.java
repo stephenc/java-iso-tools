@@ -17,32 +17,39 @@
  *
  */
 
-package de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl;
+package com.github.stephenc.javaisotools.iso9660;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
-import com.github.stephenc.javaisotools.iso9660.FilenameDataReference;
-import com.github.stephenc.javaisotools.iso9660.ISO9660File;
+import com.github.stephenc.javaisotools.sabre.DataReference;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
 
-public class JolietFilenameDataReference extends FilenameDataReference {
+public abstract class FilenameDataReference implements DataReference {
 
-    public JolietFilenameDataReference(ISO9660Directory dir) throws HandlerException {
-        super(dir);
+    private String name;
+
+    public FilenameDataReference(ISO9660Directory dir) throws HandlerException {
+        setName(dir.getName());
     }
 
-    public JolietFilenameDataReference(ISO9660File file) throws HandlerException {
-        super(file);
+    public FilenameDataReference(ISO9660File file) throws HandlerException {
+        setName(file.getFullName());
     }
 
-    public long getLength() {
-        return getName().length() * 2;
+    public FilenameDataReference(String name) {
+        setName(name);
     }
 
-    public InputStream createInputStream() throws IOException {
-        return new ByteArrayInputStream(getName().getBytes("UTF-16BE")); // UCS-2
+    public void setName(String name) {
+        this.name = name;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public abstract long getLength();
+
+    public abstract InputStream createInputStream() throws IOException;
 }

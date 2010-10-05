@@ -22,9 +22,9 @@ package de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl;
 import java.util.Vector;
 
 import com.github.stephenc.javaisotools.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660Directory;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660File;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.NamingConventions;
+import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
+import com.github.stephenc.javaisotools.iso9660.ISO9660File;
+import com.github.stephenc.javaisotools.iso9660.NamingConventions;
 
 public class JolietNamingConventions extends NamingConventions {
 

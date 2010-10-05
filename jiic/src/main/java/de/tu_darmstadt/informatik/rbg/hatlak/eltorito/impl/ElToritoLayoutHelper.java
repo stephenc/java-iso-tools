@@ -21,12 +21,12 @@ package de.tu_darmstadt.informatik.rbg.hatlak.eltorito.impl;
 
 import java.io.UnsupportedEncodingException;
 
+import com.github.stephenc.javaisotools.iso9660.FilenameDataReference;
+import com.github.stephenc.javaisotools.iso9660.LayoutHelper;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
 import com.github.stephenc.javaisotools.sabre.StreamHandler;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.FilenameDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660Directory;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ISO9660File;
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.LayoutHelper;
+import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
+import com.github.stephenc.javaisotools.iso9660.ISO9660File;
 
 public class ElToritoLayoutHelper extends LayoutHelper {
 

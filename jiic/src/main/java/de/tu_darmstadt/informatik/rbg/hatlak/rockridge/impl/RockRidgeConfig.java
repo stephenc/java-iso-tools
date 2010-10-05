@@ -19,7 +19,7 @@
 
 package de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl;
 
-import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.ConfigException;
+import com.github.stephenc.javaisotools.iso9660.ConfigException;
 
 public class RockRidgeConfig {
 
@@ -54,7 +54,7 @@ public class RockRidgeConfig {
      *
      * @param length Maximum amount of characters
      *
-     * @throws ConfigException Invalid length
+     * @throws com.github.stephenc.javaisotools.iso9660.ConfigException Invalid length
      */
     public void setMaxFilenameLength(int length) throws ConfigException {
         if (length < 0) {

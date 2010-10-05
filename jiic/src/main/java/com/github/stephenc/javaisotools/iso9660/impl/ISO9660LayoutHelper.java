@@ -17,30 +17,30 @@
  *
  */
 
-package de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl;
+package com.github.stephenc.javaisotools.iso9660.impl;
 
 import java.io.UnsupportedEncodingException;
 
-import com.github.stephenc.javaisotools.iso9660.ISO9660RootDirectory;
-import com.github.stephenc.javaisotools.sabre.HandlerException;
-import com.github.stephenc.javaisotools.sabre.StreamHandler;
 import com.github.stephenc.javaisotools.iso9660.FilenameDataReference;
 import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
 import com.github.stephenc.javaisotools.iso9660.ISO9660File;
 import com.github.stephenc.javaisotools.iso9660.LayoutHelper;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
+import com.github.stephenc.javaisotools.iso9660.ISO9660RootDirectory;
+import com.github.stephenc.javaisotools.sabre.StreamHandler;
 
-public class JolietLayoutHelper extends LayoutHelper {
+public class ISO9660LayoutHelper extends LayoutHelper {
 
-    public JolietLayoutHelper(StreamHandler streamHandler, ISO9660RootDirectory root) {
-        super(streamHandler, root, new JolietNamingConventions());
+    public ISO9660LayoutHelper(StreamHandler streamHandler, ISO9660RootDirectory root) {
+        super(streamHandler, root, new ISO9660NamingConventions());
     }
 
     public FilenameDataReference getFilenameDataReference(ISO9660Directory dir) throws HandlerException {
-        return new JolietFilenameDataReference(dir);
+        return new ISO9660FilenameDataReference(dir);
     }
 
     public FilenameDataReference getFilenameDataReference(ISO9660File file) throws HandlerException {
-        return new JolietFilenameDataReference(file);
+        return new ISO9660FilenameDataReference(file);
     }
 
     public byte[] pad(String string, int targetByteLength) throws HandlerException {
@@ -50,20 +50,15 @@ public class JolietLayoutHelper extends LayoutHelper {
 
         try {
             if (string != null) {
-                original = string.getBytes("UTF-16BE"); // UCS-2
+                original = string.getBytes("ISO-8859-1"); // ISO Latin 1
                 length = original.length;
             }
             for (int i = 0; i < length; i++) {
                 bytes[i] = original[i];
             }
             for (int i = length; i < bytes.length; i++) {
-                bytes[i] = 0;
-                i++;
-                if (i < bytes.length) {
-                    bytes[i] = 0x20;
-                }
+                bytes[i] = 0x20;
             }
-            bytes[bytes.length - 1] = 0; // Zero-terminate String
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
