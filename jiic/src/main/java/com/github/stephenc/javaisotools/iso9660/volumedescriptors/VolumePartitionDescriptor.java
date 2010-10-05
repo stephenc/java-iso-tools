@@ -24,10 +24,10 @@ import java.util.HashMap;
 import com.github.stephenc.javaisotools.iso9660.LayoutHelper;
 import com.github.stephenc.javaisotools.iso9660.PartitionConfig;
 import com.github.stephenc.javaisotools.iso9660.impl.ISO9660Constants;
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.BothWordDataReference;
 import com.github.stephenc.javaisotools.sabre.Fixup;
 import com.github.stephenc.javaisotools.sabre.StreamHandler;
 import com.github.stephenc.javaisotools.sabre.impl.ByteArrayDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothWordDataReference;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
 import com.github.stephenc.javaisotools.sabre.impl.ByteDataReference;
 

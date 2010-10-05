@@ -30,14 +30,14 @@ import com.github.stephenc.javaisotools.iso9660.ISO9660RootDirectory;
 import com.github.stephenc.javaisotools.iso9660.LayoutHelper;
 import com.github.stephenc.javaisotools.iso9660.NamingConventions;
 import com.github.stephenc.javaisotools.iso9660.StandardConfig;
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.BothWordDataReference;
+import com.github.stephenc.javaisotools.rockridge.impl.POSIXFileMode;
+import com.github.stephenc.javaisotools.rockridge.impl.RRIPFactory;
 import com.github.stephenc.javaisotools.sabre.DataReference;
 import com.github.stephenc.javaisotools.sabre.Fixup;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.POSIXFileMode;
-import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RRIPFactory;
-import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeLayoutHelper;
-import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeNamingConventions;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothWordDataReference;
+import com.github.stephenc.javaisotools.rockridge.impl.RockRidgeLayoutHelper;
+import com.github.stephenc.javaisotools.rockridge.impl.RockRidgeNamingConventions;
 import com.github.stephenc.javaisotools.sabre.StreamHandler;
 
 public class ISO9660RockRidgeFactory extends ISO9660Factory {

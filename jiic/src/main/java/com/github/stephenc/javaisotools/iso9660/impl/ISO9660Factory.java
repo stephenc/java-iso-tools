@@ -30,14 +30,14 @@ import com.github.stephenc.javaisotools.iso9660.ISO9660RootDirectory;
 import com.github.stephenc.javaisotools.iso9660.LayoutHelper;
 import com.github.stephenc.javaisotools.iso9660.NamingConventions;
 import com.github.stephenc.javaisotools.iso9660.StandardConfig;
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.BothWordDataReference;
 import com.github.stephenc.javaisotools.sabre.DataReference;
 import com.github.stephenc.javaisotools.sabre.Fixup;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
 import com.github.stephenc.javaisotools.sabre.StreamHandler;
 import com.github.stephenc.javaisotools.sabre.impl.WordDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothWordDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.EmptyByteArrayDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.LSBFWordDataReference;
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.EmptyByteArrayDataReference;
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.LSBFWordDataReference;
 import com.github.stephenc.javaisotools.sabre.impl.ByteDataReference;
 
 public class ISO9660Factory {

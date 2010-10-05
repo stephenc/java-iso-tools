@@ -21,11 +21,11 @@ package com.github.stephenc.javaisotools.iso9660.impl;
 
 import java.util.Stack;
 
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.EmptyByteArrayDataReference;
 import com.github.stephenc.javaisotools.sabre.ContentHandler;
 import com.github.stephenc.javaisotools.sabre.DataReference;
 import com.github.stephenc.javaisotools.sabre.Element;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.EmptyByteArrayDataReference;
 import com.github.stephenc.javaisotools.sabre.Fixup;
 import com.github.stephenc.javaisotools.sabre.StructureHandler;
 import com.github.stephenc.javaisotools.sabre.impl.ChainingStreamHandler;

@@ -29,8 +29,8 @@ import com.github.stephenc.javaisotools.sabre.Fixup;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
 import com.github.stephenc.javaisotools.sabre.StreamHandler;
 import com.github.stephenc.javaisotools.sabre.impl.ByteDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothShortDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothWordDataReference;
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.BothShortDataReference;
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.BothWordDataReference;
 import com.github.stephenc.javaisotools.sabre.DataReference;
 
 public class ISO9660DirectoryRecord {

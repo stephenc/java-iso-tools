@@ -19,11 +19,11 @@
 
 package com.github.stephenc.javaisotools.iso9660.impl;
 
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.LSBFShortDataReference;
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.LSBFWordDataReference;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
 import com.github.stephenc.javaisotools.sabre.impl.ByteDataReference;
 import com.github.stephenc.javaisotools.sabre.impl.WordDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.LSBFShortDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.LSBFWordDataReference;
 import com.github.stephenc.javaisotools.sabre.DataReference;
 import com.github.stephenc.javaisotools.sabre.Fixup;
 import com.github.stephenc.javaisotools.sabre.StreamHandler;

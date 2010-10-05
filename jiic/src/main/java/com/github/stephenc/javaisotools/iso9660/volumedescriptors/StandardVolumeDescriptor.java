@@ -28,6 +28,8 @@ import com.github.stephenc.javaisotools.iso9660.LayoutHelper;
 import com.github.stephenc.javaisotools.iso9660.StandardConfig;
 import com.github.stephenc.javaisotools.iso9660.impl.ISO9660Constants;
 import com.github.stephenc.javaisotools.iso9660.impl.ISO9660DateDataReference;
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.BothShortDataReference;
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.BothWordDataReference;
 import com.github.stephenc.javaisotools.sabre.DataReference;
 import com.github.stephenc.javaisotools.sabre.Fixup;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
@@ -36,10 +38,8 @@ import com.github.stephenc.javaisotools.sabre.impl.ByteArrayDataReference;
 import com.github.stephenc.javaisotools.sabre.impl.ByteDataReference;
 import com.github.stephenc.javaisotools.sabre.impl.WordDataReference;
 import com.github.stephenc.javaisotools.iso9660.impl.ISO9660DirectoryRecord;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothShortDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.BothWordDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.EmptyByteArrayDataReference;
-import de.tu_darmstadt.informatik.rbg.hatlak.sabre.impl.LSBFWordDataReference;
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.EmptyByteArrayDataReference;
+import com.github.stephenc.javaisotools.iso9660.sabre.impl.LSBFWordDataReference;
 
 public abstract class StandardVolumeDescriptor extends ISO9660VolumeDescriptor {
 

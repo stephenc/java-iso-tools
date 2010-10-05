@@ -25,11 +25,11 @@ import com.github.stephenc.javaisotools.iso9660.ISO9660RootDirectory;
 import com.github.stephenc.javaisotools.iso9660.impl.CreateISO;
 import com.github.stephenc.javaisotools.iso9660.impl.ISO9660Config;
 import com.github.stephenc.javaisotools.iso9660.impl.ISOImageFileHandler;
+import com.github.stephenc.javaisotools.joliet.impl.JolietConfig;
+import com.github.stephenc.javaisotools.rockridge.impl.RockRidgeConfig;
 import com.github.stephenc.javaisotools.sabre.StreamHandler;
 import de.tu_darmstadt.informatik.rbg.hatlak.iso9660.*;
-import de.tu_darmstadt.informatik.rbg.hatlak.eltorito.impl.ElToritoConfig;
-import de.tu_darmstadt.informatik.rbg.hatlak.joliet.impl.JolietConfig;
-import de.tu_darmstadt.informatik.rbg.hatlak.rockridge.impl.RockRidgeConfig;
+import com.github.stephenc.javaisotools.eltorito.impl.ElToritoConfig;
 import de.tu_darmstadt.informatik.rbg.mhartle.sabre.*;
 
 public class ISOtest {
