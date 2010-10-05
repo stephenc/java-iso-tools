@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.github.stephenc.javaisotools.loopy.iso9660;
 
-import com.github.stephenc.javaisotools.loopy.FileEntry;
+import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
 
 /**
  * Represents a file in an ISO9660 file system.

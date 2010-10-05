@@ -16,9 +16,11 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-package com.github.stephenc.javaisotools.loopy;
+package com.github.stephenc.javaisotools.loopfs.spi;
 
 import java.io.IOException;
+
+import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
 
 /**
  * Contains all the volume descriptors for a block file system.

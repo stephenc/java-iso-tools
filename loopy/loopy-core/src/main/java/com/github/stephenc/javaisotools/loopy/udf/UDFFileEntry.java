@@ -18,7 +18,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 package com.github.stephenc.javaisotools.loopy.udf;
 
-import com.github.stephenc.javaisotools.loopy.FileEntry;
+import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
 
 public class UDFFileEntry implements FileEntry {
 

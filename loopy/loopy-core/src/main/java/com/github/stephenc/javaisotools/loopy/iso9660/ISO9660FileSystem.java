@@ -23,9 +23,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Enumeration;
 
-import com.github.stephenc.javaisotools.loopy.FileEntry;
-import com.github.stephenc.javaisotools.loopy.AbstractBlockFileSystem;
-import com.github.stephenc.javaisotools.loopy.VolumeDescriptorSet;
+import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
+import com.github.stephenc.javaisotools.loopfs.spi.AbstractBlockFileSystem;
+import com.github.stephenc.javaisotools.loopfs.spi.VolumeDescriptorSet;
 
 public class ISO9660FileSystem extends AbstractBlockFileSystem {
 

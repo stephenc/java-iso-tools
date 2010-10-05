@@ -20,9 +20,9 @@ package com.github.stephenc.javaisotools.loopy.iso9660;
 
 import java.io.IOException;
 
-import com.github.stephenc.javaisotools.loopy.VolumeDescriptorSet;
-import com.github.stephenc.javaisotools.loopy.FileEntry;
-import com.github.stephenc.javaisotools.loopy.LoopyException;
+import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
+import com.github.stephenc.javaisotools.loopfs.api.LoopyException;
+import com.github.stephenc.javaisotools.loopfs.spi.VolumeDescriptorSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

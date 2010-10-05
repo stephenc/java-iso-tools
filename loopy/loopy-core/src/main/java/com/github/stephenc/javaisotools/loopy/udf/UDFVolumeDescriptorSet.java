@@ -20,8 +20,8 @@ package com.github.stephenc.javaisotools.loopy.udf;
 
 import java.io.IOException;
 
-import com.github.stephenc.javaisotools.loopy.FileEntry;
-import com.github.stephenc.javaisotools.loopy.VolumeDescriptorSet;
+import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
+import com.github.stephenc.javaisotools.loopfs.spi.VolumeDescriptorSet;
 
 public class UDFVolumeDescriptorSet implements VolumeDescriptorSet {
 

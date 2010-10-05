@@ -16,12 +16,14 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-package com.github.stephenc.javaisotools.loopy;
+package com.github.stephenc.javaisotools.loopfs.spi;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+
+import com.github.stephenc.javaisotools.loopfs.api.FileSystem;
 
 /**
  * Implementation of FileSystem that is backed by a {@link RandomAccessFile}.
