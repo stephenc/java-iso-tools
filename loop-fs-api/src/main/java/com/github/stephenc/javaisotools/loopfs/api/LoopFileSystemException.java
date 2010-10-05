@@ -23,20 +23,20 @@ import java.io.IOException;
 /**
  * General loopy exception.
  */
-public class LoopyException extends IOException {
+public class LoopFileSystemException extends IOException {
 
-    public LoopyException() {
+    public LoopFileSystemException() {
     }
 
-    public LoopyException(final String message) {
+    public LoopFileSystemException(final String message) {
         super(message);
     }
 
-    public LoopyException(final Throwable cause) {
+    public LoopFileSystemException(final Throwable cause) {
         super(cause);
     }
 
-    public LoopyException(final String message, final Throwable cause) {
+    public LoopFileSystemException(final String message, final Throwable cause) {
         super(message, cause);
     }
 }

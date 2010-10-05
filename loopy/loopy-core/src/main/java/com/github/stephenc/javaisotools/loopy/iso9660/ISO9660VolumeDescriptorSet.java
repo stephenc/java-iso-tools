@@ -21,7 +21,7 @@ package com.github.stephenc.javaisotools.loopy.iso9660;
 import java.io.IOException;
 
 import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
-import com.github.stephenc.javaisotools.loopfs.api.LoopyException;
+import com.github.stephenc.javaisotools.loopfs.api.LoopFileSystemException;
 import com.github.stephenc.javaisotools.loopfs.spi.VolumeDescriptorSet;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -106,7 +106,7 @@ public class ISO9660VolumeDescriptorSet implements VolumeDescriptorSet {
         switch (type) {
             case TYPE_TERMINATOR:
                 if (!this.hasPrimary) {
-                    throw new LoopyException("No primary volume descriptor found");
+                    throw new LoopFileSystemException("No primary volume descriptor found");
                 }
                 terminator = true;
                 break;
@@ -226,7 +226,7 @@ public class ISO9660VolumeDescriptorSet implements VolumeDescriptorSet {
     private void validateBlockSize(byte[] descriptor) throws IOException {
         int blockSize = Util.getUInt16Both(descriptor, 129);
         if (blockSize != Constants.DEFAULT_BLOCK_SIZE) {
-            throw new LoopyException("Invalid block size: " + blockSize);
+            throw new LoopFileSystemException("Invalid block size: " + blockSize);
         }
     }
 
