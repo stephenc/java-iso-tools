@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010. Stephen Connolly
+ * Copyright (c) 2010. Stephen Connolly.
  * Copyright (C) 2007. Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
  * This library is free software; you can redistribute it and/or
