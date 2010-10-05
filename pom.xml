@@ -23,6 +23,7 @@
         <module>loop-fs-api</module>
         <module>loop-fs-spi</module>
         <module>loop-fs-iso-impl</module>
+        <module>loop-fs-udf-impl</module>
     </modules>
 
     <scm>

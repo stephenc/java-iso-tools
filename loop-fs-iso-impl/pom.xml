@@ -13,6 +13,14 @@
 
     <name>Loop-back File System Iso9660 implementation</name>
 
+    <developers>
+        <developer>
+            <id>jdidion</id>
+            <name>John Didion</name>
+            <email>jdidion@loudeye.com</email>
+        </developer>
+    </developers>
+
     <dependencies>
         <dependency>
             <groupId>commons-logging</groupId>

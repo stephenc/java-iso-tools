@@ -32,6 +32,11 @@
             <artifactId>loop-fs-iso-impl</artifactId>
             <version>1.2.3-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.stephenc.java-iso-tools</groupId>
+            <artifactId>loop-fs-udf-impl</artifactId>
+            <version>1.2.3-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

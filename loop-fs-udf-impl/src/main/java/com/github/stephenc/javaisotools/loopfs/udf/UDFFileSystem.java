@@ -16,7 +16,7 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-package com.github.stephenc.javaisotools.loopy.udf;
+package com.github.stephenc.javaisotools.loopfs.udf;
 
 import java.io.File;
 import java.io.IOException;
@@ -24,7 +24,6 @@ import java.io.InputStream;
 import java.util.Enumeration;
 
 import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
-import com.github.stephenc.javaisotools.loopfs.iso9660.Constants;
 import com.github.stephenc.javaisotools.loopfs.spi.AbstractBlockFileSystem;
 import com.github.stephenc.javaisotools.loopfs.spi.VolumeDescriptorSet;
 

@@ -13,6 +13,14 @@
 
     <name>Loop-back File System SPI</name>
 
+    <developers>
+        <developer>
+            <id>jdidion</id>
+            <name>John Didion</name>
+            <email>jdidion@loudeye.com</email>
+        </developer>
+    </developers>
+
     <dependencies>
         <dependency>
             <groupId>com.github.stephenc.java-iso-tools</groupId>

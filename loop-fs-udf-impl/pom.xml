@@ -9,9 +9,10 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>loop-fs-api</artifactId>
+    <artifactId>loop-fs-udf-impl</artifactId>
 
-    <name>Loop-back File System API</name>
+    <name>Loop-back File System Iso9660 implementation</name>
+
     <developers>
         <developer>
             <id>jdidion</id>
@@ -20,5 +21,12 @@
         </developer>
     </developers>
 
+    <dependencies>
+        <dependency>
+            <groupId>com.github.stephenc.java-iso-tools</groupId>
+            <artifactId>loop-fs-spi</artifactId>
+            <version>1.2.3-SNAPSHOT</version>
+        </dependency>
+    </dependencies>
 
 </project>

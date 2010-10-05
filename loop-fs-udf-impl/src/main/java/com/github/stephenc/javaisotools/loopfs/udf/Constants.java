@@ -16,26 +16,28 @@ License along with this library; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-package com.github.stephenc.javaisotools.loopy.udf;
+package com.github.stephenc.javaisotools.loopfs.udf;
 
-import java.io.IOException;
+public interface Constants {
 
-import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
-import com.github.stephenc.javaisotools.loopfs.spi.VolumeDescriptorSet;
+    /**
+     * ISO sector size. This does not include the 288 bytes reserved for synchronization, header, and EC on CD-ROMs
+     * because this information is not used in .iso files.
+     */
+    int DEFAULT_BLOCK_SIZE = 2 * 1024;
 
-public class UDFVolumeDescriptorSet implements VolumeDescriptorSet {
+    /**
+     * The number of reserved sectors at the beginning of the file.
+     */
+    int RESERVED_SECTORS = 16;
 
-    private UDFFileSystem fs;
+    /**
+     * The number of reserved bytes at the beginning of the file.
+     */
+    int RESERVED_BYTES = RESERVED_SECTORS * DEFAULT_BLOCK_SIZE;
 
-    public UDFVolumeDescriptorSet(UDFFileSystem fs) {
-        this.fs = fs;
-    }
-
-    public boolean deserialize(byte[] descriptorBytes) throws IOException {
-        return false;
-    }
-
-    public FileEntry getRootEntry() {
-        return null;
-    }
+    /**
+     * Default character encoding.
+     */
+    String DEFAULT_ENCODING = "US-ASCII";
 }
