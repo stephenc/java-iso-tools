@@ -24,7 +24,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import com.github.stephenc.javaisotools.loopy.util.LittleEndian;
+import com.github.stephenc.javaisotools.loopfs.util.LittleEndian;
 
 /**
  * A breadth-first Enumeration of the entries in a ISO9660 file system.

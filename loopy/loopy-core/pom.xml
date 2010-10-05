@@ -17,6 +17,21 @@
             <groupId>commons-logging</groupId>
             <artifactId>commons-logging</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.stephenc.java-iso-tools</groupId>
+            <artifactId>loop-fs-api</artifactId>
+            <version>1.2.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.stephenc.java-iso-tools</groupId>
+            <artifactId>loop-fs-spi</artifactId>
+            <version>1.2.3-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>com.github.stephenc.java-iso-tools</groupId>
+            <artifactId>loop-fs-iso-impl</artifactId>
+            <version>1.2.3-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 
     <build>

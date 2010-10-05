@@ -20,6 +20,9 @@
         <module>loopy</module>
         <module>iso9660-maven-plugin</module>
         <module>iso9660-ant-tasks</module>
+        <module>loop-fs-api</module>
+        <module>loop-fs-spi</module>
+        <module>loop-fs-iso-impl</module>
     </modules>
 
     <scm>

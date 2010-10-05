@@ -22,8 +22,8 @@ import java.io.UnsupportedEncodingException;
 import java.util.Calendar;
 import java.util.TimeZone;
 
-import com.github.stephenc.javaisotools.loopy.util.BigEndian;
-import com.github.stephenc.javaisotools.loopy.util.LittleEndian;
+import com.github.stephenc.javaisotools.loopfs.util.BigEndian;
+import com.github.stephenc.javaisotools.loopfs.util.LittleEndian;
 
 public final class Util {
 
