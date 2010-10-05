@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.github.stephenc.javaisotools.loopfs.iso9660.ISO9660FileEntry;
+import com.github.stephenc.javaisotools.loopfs.iso9660.Iso9660FileEntry;
 import org.apache.commons.vfs.FileName;
 import org.apache.commons.vfs.FileType;
 import org.apache.commons.vfs.provider.AbstractFileObject;
@@ -32,12 +32,12 @@ import org.apache.commons.vfs.provider.AbstractFileObject;
  */
 public class IsoFileObject extends AbstractFileObject {
 
-    private ISO9660FileEntry entry;
+    private Iso9660FileEntry entry;
     private FileType type;
     private final Set children;
 
     /**
-     * Creates an IsoFileObject without a ISO9660FileEntry. The entry must be set before calling getContent(). The
+     * Creates an IsoFileObject without a Iso9660FileEntry. The entry must be set before calling getContent(). The
      * FileType is set to IMAGINARY until the underlying entry is set.
      */
     IsoFileObject(final FileName name, final IsoFileSystem fs) {
@@ -46,18 +46,18 @@ public class IsoFileObject extends AbstractFileObject {
         this.children = new HashSet();
     }
 
-    IsoFileObject(final FileName name, final ISO9660FileEntry entry, final IsoFileSystem fs) {
+    IsoFileObject(final FileName name, final Iso9660FileEntry entry, final IsoFileSystem fs) {
         super(name, fs);
         setIsoEntry(entry);
         this.children = new HashSet();
     }
 
     /**
-     * Sets the ISO9660FileEntry that backs this FileObject. This method is package-private because IsoFileSystem
+     * Sets the Iso9660FileEntry that backs this FileObject. This method is package-private because IsoFileSystem
      * pre-creates some directory entries when building the file index, and it needs to set the backing entry after the
      * fact.
      */
-    void setIsoEntry(final ISO9660FileEntry entry) {
+    void setIsoEntry(final Iso9660FileEntry entry) {
         if (null != this.entry) {
             throw new RuntimeException("Cannot change the underlying entry once it has been set");
         }

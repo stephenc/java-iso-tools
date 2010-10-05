@@ -31,10 +31,10 @@ import com.github.stephenc.javaisotools.loopfs.util.LittleEndian;
  */
 class EntryEnumeration implements Enumeration {
 
-    private final ISO9660FileSystem fileSystem;
+    private final Iso9660FileSystem fileSystem;
     private final List queue;
 
-    public EntryEnumeration(final ISO9660FileSystem fileSystem, final ISO9660FileEntry rootEntry) {
+    public EntryEnumeration(final Iso9660FileSystem fileSystem, final Iso9660FileEntry rootEntry) {
         this.fileSystem = fileSystem;
         this.queue = new LinkedList();
         this.queue.add(rootEntry);
@@ -50,7 +50,7 @@ class EntryEnumeration implements Enumeration {
         }
 
         // pop next entry from the queue
-        final ISO9660FileEntry entry = (ISO9660FileEntry) this.queue.remove(0);
+        final Iso9660FileEntry entry = (Iso9660FileEntry) this.queue.remove(0);
 
         // if the entry is a directory, queue all its children
         if (entry.isDirectory()) {
@@ -73,7 +73,7 @@ class EntryEnumeration implements Enumeration {
                     continue;
                 }
 
-                ISO9660FileEntry child = new ISO9660FileEntry(
+                Iso9660FileEntry child = new Iso9660FileEntry(
                         this.fileSystem, entry.getPath(), content, offset + 1);
 
                 if (paddingMode && child.getSize() < 0) {

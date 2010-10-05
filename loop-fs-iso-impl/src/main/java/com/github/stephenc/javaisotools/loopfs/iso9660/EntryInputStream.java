@@ -26,10 +26,10 @@ import java.io.InputStream;
  */
 class EntryInputStream extends InputStream {
     // entry within the file system
-    private ISO9660FileEntry entry;
+    private Iso9660FileEntry entry;
 
     // the parent file system
-    private ISO9660FileSystem fileSystem;
+    private Iso9660FileSystem fileSystem;
 
     // current position within entry data
     private int pos;
@@ -37,7 +37,7 @@ class EntryInputStream extends InputStream {
     // number of remaining bytes within entry
     private int rem;
 
-    EntryInputStream(final ISO9660FileEntry entry, final ISO9660FileSystem fileSystem) {
+    EntryInputStream(final Iso9660FileEntry entry, final Iso9660FileSystem fileSystem) {
         this.fileSystem = fileSystem;
         this.entry = entry;
         this.pos = 0;

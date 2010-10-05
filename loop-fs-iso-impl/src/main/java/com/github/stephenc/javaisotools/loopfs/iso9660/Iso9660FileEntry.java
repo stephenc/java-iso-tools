@@ -23,11 +23,11 @@ import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
 /**
  * Represents a file in an ISO9660 file system.
  */
-public final class ISO9660FileEntry implements FileEntry {
+public final class Iso9660FileEntry implements FileEntry {
 
     public static final char ID_SEPARATOR = ';';
 
-    private ISO9660FileSystem fileSystem;
+    private Iso9660FileSystem fileSystem;
     private String parentPath;
     private final int entryLength;
     private final long startSector;
@@ -40,7 +40,7 @@ public final class ISO9660FileEntry implements FileEntry {
     //private final int fileUnitSize;
     //private final int interleaveSize;
 
-    public ISO9660FileEntry(final ISO9660FileSystem fileSystem, final byte[] block, final int pos) {
+    public Iso9660FileEntry(final Iso9660FileSystem fileSystem, final byte[] block, final int pos) {
         this(fileSystem, null, block, pos);
     }
 
@@ -52,7 +52,7 @@ public final class ISO9660FileEntry implements FileEntry {
      * @param block      the bytes of the sector containing this file entry
      * @param startPos   the starting position of this file entry
      */
-    public ISO9660FileEntry(final ISO9660FileSystem fileSystem, final String parentPath,
+    public Iso9660FileEntry(final Iso9660FileSystem fileSystem, final String parentPath,
                             final byte[] block, final int startPos) {
         this.fileSystem = fileSystem;
         this.parentPath = parentPath;

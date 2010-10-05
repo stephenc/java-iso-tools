@@ -26,8 +26,8 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.List;
 
-import com.github.stephenc.javaisotools.loopfs.iso9660.ISO9660FileEntry;
-import com.github.stephenc.javaisotools.loopfs.iso9660.ISO9660FileSystem;
+import com.github.stephenc.javaisotools.loopfs.iso9660.Iso9660FileEntry;
+import com.github.stephenc.javaisotools.loopfs.iso9660.Iso9660FileSystem;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.commons.vfs.FileName;
@@ -49,7 +49,7 @@ public class IsoFileSystem extends AbstractFileSystem {
 
     private static final Log log = LogFactory.getLog(IsoFileSystem.class);
 
-    private ISO9660FileSystem fileSystem;
+    private Iso9660FileSystem fileSystem;
 
     public IsoFileSystem(final FileName rootName, final FileObject parentLayer,
                          final FileSystemOptions fileSystemOptions)
@@ -64,7 +64,7 @@ public class IsoFileSystem extends AbstractFileSystem {
                 replicateFile(getParentLayer(), Selectors.SELECT_SELF);
 
         try {
-            this.fileSystem = new ISO9660FileSystem(file, true);
+            this.fileSystem = new Iso9660FileSystem(file, true);
         }
         catch (IOException ex) {
             throw new FileSystemException("vfs.provider.iso/open-iso-file.error", file, ex);
@@ -77,7 +77,7 @@ public class IsoFileSystem extends AbstractFileSystem {
         boolean skipRoot = false;
 
         while (entries.hasMoreElements()) {
-            final ISO9660FileEntry entry = (ISO9660FileEntry) entries.nextElement();
+            final Iso9660FileEntry entry = (Iso9660FileEntry) entries.nextElement();
 
             String name = entry.getPath();
 
@@ -162,9 +162,9 @@ public class IsoFileSystem extends AbstractFileSystem {
     }
 
     /**
-     * Returns an input stream for the specified ISO9660FileEntry. Called by {@link IsoFileObject#doGetInputStream()}.
+     * Returns an input stream for the specified Iso9660FileEntry. Called by {@link IsoFileObject#doGetInputStream()}.
      */
-    InputStream getInputStream(final ISO9660FileEntry entry) {
+    InputStream getInputStream(final Iso9660FileEntry entry) {
         return this.fileSystem.getInputStream(entry);
     }
 }

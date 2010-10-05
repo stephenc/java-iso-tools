@@ -46,7 +46,7 @@ import org.apache.commons.logging.LogFactory;
  * 1 1          883     0 512        884     reserved for application use (usually zeros) 653        1396    zeroes
  * </pre>
  */
-public class ISO9660VolumeDescriptorSet implements VolumeDescriptorSet {
+public class Iso9660VolumeDescriptorSet implements VolumeDescriptorSet {
 
     public static final int TYPE_BOOTRECORD = 0;
     public static final int TYPE_PRIMARY_DESCRIPTOR = 1;
@@ -54,9 +54,9 @@ public class ISO9660VolumeDescriptorSet implements VolumeDescriptorSet {
     public static final int TYPE_PARTITION_DESCRIPTOR = 3;
     public static final int TYPE_TERMINATOR = 255;
 
-    private static final Log log = LogFactory.getLog(ISO9660VolumeDescriptorSet.class);
+    private static final Log log = LogFactory.getLog(Iso9660VolumeDescriptorSet.class);
 
-    private final ISO9660FileSystem isoFile;
+    private final Iso9660FileSystem isoFile;
 
     // common
     private String systemIdentifier;
@@ -65,7 +65,7 @@ public class ISO9660VolumeDescriptorSet implements VolumeDescriptorSet {
     private String publisher;
     private String preparer;
     private String application;
-    private ISO9660FileEntry rootDirectoryEntry;
+    private Iso9660FileEntry rootDirectoryEntry;
 
     // primary
     private String standardIdentifier;
@@ -94,7 +94,7 @@ public class ISO9660VolumeDescriptorSet implements VolumeDescriptorSet {
      *
      * @param fileSystem the parent file system
      */
-    public ISO9660VolumeDescriptorSet(ISO9660FileSystem fileSystem) {
+    public Iso9660VolumeDescriptorSet(Iso9660FileSystem fileSystem) {
         this.isoFile = fileSystem;
     }
 
@@ -214,7 +214,7 @@ public class ISO9660VolumeDescriptorSet implements VolumeDescriptorSet {
         this.systemIdentifier = Util.getAChars(descriptor, 9, 32, this.encoding);
         this.volumeIdentifier = Util.getDChars(descriptor, 41, 32, this.encoding);
         this.volumeSetIdentifier = Util.getDChars(descriptor, 191, 128, this.encoding);
-        this.rootDirectoryEntry = new ISO9660FileEntry(this.isoFile, descriptor, 157);
+        this.rootDirectoryEntry = new Iso9660FileEntry(this.isoFile, descriptor, 157);
     }
 
     /**

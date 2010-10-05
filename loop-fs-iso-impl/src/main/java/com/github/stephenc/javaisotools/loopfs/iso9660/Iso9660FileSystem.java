@@ -27,22 +27,22 @@ import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
 import com.github.stephenc.javaisotools.loopfs.spi.AbstractBlockFileSystem;
 import com.github.stephenc.javaisotools.loopfs.spi.VolumeDescriptorSet;
 
-public class ISO9660FileSystem extends AbstractBlockFileSystem {
+public class Iso9660FileSystem extends AbstractBlockFileSystem {
 
-    public ISO9660FileSystem(File file, boolean readOnly) throws IOException {
+    public Iso9660FileSystem(File file, boolean readOnly) throws IOException {
         super(file, readOnly, Constants.DEFAULT_BLOCK_SIZE, Constants.RESERVED_SECTORS);
     }
 
     public String getEncoding() {
-        return ((ISO9660VolumeDescriptorSet) getVolumeDescriptorSet()).getEncoding();
+        return ((Iso9660VolumeDescriptorSet) getVolumeDescriptorSet()).getEncoding();
     }
 
     public InputStream getInputStream(FileEntry entry) {
         ensureOpen();
-        return new EntryInputStream((ISO9660FileEntry) entry, this);
+        return new EntryInputStream((Iso9660FileEntry) entry, this);
     }
 
-    byte[] getBytes(ISO9660FileEntry entry) throws IOException {
+    byte[] getBytes(Iso9660FileEntry entry) throws IOException {
         int size = entry.getSize();
 
         byte[] buf = new byte[size];
@@ -52,17 +52,17 @@ public class ISO9660FileSystem extends AbstractBlockFileSystem {
         return buf;
     }
 
-    int readBytes(ISO9660FileEntry entry, int entryOffset, byte[] buffer, int bufferOffset, int len)
+    int readBytes(Iso9660FileEntry entry, int entryOffset, byte[] buffer, int bufferOffset, int len)
             throws IOException {
         long startPos = (entry.getStartBlock() * Constants.DEFAULT_BLOCK_SIZE) + entryOffset;
         return readData(startPos, buffer, bufferOffset, len);
     }
 
     protected Enumeration enumerate(FileEntry rootEntry) {
-        return new EntryEnumeration(this, (ISO9660FileEntry) rootEntry);
+        return new EntryEnumeration(this, (Iso9660FileEntry) rootEntry);
     }
 
     protected VolumeDescriptorSet createVolumeDescriptorSet() {
-        return new ISO9660VolumeDescriptorSet(this);
+        return new Iso9660VolumeDescriptorSet(this);
     }
 }
