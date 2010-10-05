@@ -27,7 +27,7 @@ import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
 import com.github.stephenc.javaisotools.loopfs.spi.AbstractBlockFileSystem;
 import com.github.stephenc.javaisotools.loopfs.spi.VolumeDescriptorSet;
 
-public class Iso9660FileSystem extends AbstractBlockFileSystem {
+public class Iso9660FileSystem extends AbstractBlockFileSystem<Iso9660FileEntry> {
 
     public Iso9660FileSystem(File file, boolean readOnly) throws IOException {
         super(file, readOnly, Constants.DEFAULT_BLOCK_SIZE, Constants.RESERVED_SECTORS);

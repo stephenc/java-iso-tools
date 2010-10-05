@@ -73,11 +73,9 @@ public class IsoFileSystem extends AbstractFileSystem {
         // Build the index
         final List strongRef = new ArrayList(100);
 
-        final Enumeration entries = this.fileSystem.getEntries();
         boolean skipRoot = false;
 
-        while (entries.hasMoreElements()) {
-            final Iso9660FileEntry entry = (Iso9660FileEntry) entries.nextElement();
+        for (Iso9660FileEntry entry: this.fileSystem) {
 
             String name = entry.getPath();
 

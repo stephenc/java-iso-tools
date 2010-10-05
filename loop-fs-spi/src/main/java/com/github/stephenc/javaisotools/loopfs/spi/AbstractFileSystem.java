@@ -22,13 +22,16 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.util.Enumeration;
+import java.util.Iterator;
 
+import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
 import com.github.stephenc.javaisotools.loopfs.api.FileSystem;
 
 /**
  * Implementation of FileSystem that is backed by a {@link RandomAccessFile}.
  */
-public abstract class AbstractFileSystem implements FileSystem {
+public abstract class AbstractFileSystem<T extends FileEntry> implements FileSystem<T> {
 
     /**
      * Channel to the open file.
@@ -95,5 +98,22 @@ public abstract class AbstractFileSystem implements FileSystem {
     protected int read(byte[] buffer, int offset, int length) throws IOException {
         ensureOpen();
         return this.channel.read(buffer, offset, length);
+    }
+
+    public Iterator<T> iterator() {
+        return new Iterator<T>() {
+            private final Enumeration delegate = getEntries();
+            public boolean hasNext() {
+                return delegate.hasMoreElements();
+            }
+
+            public T next() {
+                return (T) delegate.nextElement();
+            }
+
+            public void remove() {
+                throw new UnsupportedOperationException();
+            }
+        };
     }
 }

@@ -28,7 +28,7 @@ import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
  * A block file system is segmented into multiple fixed-size blocks. It consists of a set of volume descriptors followed
  * by an index, which points to the file locations.
  */
-public abstract class AbstractBlockFileSystem extends AbstractFileSystem {
+public abstract class AbstractBlockFileSystem<T extends FileEntry> extends AbstractFileSystem<T> {
 
     private final int blockSize;
     private final int reservedBlocks;
