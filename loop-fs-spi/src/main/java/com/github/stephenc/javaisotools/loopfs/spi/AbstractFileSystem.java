@@ -74,7 +74,7 @@ public abstract class AbstractFileSystem<T extends FileEntry> implements FileSys
     /**
      * Throws an exception if the underlying file is closed.
      */
-    protected void ensureOpen() throws IllegalStateException {
+    protected final void ensureOpen() throws IllegalStateException {
         if (isClosed()) {
             throw new IllegalStateException("File has been closed");
         }
@@ -83,7 +83,7 @@ public abstract class AbstractFileSystem<T extends FileEntry> implements FileSys
     /**
      * Moves the pointer in the underlying file to the specified position.
      */
-    protected void seek(long pos) throws IOException {
+    protected final void seek(long pos) throws IOException {
         ensureOpen();
         this.channel.seek(pos);
     }
@@ -95,7 +95,7 @@ public abstract class AbstractFileSystem<T extends FileEntry> implements FileSys
      *
      * @return the number of bytes read into the buffer
      */
-    protected int read(byte[] buffer, int offset, int length) throws IOException {
+    protected final int read(byte[] buffer, int offset, int length) throws IOException {
         ensureOpen();
         return this.channel.read(buffer, offset, length);
     }

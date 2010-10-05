@@ -51,15 +51,14 @@ public abstract class AbstractBlockFileSystem<T extends FileEntry> extends Abstr
         this.reservedBlocks = reservedBlocks;
     }
 
-    public Iterator<T> iterator() {
+    public final Iterator<T> iterator() {
         ensureOpen();
 
         // load the volume descriptors if necessary
         if (null == this.volumeDescriptorSet) {
             try {
                 loadVolumeDescriptors();
-            }
-            catch (IOException ex) {
+            } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
         }
@@ -74,10 +73,9 @@ public abstract class AbstractBlockFileSystem<T extends FileEntry> extends Abstr
 
         // skip the reserved blocks, then read volume descriptor blocks sequentially and add them
         // to the VolumeDescriptorSet
-        for (int block = this.reservedBlocks;
-             readBlock(block, buffer) && !this.volumeDescriptorSet.deserialize(buffer);
-             block++) {
-            ;
+        int block = this.reservedBlocks;
+        while (readBlock(block, buffer) && !this.volumeDescriptorSet.deserialize(buffer)) {
+            block++;
         }
     }
 
@@ -89,7 +87,7 @@ public abstract class AbstractBlockFileSystem<T extends FileEntry> extends Abstr
      * @throws IOException if the number of bytes read into the buffer was less than the expected number (i.e. the block
      *                     size)
      */
-    protected boolean readBlock(final long block, final byte[] buffer) throws IOException {
+    protected final boolean readBlock(final long block, final byte[] buffer) throws IOException {
         final int bytesRead = readData(block * this.blockSize, buffer, 0, this.blockSize);
 
         if (bytesRead <= 0) {
@@ -108,14 +106,14 @@ public abstract class AbstractBlockFileSystem<T extends FileEntry> extends Abstr
      *
      * @return the number of bytes read into the buffer
      */
-    protected synchronized int readData(final long startPos, final byte[] buffer, final int offset,
+    protected final synchronized int readData(final long startPos, final byte[] buffer, final int offset,
                                         final int len)
             throws IOException {
         seek(startPos);
         return read(buffer, offset, len);
     }
 
-    protected VolumeDescriptorSet getVolumeDescriptorSet() {
+    protected final VolumeDescriptorSet<T> getVolumeDescriptorSet() {
         return this.volumeDescriptorSet;
     }
 
