@@ -10,7 +10,7 @@
 
     <artifactId>iso9660-vfs-impl</artifactId>
     <name>Iso9660 Commons VFS Implementation</name>
-    <description>commons-vfs provider implementation for loopy.</description>
+    <description>commons-vfs provider implementation for loop-fs.</description>
 
     <developers>
         <developer>

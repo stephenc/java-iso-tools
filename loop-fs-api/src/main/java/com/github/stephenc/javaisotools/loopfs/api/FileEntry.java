@@ -19,7 +19,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 package com.github.stephenc.javaisotools.loopfs.api;
 
 /**
- * An entry in a loopy file system. Paths within the file system are unix-like ("/" separated hierarchy of folders and
+ * An entry in a loop-fs file system. Paths within the file system are unix-like ("/" separated hierarchy of folders and
  * files).
  */
 public interface FileEntry {

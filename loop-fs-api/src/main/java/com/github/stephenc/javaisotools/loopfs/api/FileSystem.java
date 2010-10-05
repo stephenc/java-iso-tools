@@ -24,7 +24,7 @@ import java.io.InputStream;
 import java.util.Enumeration;
 
 /**
- * A loopy file system, which is deserialize-only and consists of zero or more entries. The data for each entry can be
+ * A loop-fs file system, which is deserialize-only and consists of zero or more entries. The data for each entry can be
  * retrieved using {@link #getInputStream(FileEntry)}.
  */
 public interface FileSystem<T extends FileEntry> extends Iterable<T>, Closeable {

@@ -21,7 +21,7 @@ package com.github.stephenc.javaisotools.loopfs.api;
 import java.io.IOException;
 
 /**
- * General loopy exception.
+ * General loop-fs exception.
  */
 public class LoopFileSystemException extends IOException {
 

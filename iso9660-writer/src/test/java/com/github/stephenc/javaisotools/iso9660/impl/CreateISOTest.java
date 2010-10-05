@@ -81,7 +81,7 @@ public class CreateISOTest {
         assertThat(outfile.isFile(), is(true));
         assertThat(outfile.length(), not(is(0L)));
 
-        // TODO use loopy to check that the iso is empty
+        // TODO use loop-fs to check that the iso is empty
     }
 
     @Test
@@ -125,7 +125,7 @@ public class CreateISOTest {
         FileSystemManager fsManager = VFS.getManager();
         // TODO figure out why we can't just do
         // FileObject isoFile = fsManager.resolveFile("iso:" + outfile.getPath() + "!/");
-        // smells like a bug between loopy and commons-vfs
+        // smells like a bug between loop-fs and commons-vfs
         FileObject isoFile = fsManager.resolveFile("iso:" + outfile.getPath() + "!/readme.txt").getParent();
         assertThat(isoFile.getType(), is(FileType.FOLDER));
 
