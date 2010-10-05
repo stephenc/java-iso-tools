@@ -21,7 +21,6 @@ package com.github.stephenc.javaisotools.loopfs.iso9660;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.Properties;
 
 import org.junit.*;
@@ -59,12 +58,13 @@ public class Iso9660FileSystemTest {
     public void smokes() throws Exception {
         FileSystem image = new Iso9660FileSystem(new File(testProperties.getProperty("source-image")), true);
         File source = new File(testProperties.getProperty("source-root"));
-        for (FileEntry entry: image) {
+        for (FileEntry entry : image) {
             File sourceFile = new File(source, entry.getPath());
             assertThat(sourceFile.isDirectory(), is(entry.isDirectory()));
             if (!sourceFile.isDirectory()) {
                 assertThat(sourceFile.length(), is(entry.getSize() * 1L));
-                assertThat("contents are equal", IOUtil.contentEquals(image.getInputStream(entry), new FileInputStream(sourceFile)), is(true));
+                assertThat("contents are equal",
+                        IOUtil.contentEquals(image.getInputStream(entry), new FileInputStream(sourceFile)), is(true));
             }
         }
     }
