@@ -11,7 +11,7 @@
 
     <artifactId>loop-fs-udf-impl</artifactId>
 
-    <name>Loop-back File System Iso9660 implementation</name>
+    <name>Loop-back File System UDF implementation</name>
 
     <developers>
         <developer>
