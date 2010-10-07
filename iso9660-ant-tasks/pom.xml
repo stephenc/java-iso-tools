@@ -71,9 +71,14 @@
         <plugin>
           <artifactId>maven-invoker-plugin</artifactId>
           <configuration>
+            <projectsDirectory>src/it</projectsDirectory>
+            <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
+            <showErrors>true</showErrors>
+            <streamLogs>true</streamLogs>
             <pomIncludes>
               <pomInclude>*/pom.xml</pomInclude>
             </pomIncludes>
+            <postBuildHookScript>verify.bsh</postBuildHookScript>
           </configuration>
         </plugin>
       </plugins>
@@ -81,11 +86,10 @@
 
     <profiles>
       <profile>
-        <!-- run integration tests
-            to use this profile:
-            or run integration tests: mvn -Prun-its
-        -->
         <id>run-its</id>
+        <activation>
+          <activeByDefault>true</activeByDefault>
+        </activation>
         <build>
           <defaultGoal>verify</defaultGoal>
           <plugins>
