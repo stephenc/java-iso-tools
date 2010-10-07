@@ -38,9 +38,7 @@ public class StandardHandler extends ChainingStreamHandler {
 
     public void checkMetadataFiles() throws HandlerException {
         // Add files to Root Directory (if not already present)
-        Iterator it = config.getFiles().iterator();
-        while (it.hasNext()) {
-            ISO9660File file = (ISO9660File) it.next();
+        for (ISO9660File file : config.getFiles()) {
             // Metadata Files must conform to 8+3 naming scheme
             if (file != null && !root.getFiles().contains(file)) {
                 file.enforce8plus3(true);

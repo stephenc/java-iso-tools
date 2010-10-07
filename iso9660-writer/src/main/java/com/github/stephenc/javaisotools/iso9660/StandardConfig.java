@@ -20,7 +20,9 @@
 package com.github.stephenc.javaisotools.iso9660;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Vector;
 
 import com.github.stephenc.javaisotools.sabre.HandlerException;
@@ -54,17 +56,17 @@ public abstract class StandardConfig {
      *
      * @return Vector of all active metadata files
      */
-    public Vector getFiles() {
-        Vector files = new Vector();
+    public List<ISO9660File> getFiles() {
+        List<ISO9660File> files = new ArrayList<ISO9660File>();
 
         if (publisher instanceof ISO9660File) {
-            files.add(publisher);
+            files.add((ISO9660File) publisher);
         }
         if (dataPreparer instanceof ISO9660File) {
-            files.add(dataPreparer);
+            files.add((ISO9660File) dataPreparer);
         }
         if (app instanceof ISO9660File) {
-            files.add(app);
+            files.add((ISO9660File) app);
         }
 
         files.add(abstractFile);

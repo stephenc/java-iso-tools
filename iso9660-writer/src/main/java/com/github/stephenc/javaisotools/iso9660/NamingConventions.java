@@ -19,9 +19,11 @@
 
 package com.github.stephenc.javaisotools.iso9660;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import com.github.stephenc.javaisotools.sabre.HandlerException;
@@ -203,19 +205,17 @@ public abstract class NamingConventions {
     }
 
     public void processDirectory(ISO9660Directory dir) throws HandlerException {
-        Vector duplicates = new Vector();
+        List<String[]> duplicates = new ArrayList<String[]>();
 
         // Prepare files and directories to be processed in sorted order
-        Vector contents = new Vector();
+        List<ISO9660HierarchyObject> contents = new ArrayList<ISO9660HierarchyObject>();
         contents.addAll(dir.getDirectories());
         contents.addAll(dir.getFiles());
         Collections.sort(contents);
 
         boolean duplicate;
-        Iterator it = contents.iterator();
-        while (it.hasNext()) {
+        for (ISO9660HierarchyObject object : contents) {
             duplicate = false;
-            Object object = it.next();
             if (object instanceof ISO9660Directory) {
                 ISO9660Directory subdir = (ISO9660Directory) object;
                 apply(subdir);
@@ -246,13 +246,12 @@ public abstract class NamingConventions {
         }
     }
 
-    public boolean checkDuplicate(Vector duplicates, String name, int version) {
+    public boolean checkDuplicate(List<String[]> duplicates, String name, int version) {
         return checkDuplicate(duplicates, name, version, true);
     }
 
-    public boolean checkDuplicate(Vector duplicates, String name, int version, boolean checkVersion) {
-        for (int i = 0; i < duplicates.size(); i++) {
-            String[] data = (String[]) duplicates.get(i);
+    public boolean checkDuplicate(List<String[]> duplicates, String name, int version, boolean checkVersion) {
+        for (String[] data : duplicates) {
             // Check for name equality
             if (checkFilenameEquality(data[0], name)) {
                 int aVersion = Integer.parseInt(data[1]);
@@ -266,7 +265,7 @@ public abstract class NamingConventions {
         return false;
     }
 
-    public void addDuplicate(Vector duplicates, String name, int version) {
+    public void addDuplicate(List<String[]> duplicates, String name, int version) {
         String[] data = {name, version + ""};
         duplicates.add(data);
     }
