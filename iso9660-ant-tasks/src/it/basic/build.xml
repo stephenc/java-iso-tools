@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Copyright (c) 2010. Stephen Connolly.
+  ~
+  ~ This library is free software; you can redistribute it and/or
+  ~ modify it under the terms of the GNU Lesser General Public
+  ~ License as published by the Free Software Foundation; either
+  ~ version 2.1 of the License, or (at your option) any later version.
+  ~
+  ~ This library is distributed in the hope that it will be useful,
+  ~ but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+  ~ Lesser General Public License for more details.
+  ~
+  ~ You should have received a copy of the GNU Lesser General Public
+  ~ License along with this library; if not, write to the Free Software
+  ~ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
+  -->
+
+<project name="smoke-test" xmlns:iso="antlib:com.github.stephenc.javaisotools.ant">
+
+  <property environment="env"/>
+
+  <path id="jre">
+    <fileset dir="${java.home}" includes="lib/rt.jar"/>
+    <fileset dir="${java.home}" includes="lib/jce.jar"/>
+    <fileset dir="${java.home}" includes="lib/jsse.jar"/>
+  </path>
+
+  <xmlproperty file="../../../pom.xml" prefix="pom.xml"/>
+  <typedef uri="antlib:com.github.stephenc.javaisotools.ant">
+    <classpath path="../../../target/${pom.xml.project.artifactId}-${pom.xml.project.parent.version}.jar"/>
+  </typedef>
+
+  <target name="clean">
+    <delete dir="build"/>
+  </target>
+    
+  <target name="package">
+    <mkdir dir="build"/>
+    <iso:iso destfile="build/${ant.project.name}.iso" basedir="src/iso/"/>
+  </target>
+
+  <target name="all" depends="clean, package"/>
+  
+</project>
+
+        

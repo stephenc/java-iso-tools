@@ -40,5 +40,76 @@
             <version>2.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
+    
+    <build>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-shade-plugin</artifactId>
+          <version>1.2.1</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>shade</goal>
+              </goals>
+              <configuration>
+                <createDependencyReducedPom>false</createDependencyReducedPom>
+                <keepDependenciesWithProvidedScope>true</keepDependenciesWithProvidedScope>
+                <transformers>
+                  <transformer implementation="org.apache.maven.plugins.shade.resource.ComponentsXmlResourceTransformer" />
+                </transformers>
+                <artifactSet>
+                  <excludes>
+                    <exclude>junit:junit</exclude>
+                  </excludes>
+                </artifactSet>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-invoker-plugin</artifactId>
+          <configuration>
+            <pomIncludes>
+              <pomInclude>*/pom.xml</pomInclude>
+            </pomIncludes>
+          </configuration>
+        </plugin>
+      </plugins>
+    </build>
+
+    <profiles>
+      <profile>
+        <!-- run integration tests
+            to use this profile:
+            or run integration tests: mvn -Prun-its
+        -->
+        <id>run-its</id>
+        <build>
+          <defaultGoal>verify</defaultGoal>
+          <plugins>
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-invoker-plugin</artifactId>
+              <executions>
+                <execution>
+                  <id>integration-test</id>
+                  <goals>
+                    <goal>install</goal>
+                    <goal>run</goal>
+                  </goals>
+                  <configuration>
+                    <streamLogs>false</streamLogs>
+                    <debug>true</debug>
+                  </configuration>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+        </build>
+      </profile>
+    </profiles>
+    
 
 </project>
