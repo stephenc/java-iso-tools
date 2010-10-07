@@ -20,9 +20,11 @@
 package com.github.stephenc.javaisotools.iso9660;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import com.github.stephenc.javaisotools.sabre.HandlerException;
@@ -31,7 +33,8 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
 
     private String name;
     private int level;
-    private Vector files, directories;
+    private List<ISO9660File> files;
+    private List<ISO9660Directory> directories;
     private ISO9660Directory parent;
     private ISO9660RootDirectory root;
     private long lastModified;
@@ -67,8 +70,8 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
     }
 
     private void init() {
-        this.files = new Vector();
-        this.directories = new Vector();
+        this.files = new ArrayList<ISO9660File>();
+        this.directories = new ArrayList<ISO9660Directory>();
         this.level = 1;
         this.parent = this;
         this.name = "";
@@ -124,7 +127,7 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
      *
      * @return Vector containing ISO9660File objects
      */
-    public Vector getFiles() {
+    public List<ISO9660File> getFiles() {
         if (!sorted) {
             sort();
         }
@@ -136,7 +139,7 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
      *
      * @return Vector containing ISO9660Directory objects
      */
-    public Vector getDirectories() {
+    public List<ISO9660Directory> getDirectories() {
         if (!sorted) {
             sort();
         }
@@ -178,9 +181,7 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
 
     int deepLevelCount() {
         int count = level;
-        Iterator it = directories.iterator();
-        while (it.hasNext()) {
-            ISO9660Directory dir = (ISO9660Directory) it.next();
+        for (ISO9660Directory dir : directories) {
             count = Math.max(count, dir.deepLevelCount());
         }
         return count;
@@ -188,9 +189,7 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
 
     int deepFileCount() {
         int count = files.size();
-        Iterator it = directories.iterator();
-        while (it.hasNext()) {
-            ISO9660Directory dir = (ISO9660Directory) it.next();
+        for (ISO9660Directory dir : directories) {
             count += dir.deepFileCount();
         }
         return count;
@@ -198,9 +197,7 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
 
     int deepDirCount() {
         int count = directories.size();
-        Iterator it = directories.iterator();
-        while (it.hasNext()) {
-            ISO9660Directory dir = (ISO9660Directory) it.next();
+        for (ISO9660Directory dir : directories) {
             count += dir.deepDirCount();
         }
         return count;
@@ -254,9 +251,10 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
      * @param path Filesystem-specific path to be added recursively
      *
      * @return Topmost added directory
+     * @throws com.github.stephenc.javaisotools.sabre.HandlerException
      */
     public ISO9660Directory addPath(String path) throws HandlerException {
-        ISO9660Directory dir = null;
+        ISO9660Directory dir;
         if (path.indexOf(File.separator) == -1) {
             // Path is a directory - add it if not already listed
             return checkDirectory(path);
@@ -273,9 +271,7 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
     }
 
     private ISO9660Directory checkDirectory(String name) throws HandlerException {
-        Iterator it = directories.iterator();
-        while (it.hasNext()) {
-            ISO9660Directory dir = (ISO9660Directory) it.next();
+        for (ISO9660Directory dir : directories) {
             if (dir.getName().equals(name)) {
                 return dir;
             }
@@ -390,9 +386,8 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
         }
 
         // Add directory contents recursively
-        File[] files = file.listFiles();
-        for (int i = 0; i < files.length; i++) {
-            addRecursively(files[i], true, dir);
+        for (File childFile : file.listFiles()) {
+            addRecursively(childFile, true, dir);
         }
     }
 
@@ -473,15 +468,13 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
         }
 
         clone.level = level;
-        clone.directories = new Vector();
-        clone.files = new Vector();
+        clone.directories = new ArrayList<ISO9660Directory>();
+        clone.files = new ArrayList<ISO9660File>();
         clone.id = id;
         clone.sortedIterator = null;
         clone.sorted = false;
 
-        Iterator dit = directories.iterator();
-        while (dit.hasNext()) {
-            ISO9660Directory subdir = (ISO9660Directory) dit.next();
+        for (ISO9660Directory subdir : directories) {
             ISO9660Directory subdirClone = (ISO9660Directory) subdir.clone();
             subdirClone.setParentDirectory(clone);
             subdirClone.setLevel(level + 1);
@@ -491,9 +484,7 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
             clone.directories.add(subdirClone);
         }
 
-        Iterator fit = files.iterator();
-        while (fit.hasNext()) {
-            ISO9660File file = (ISO9660File) fit.next();
+        for (ISO9660File file : files) {
             ISO9660File fileClone = (ISO9660File) file.clone();
             fileClone.setParentDirectory(clone);
             clone.files.add(fileClone);
@@ -508,7 +499,7 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
      *
      * @return Iterator
      */
-    public Iterator sortedIterator() {
+    public Iterator<ISO9660Directory> sortedIterator() {
         if (sortedIterator == null) {
             sortedIterator = new ISO9660DirectoryIterator(this, true);
         }
@@ -521,7 +512,7 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
      *
      * @return Iterator
      */
-    public Iterator unsortedIterator() {
+    public Iterator<ISO9660Directory> unsortedIterator() {
         if (unsortedIterator == null) {
             unsortedIterator = new ISO9660DirectoryIterator(this, false);
         }

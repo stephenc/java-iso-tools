@@ -61,9 +61,7 @@ public class ISO9660RootDirectory extends ISO9660Directory {
 
     public int deepLevelCount() {
         int count = getLevel();
-        Iterator it = getDirectories().iterator();
-        while (it.hasNext()) {
-            ISO9660Directory dir = (ISO9660Directory) it.next();
+        for (ISO9660Directory dir : getDirectories()) {
             count = Math.max(count, dir.deepLevelCount());
         }
         return count;
@@ -71,9 +69,7 @@ public class ISO9660RootDirectory extends ISO9660Directory {
 
     public int deepFileCount() {
         int count = getFiles().size();
-        Iterator it = getDirectories().iterator();
-        while (it.hasNext()) {
-            ISO9660Directory dir = (ISO9660Directory) it.next();
+        for (ISO9660Directory dir : getDirectories()) {
             count += dir.deepFileCount();
         }
         return count;
@@ -81,9 +77,7 @@ public class ISO9660RootDirectory extends ISO9660Directory {
 
     public int deepDirCount() {
         int count = getDirectories().size();
-        Iterator it = getDirectories().iterator();
-        while (it.hasNext()) {
-            ISO9660Directory dir = (ISO9660Directory) it.next();
+        for (ISO9660Directory dir : getDirectories()) {
             count += dir.deepDirCount();
         }
         return count;

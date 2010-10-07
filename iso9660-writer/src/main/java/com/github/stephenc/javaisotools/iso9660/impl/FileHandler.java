@@ -20,6 +20,7 @@
 package com.github.stephenc.javaisotools.iso9660.impl;
 
 import java.util.Iterator;
+import java.util.List;
 import java.util.Vector;
 
 import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
@@ -57,18 +58,15 @@ public class FileHandler extends ChainingStreamHandler {
     private void doFCA() throws HandlerException {
         doFCADirs(root);
 
-        Iterator it = root.sortedIterator();
+        Iterator<ISO9660Directory> it = root.sortedIterator();
         while (it.hasNext()) {
-            ISO9660Directory dir = (ISO9660Directory) it.next();
+            ISO9660Directory dir = it.next();
             doFCADirs(dir);
         }
     }
 
     private void doFCADirs(ISO9660Directory dir) throws HandlerException {
-        Vector files = dir.getFiles();
-        Iterator fit = files.iterator();
-        while (fit.hasNext()) {
-            ISO9660File file = (ISO9660File) fit.next();
+        for (ISO9660File file : dir.getFiles()) {
             doFile(file);
         }
     }
