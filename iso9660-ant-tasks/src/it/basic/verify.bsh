@@ -1,0 +1,19 @@
+import java.io.*;
+import org.codehaus.plexus.util.FileUtils;
+
+try
+{
+    File buildDir = new File( basedir, "build" );
+    File isoFile = new File( buildDir, "smoke-test.iso");
+    if ( !isoFile.isFile()) {
+        System.err.println( isoFile.getAbsolutePath() + " file was not created" );
+        return false;
+    }
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;
