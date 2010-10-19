@@ -74,8 +74,7 @@ public class FileHandler extends ChainingStreamHandler {
     private void doFile(ISO9660File file) throws HandlerException {
         super.startElement(new FileElement(file));
 
-        FileDataReference fdr = new FileDataReference(file.getFile());
-        data(fdr);
+        data(file.getDataReference());
 
         super.endElement();
     }
