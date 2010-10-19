@@ -124,8 +124,7 @@ public class ElToritoHandler extends ChainingStreamHandler {
         }
 
         // Write Boot Image
-        FileDataReference fdr = new FileDataReference(config.getBootImage().getFile());
-        data(fdr);
+        data(config.getBootImage().getDataReference());
 
         super.endElement();
     }
@@ -183,7 +182,7 @@ public class ElToritoHandler extends ChainingStreamHandler {
             buffer[i++] = (byte) ((lba >> 16) & 0xFF);
             buffer[i++] = (byte) ((lba >> 24) & 0xFF);
             // Boot file length in bytes, 7.3.1 format
-            int len = (int) config.getBootImage().getAbsoluteFile().length();
+            int len = (int) config.getBootImage().length();
             buffer[i++] = (byte) (len & 0xFF);
             buffer[i++] = (byte) ((len >> 8) & 0xFF);
             buffer[i++] = (byte) ((len >> 16) & 0xFF);
