@@ -19,10 +19,12 @@
 package com.github.stephenc.javaisotools.iso9660.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Properties;
+import java.util.Random;
 
 import org.junit.*;
 import org.hamcrest.*;
@@ -50,6 +52,8 @@ import static org.junit.Assert.*;
 public class CreateISOTest {
 
     private static File workDir;
+    
+    private Random entropy = new Random();
 
     @BeforeClass
     public static void loadConfiguration() throws Exception {
@@ -191,5 +195,64 @@ public class CreateISOTest {
         assertThat(t.getType(), is(FileType.FILE));
         assertThat(t.getContent().getSize(), is(7L));
         assertThat(IOUtil.toString(t.getContent().getInputStream()), is("Goodbye"));
+    }
+
+    @Test
+    public void canCreateAnIsoWithLoadsOfFiles() throws Exception {
+        final int numFiles = entropy.nextInt(50) + 50;
+        // Output file
+        File outfile = new File(workDir, "big.iso");
+        File rootDir = new File(workDir, "big");
+        assertThat(rootDir.isDirectory() || rootDir.mkdirs(), is(true));
+
+        // Directory hierarchy, starting from the root
+        ISO9660RootDirectory.MOVED_DIRECTORIES_STORE_NAME = "rr_moved";
+        ISO9660RootDirectory root = new ISO9660RootDirectory();
+        for (int i = 0; i < numFiles; i++) {
+            File content = new File(rootDir, Integer.toString(i) + ".bin");
+            int length = entropy.nextInt(1024 * 10 + 1);
+            byte[] contents = new byte[length];
+            entropy.nextBytes(contents);
+            FileOutputStream fos = null;
+            try {
+                fos = new FileOutputStream(content);
+                 fos.write(contents);
+            } finally {
+                IOUtil.close(fos);
+            }
+            root.addFile(content);
+        }
+
+        StreamHandler streamHandler = new ISOImageFileHandler(outfile);
+        CreateISO iso = new CreateISO(streamHandler, root);
+        ISO9660Config iso9660Config = new ISO9660Config();
+        iso9660Config.allowASCII(false);
+        iso9660Config.setInterchangeLevel(2);
+        iso9660Config.restrictDirDepthTo8(true);
+        iso9660Config.setVolumeID("ISO Test");
+        iso9660Config.forceDotDelimiter(true);
+        RockRidgeConfig rrConfig = new RockRidgeConfig();
+        rrConfig.setMkisofsCompatibility(true);
+        rrConfig.hideMovedDirectoriesStore(true);
+        rrConfig.forcePortableFilenameCharacterSet(true);
+
+        JolietConfig jolietConfig = new JolietConfig();
+        jolietConfig.setVolumeID("Joliet Test");
+        jolietConfig.forceDotDelimiter(true);
+
+        iso.process(iso9660Config, rrConfig, jolietConfig, null);
+
+        assertThat(outfile.isFile(), is(true));
+        assertThat(outfile.length(), not(is(0L)));
+
+        FileSystemManager fsManager = VFS.getManager();
+        for (int i = 0; i < numFiles; i++) {
+            File content = new File(rootDir, Integer.toString(i) + ".bin");
+            FileObject t = fsManager.resolveFile("iso:" + outfile.getPath() + "!/" + Integer.toString(i) + ".bin");
+            assertThat(t, CoreMatchers.<Object>notNullValue());
+            assertThat(t.getType(), is(FileType.FILE));
+            assertThat(t.getContent().getSize(), is(content.length()));
+            assertThat(IOUtil.toByteArray(t.getContent().getInputStream()), is(IOUtil.toByteArray(new FileInputStream(content))));
+        }
     }
 }
