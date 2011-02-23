@@ -124,6 +124,7 @@ public class ISOImageFileHandler implements StreamHandler {
 
     public void endDocument() throws HandlerException {
         try {
+        	this.raFile.close();
             this.dataOutputStream.close();
         } catch (IOException e) {
             throw new HandlerException(e);
