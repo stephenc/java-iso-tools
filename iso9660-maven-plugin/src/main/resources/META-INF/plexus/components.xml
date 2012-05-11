@@ -32,5 +32,11 @@
                 </phases>
             </configuration>
         </component>
+        <component>
+			<role>org.codehaus.plexus.archiver.Archiver</role>
+			<role-hint>iso</role-hint>
+			<implementation>com.github.stephenc.javaisotools.maven.IsoArchiver</implementation>
+			<instantiation-strategy>per-lookup</instantiation-strategy>
+		</component>
     </components>
 </component-set>
