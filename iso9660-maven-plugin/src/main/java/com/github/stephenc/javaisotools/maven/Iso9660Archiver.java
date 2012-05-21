@@ -121,36 +121,10 @@ public class Iso9660Archiver extends AbstractArchiver {
 		ISO9660RootDirectory root = new ISO9660RootDirectory();
 
 		try {
-			Map<String, ISO9660Directory> directories = new TreeMap<String, ISO9660Directory>() {
-				@Override
-				public ISO9660Directory put(String path, ISO9660Directory dir) {
-					System.out.println("directories.put('" + path + "', '"
-							+ dir.getName() + "')");
-					return super.put(path, dir);
-				}
-			};
-			Map<String, ISO9660File> files = new TreeMap<String, ISO9660File>() {
-				@Override
-				public ISO9660File put(String path, ISO9660File file) {
-					System.out.println("files.put('" + path + "', '"
-							+ file.getName() + "')");
-					return super.put(path, file);
-				}
-			};
+			Map<String, ISO9660Directory> directories = new TreeMap<String, ISO9660Directory>();
+			Map<String, ISO9660File> files = new TreeMap<String, ISO9660File>();
 
-			for (ResourceIterator i = getResources(); i.hasNext();) {
-				ArchiveEntry entry = i.next();
-
-				System.out.println("Resource: "
-						+ entry.getResource().getName()
-						+ "; type = "
-						+ (ArchiveEntry.FILE == entry.getType() ? "File"
-								: "Directory"));
-			}
-
-			/*
-			 * Prepare a map of all paths to ISO objects
-			 */
+			/* Prepare a map of all paths to ISO objects and create all intermediate objects */
 			directories.put("", root);
 
 			for (ResourceIterator i = getResources(); i.hasNext();) {
@@ -198,7 +172,7 @@ public class Iso9660Archiver extends AbstractArchiver {
 				}
 			}
 
-			/* Put ISO objects as children of their parents */
+			/* Attache children to their parents */
 			for (Map.Entry<String, ISO9660Directory> e : directories.entrySet()) {
 				if (!e.getKey().equals("")) {
 					ISO9660Directory parent = directories.get(getParentPath(e
@@ -239,10 +213,6 @@ public class Iso9660Archiver extends AbstractArchiver {
 		} catch (ConfigException e) {
 			throw new ArchiverException(e.getMessage(), e);
 		}
-	}
-
-	private String getParentPath(ArchiveEntry entry) {
-		return getParentPath(entry.getName());
 	}
 
 	private String getParentPath(String path) {
