@@ -35,7 +35,7 @@
         <component>
 			<role>org.codehaus.plexus.archiver.Archiver</role>
 			<role-hint>iso</role-hint>
-			<implementation>com.github.stephenc.javaisotools.maven.IsoArchiver</implementation>
+			<implementation>com.github.stephenc.javaisotools.maven.Iso9660Archiver</implementation>
 			<instantiation-strategy>per-lookup</instantiation-strategy>
 		</component>
     </components>

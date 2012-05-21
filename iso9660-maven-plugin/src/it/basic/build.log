@@ -1,0 +1,19 @@
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building ISO9660 Maven Plugin 1.2-SNAPSHOT
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] --- maven-resources-plugin:2.5:resources (default-resources) @ basic ---
+[debug] execute contextualize
+[WARNING] Using platform encoding (MacRoman actually) to copy filtered resources, i.e. build is platform dependent!
+[INFO] Copying 1 resource
+[INFO] 
+[INFO] --- iso9660-maven-plugin:2.0.0-SNAPSHOT:iso (default-iso) @ basic ---
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 0.675s
+[INFO] Finished at: Mon May 21 21:54:57 BST 2012
+[INFO] Final Memory: 4M/81M
+[INFO] ------------------------------------------------------------------------

@@ -51,6 +51,11 @@
 			<artifactId>plexus-archiver</artifactId>
 			<version>2.1.1</version>
 		</dependency>
+		<dependency>
+			<groupId>org.codehaus.plexus</groupId>
+			<artifactId>plexus-component-annotations</artifactId>
+			<version>1.5.5</version>
+		</dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -59,7 +64,7 @@
         </dependency>
     </dependencies>
     <build>
-        <plugins>
+        <plugins><!-- 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-invoker-plugin</artifactId>
@@ -75,7 +80,7 @@
                     </pomIncludes>
                     <postBuildHookScript>verify.bsh</postBuildHookScript>
                 </configuration>
-            </plugin>
+            </plugin> -->
             <plugin>
                 <artifactId>maven-plugin-plugin</artifactId>
                 <version>2.6</version>
