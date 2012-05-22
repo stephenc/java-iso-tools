@@ -46,7 +46,6 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-shade-plugin</artifactId>
-          <version>1.2.1</version>
           <executions>
             <execution>
               <phase>package</phase>
@@ -70,6 +69,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-invoker-plugin</artifactId>
+          <version>1.5</version>
           <configuration>
             <projectsDirectory>src/it</projectsDirectory>
             <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
