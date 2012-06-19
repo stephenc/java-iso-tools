@@ -213,7 +213,7 @@ public class PackageMojo extends AbstractMojo {
     /**
      * The boot Image.
      *
-     * @parameter default-value=""
+     * @parameter
      */
     private File bootImage;
 
