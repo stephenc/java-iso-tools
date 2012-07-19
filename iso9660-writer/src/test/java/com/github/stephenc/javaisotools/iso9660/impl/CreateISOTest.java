@@ -346,4 +346,19 @@ public class CreateISOTest {
         assertThat(outfile.isFile(), is(true));
         assertThat(outfile.length(), not(is(0L)));
     }
+
+    @Test
+    public void canOpenFakeIso() throws Exception {
+    	final String contentString = "This is a text file, not an iso";
+        // Output file
+        File fakeIso = new File(workDir, "fake.iso");
+        OutputStream os = new FileOutputStream(fakeIso);
+        IOUtil.copy(contentString, os);
+        IOUtil.close(os);
+
+        // Trying to open a fake iso
+        FileSystemManager fsManager = VFS.getManager();
+        FileObject fo = fsManager.resolveFile("iso:" + fakeIso.getPath() + "!/");
+        assertFalse("The file '" + fakeIso.getName() + "' is not a valid iso file", fo.exists());
+    }
 }

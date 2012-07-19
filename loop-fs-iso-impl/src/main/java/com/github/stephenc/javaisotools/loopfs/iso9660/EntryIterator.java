@@ -20,7 +20,6 @@
 package com.github.stephenc.javaisotools.loopfs.iso9660;
 
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -39,7 +38,8 @@ class EntryIterator implements Iterator<Iso9660FileEntry> {
     public EntryIterator(final Iso9660FileSystem fileSystem, final Iso9660FileEntry rootEntry) {
         this.fileSystem = fileSystem;
         this.queue = new LinkedList<Iso9660FileEntry>();
-        this.queue.add(rootEntry);
+        if (rootEntry != null)
+        	this.queue.add(rootEntry);
     }
 
     public boolean hasNext() {
