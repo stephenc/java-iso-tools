@@ -255,4 +255,95 @@ public class CreateISOTest {
             assertThat(IOUtil.toByteArray(t.getContent().getInputStream()), is(IOUtil.toByteArray(new FileInputStream(content))));
         }
     }
+
+    @Test
+    public void canCreateAnIsoTopDownHierarchy() throws Exception {
+		// Output file
+        File outfile = new File(workDir, "test.iso");
+        File contentsA = new File(workDir, "a.txt");
+        OutputStream os = new FileOutputStream(contentsA);
+        IOUtil.copy("Hello", os);
+        IOUtil.close(os);
+        File contentsB = new File(workDir, "b.txt");
+        os = new FileOutputStream(contentsB);
+        IOUtil.copy("Goodbye", os);
+        IOUtil.close(os);
+
+        // Top down
+        ISO9660RootDirectory root = new ISO9660RootDirectory();
+        ISO9660Directory n1 = root.addDirectory("D1");
+        ISO9660Directory n2 = n1.addDirectory("D2");
+        ISO9660Directory n3 = n2.addDirectory("D3");
+        n3.addFile(contentsA);
+        n3.addFile(contentsB);
+
+        StreamHandler streamHandler = new ISOImageFileHandler(outfile);
+        CreateISO iso = new CreateISO(streamHandler, root);
+        ISO9660Config iso9660Config = new ISO9660Config();
+        iso9660Config.allowASCII(false);
+        iso9660Config.setInterchangeLevel(2);
+        iso9660Config.restrictDirDepthTo8(true);
+        iso9660Config.setVolumeID("ISO Test");
+        iso9660Config.forceDotDelimiter(true);
+        RockRidgeConfig rrConfig = new RockRidgeConfig();
+        rrConfig.setMkisofsCompatibility(true);
+        rrConfig.hideMovedDirectoriesStore(true);
+        rrConfig.forcePortableFilenameCharacterSet(true);
+
+        JolietConfig jolietConfig = new JolietConfig();
+        jolietConfig.setVolumeID("Joliet Test");
+        jolietConfig.forceDotDelimiter(true);
+
+        iso.process(iso9660Config, rrConfig, jolietConfig, null);
+
+        assertThat(outfile.isFile(), is(true));
+        assertThat(outfile.length(), not(is(0L)));
+    }
+
+    @Test
+    public void canCreateAnIsoBottomUpHierarchy() throws Exception {
+		// Output file
+        File outfile = new File(workDir, "test.iso");
+        File contentsA = new File(workDir, "a.txt");
+        OutputStream os = new FileOutputStream(contentsA);
+        IOUtil.copy("Hello", os);
+        IOUtil.close(os);
+        File contentsB = new File(workDir, "b.txt");
+        os = new FileOutputStream(contentsB);
+        IOUtil.copy("Goodbye", os);
+        IOUtil.close(os);
+
+        // Bottom up
+        ISO9660Directory n3 = new ISO9660Directory("D3");
+        n3.addFile(contentsA);
+        n3.addFile(contentsB);
+        ISO9660Directory n2 = new ISO9660Directory("D2");
+        n2.addDirectory(n3);
+        ISO9660Directory n1 = new ISO9660Directory("D1");
+        n1.addDirectory(n2);
+        ISO9660RootDirectory root = new ISO9660RootDirectory();
+        root.addDirectory(n1);
+
+        StreamHandler streamHandler = new ISOImageFileHandler(outfile);
+        CreateISO iso = new CreateISO(streamHandler, root);
+        ISO9660Config iso9660Config = new ISO9660Config();
+        iso9660Config.allowASCII(false);
+        iso9660Config.setInterchangeLevel(2);
+        iso9660Config.restrictDirDepthTo8(true);
+        iso9660Config.setVolumeID("ISO Test");
+        iso9660Config.forceDotDelimiter(true);
+        RockRidgeConfig rrConfig = new RockRidgeConfig();
+        rrConfig.setMkisofsCompatibility(true);
+        rrConfig.hideMovedDirectoriesStore(true);
+        rrConfig.forcePortableFilenameCharacterSet(true);
+
+        JolietConfig jolietConfig = new JolietConfig();
+        jolietConfig.setVolumeID("Joliet Test");
+        jolietConfig.forceDotDelimiter(true);
+
+        iso.process(iso9660Config, rrConfig, jolietConfig, null);
+
+        assertThat(outfile.isFile(), is(true));
+        assertThat(outfile.length(), not(is(0L)));
+    }
 }
