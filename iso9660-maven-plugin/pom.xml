@@ -70,7 +70,7 @@
     </dependencies>
     <build>
         <plugins> 
-            <!-- <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-invoker-plugin</artifactId>
                 <configuration>
@@ -85,7 +85,7 @@
                     </pomIncludes>
                     <postBuildHookScript>verify.bsh</postBuildHookScript>
                 </configuration>
-            </plugin> -->
+            </plugin>
             <plugin>
                 <artifactId>maven-plugin-plugin</artifactId>
                 <version>2.6</version>
@@ -97,7 +97,9 @@
         <profile>
             <id>run-its</id>
             <activation>
-                <activeByDefault>true</activeByDefault>
+                <os>
+                	<family>!mac</family>
+                </os>
             </activation>
             <build>
                 <defaultGoal>verify</defaultGoal>
