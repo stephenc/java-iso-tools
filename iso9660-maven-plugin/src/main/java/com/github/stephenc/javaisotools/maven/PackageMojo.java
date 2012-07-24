@@ -34,33 +34,35 @@ import com.github.stephenc.javaisotools.sabre.HandlerException;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Creates an iso9660 image.
  *
  * @goal iso
+ * @phase package
  */
 public class PackageMojo extends AbstractMojo {
 
     /**
      * The directory to place the iso9660 image.
      *
-     * @parameter expression="${project.build.directory}"
+     * @parameter default-value="${project.build.directory}"
      */
     private File outputDirectory;
 
     /**
      * The directory to capture the content from.
      *
-     * @parameter expression="${project.build.outputDirectory}"
+     * @parameter default-value="${project.build.outputDirectory}"
      */
     private File inputDirectory;
 
     /**
      * The name of the file to create.
      *
-     * @parameter expression="${project.build.finalName}.${project.packaging}"
+     * @parameter default-value="${project.build.finalName}.${project.packaging}"
      */
     private String finalName;
 
@@ -117,6 +119,15 @@ public class PackageMojo extends AbstractMojo {
      * The volume set size.
      */
     private Integer volumeSetSize;
+    
+    /**
+	* The maven project.  This is injected by Maven.
+	* 
+	* @parameter expression="${project}"
+	* @required
+	* @readonly
+	*/
+	private MavenProject project;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (outputDirectory.isFile()) {
@@ -126,16 +137,19 @@ public class PackageMojo extends AbstractMojo {
         if (!outputDirectory.isDirectory()) {
             throw new MojoExecutionException("Could not create output directory: " + outputDirectory);
         }
+        
         // Directory hierarchy, starting from the root
         ISO9660RootDirectory.MOVED_DIRECTORIES_STORE_NAME = "rr_moved";
         ISO9660RootDirectory root = new ISO9660RootDirectory();
 
+        File isoFile = new File(outputDirectory, finalName);
+        
         try {
             if (inputDirectory.isDirectory()) {
                 root.addContentsRecursively(inputDirectory);
             }
 
-            StreamHandler streamHandler = new ISOImageFileHandler(new File(outputDirectory, finalName));
+            StreamHandler streamHandler = new ISOImageFileHandler(isoFile);
             CreateISO iso = new CreateISO(streamHandler, root);
             ISO9660Config iso9660Config = new ISO9660Config();
             iso9660Config.allowASCII(false);
@@ -160,6 +174,8 @@ public class PackageMojo extends AbstractMojo {
         } catch (ConfigException e) {
             throw new MojoExecutionException(e.getMessage(), e);
         }
+        
+        project.getArtifact().setFile(isoFile);
     }
 
     private void applyConfig(StandardConfig config) throws ConfigException {
