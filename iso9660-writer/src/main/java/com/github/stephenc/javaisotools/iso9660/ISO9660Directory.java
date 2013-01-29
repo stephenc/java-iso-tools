@@ -214,9 +214,26 @@ public class ISO9660Directory implements ISO9660HierarchyObject {
         dir.setLevel(level + 1);
         dir.setParentDirectory(this);
         dir.setRoot(root);
+        updateSubdirectories(dir);
         directories.add(dir);
         sorted = false;
         return dir;
+    }
+
+    /**
+     * Update subdirectories info (level, root) based on <tt>dir</tt> info.
+     * 
+     * @param dir Directory whose subdirectories will be updated
+     */
+    private void updateSubdirectories(ISO9660Directory dir) {
+    	List<ISO9660Directory> subdirectories = dir.getDirectories();
+    	Iterator<ISO9660Directory> iter = subdirectories.iterator();
+    	while (iter.hasNext()) {
+    		ISO9660Directory subdir = (ISO9660Directory) iter.next();
+    		subdir.setLevel(dir.getLevel() + 1);
+    		subdir.setRoot(dir.getRoot());
+    		updateSubdirectories(subdir);
+    	}
     }
 
     /**
