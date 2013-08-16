@@ -23,7 +23,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Vector;
 
 import com.github.stephenc.javaisotools.sabre.HandlerException;
 
@@ -283,7 +282,7 @@ public abstract class StandardConfig {
     /**
      * Set Data Preparer
      *
-     * @param dataPreparer File containting information on the volume data preparer
+     * @param dataPreparer File containing information on the volume data preparer
      *
      * @throws HandlerException Problems converting to ISO9660File
      */
@@ -382,7 +381,7 @@ public abstract class StandardConfig {
     /**
      * Returns active System Identifier
      *
-     * @return Active System Identifer
+     * @return Active System Identifier
      */
     public String getSystemID() {
         return systemID;

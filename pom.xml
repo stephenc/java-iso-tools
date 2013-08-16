@@ -67,7 +67,11 @@
             <id>stephenc</id>
             <name>Stephen Connolly</name>
         </developer>
-    </developers>
+            <developer>
+                <id>yaztromo</id>
+                <name>Brad BARCLAY</name>
+            </developer>
+        </developers>
 
     <build>
         <pluginManagement>
