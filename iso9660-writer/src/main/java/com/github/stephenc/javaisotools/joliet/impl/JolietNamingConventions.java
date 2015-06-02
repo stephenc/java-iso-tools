@@ -21,14 +21,23 @@ package com.github.stephenc.javaisotools.joliet.impl;
 
 import java.util.Vector;
 
-import com.github.stephenc.javaisotools.sabre.HandlerException;
 import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
 import com.github.stephenc.javaisotools.iso9660.ISO9660File;
 import com.github.stephenc.javaisotools.iso9660.NamingConventions;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 
 public class JolietNamingConventions extends NamingConventions {
 
-    public static boolean FORCE_DOT_DELIMITER = true;
+	/**
+	 * The maximum number of UCS2 characters Joliet filenames may have.
+	 * 
+	 * 64 for the specification.
+	 * 103 from mkisofs.
+	 * 110 from Microsoft.
+	 */
+    private static final int JOLIET_MAX_UCS_CHARS = 64;
+    
+	public static boolean FORCE_DOT_DELIMITER = true;
 
     public JolietNamingConventions() {
         super("Joliet");
@@ -80,13 +89,15 @@ public class JolietNamingConventions extends NamingConventions {
             }
         }
 
-        if (filename.length() + extension.length() + (file.getVersion() + "").length() + 2 > 64) {
+        // If the complete file name is too long (name + extension + version + . and ;)
+        int fullLength = filename.length() + extension.length() + (file.getVersion() + "").length() + 2;
+		if (fullLength > JOLIET_MAX_UCS_CHARS) {
             if (filename.length() >= extension.length()) {
                 // Shorten filename
-                filename = filename.substring(0, 64 - extension.length());
+                filename = filename.substring(0, filename.length() - (fullLength - JOLIET_MAX_UCS_CHARS));
             } else {
                 // Shorten extension
-                extension = extension.substring(0, 64 - filename.length());
+                extension = extension.substring(0, extension.length() - (fullLength - JOLIET_MAX_UCS_CHARS));
             }
         }
 

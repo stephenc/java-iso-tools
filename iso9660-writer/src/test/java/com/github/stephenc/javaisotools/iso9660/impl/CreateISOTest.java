@@ -23,17 +23,22 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.Random;
 
 import org.junit.*;
 import org.hamcrest.*;
 
+import com.github.stephenc.javaisotools.iso9660.ISO9660File;
 import com.github.stephenc.javaisotools.iso9660.ISO9660RootDirectory;
 import com.github.stephenc.javaisotools.joliet.impl.JolietConfig;
 import com.github.stephenc.javaisotools.rockridge.impl.RockRidgeConfig;
+import com.github.stephenc.javaisotools.sabre.DataReference;
 import com.github.stephenc.javaisotools.sabre.StreamHandler;
+import com.github.stephenc.javaisotools.sabre.impl.ByteArrayDataReference;
 import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
+
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileType;
@@ -361,4 +366,30 @@ public class CreateISOTest {
         FileObject fo = fsManager.resolveFile("iso:" + fakeIso.getPath() + "!/");
         assertFalse("The file '" + fakeIso.getName() + "' is not a valid iso file", fo.exists());
     }
+    
+    @Test
+	public void cahShortenLongFileNames() throws Exception {
+    	 File outfile = new File(workDir, "64chars.iso");
+    	 
+    	 ISO9660RootDirectory root = new ISO9660RootDirectory();
+    	 
+   		 root.addFile(new ISO9660File(new ByteArrayDataReference("Hello, world!".getBytes(StandardCharsets.UTF_8)) , "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.wsdl", 1121040000l));
+   		 root.addFile(new ISO9660File(new ByteArrayDataReference("Hello, world!".getBytes(StandardCharsets.UTF_8)) , "yxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.wsdl", 1121040000l));
+
+   		 root.addFile(new ISO9660File(new ByteArrayDataReference("Hello, world!".getBytes(StandardCharsets.UTF_8)) , "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 1121040000l));
+   		 root.addFile(new ISO9660File(new ByteArrayDataReference("Hello, world!".getBytes(StandardCharsets.UTF_8)) , "yxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 1121040000l));
+    	 
+    	 StreamHandler streamHandler = new ISOImageFileHandler(outfile);
+         CreateISO iso = new CreateISO(streamHandler, root);
+         
+         ISO9660Config iso9660Config = new ISO9660Config();
+         iso9660Config.setVolumeID("ISO Test");
+         iso9660Config.setVolumeSetID("ISO Test");
+
+         JolietConfig jolietConfig = new JolietConfig();
+         jolietConfig.setVolumeID("ISO Test");
+         jolietConfig.setVolumeSetID("ISO Test");
+
+         iso.process(iso9660Config, null, jolietConfig, null);
+	}
 }
