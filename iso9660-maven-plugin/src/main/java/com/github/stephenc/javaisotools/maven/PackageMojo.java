@@ -256,6 +256,11 @@ public class PackageMojo extends AbstractMojo {
      */
     private boolean genBootInfoTable;
 
+    /**
+     * @parameter default-value="64"
+     */
+	private Integer maxJolietFilenameLength = 64;
+
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (outputDirectory.isFile()) {
             throw new MojoExecutionException("Output directory: " + outputDirectory + " is a file");
@@ -301,6 +306,7 @@ public class PackageMojo extends AbstractMojo {
             if (enableJoliet.booleanValue()) {
 	            jolietConfig = new JolietConfig();
 	            jolietConfig.forceDotDelimiter(forceDotDelimiter.booleanValue());
+	            jolietConfig.setMaxCharsInFilename(maxJolietFilenameLength);
 	            applyConfig(jolietConfig);
             }
 

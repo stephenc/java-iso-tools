@@ -86,6 +86,13 @@
                     </pomIncludes>
                     <postBuildHookScript>verify.bsh</postBuildHookScript>
                 </configuration>
+                <dependencies>
+                	<dependency>
+                		<groupId>${project.groupId}</groupId>
+                		<artifactId>loop-fs-iso-impl</artifactId>
+                		<version>${project.version}</version>
+                	</dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <artifactId>maven-plugin-plugin</artifactId>
