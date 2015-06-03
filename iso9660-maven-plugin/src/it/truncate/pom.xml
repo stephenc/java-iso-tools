@@ -29,24 +29,24 @@
 
     <build>
     	<pluginManagement>
-			<plugins>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-install-plugin</artifactId>
-					<version>2.3.1</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-resources-plugin</artifactId>
-					<version>2.4.2</version>
-				</plugin>
-				<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-deploy-plugin</artifactId>
-					<version>2.8.2</version>
-				</plugin>
-			</plugins>
-		</pluginManagement>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<version>2.3.1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>2.4.2</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.2</version>
+			</plugin>
+		</plugins>
+	</pluginManagement>
         <plugins>
             <plugin>
                 <groupId>@project.groupId@</groupId>
@@ -54,11 +54,11 @@
                 <version>@project.version@</version>
                 <extensions>true</extensions>
                 <configuration>
-					<volumeId>Fail Joliet</volumeId>
-					<volumeSetId>Fail Joliet</volumeSetId>
-					<enableRockRidge>false</enableRockRidge>
-					<failOnJolietFilenameTruncation>true</failOnJolietFilenameTruncation>
-				</configuration>
+			<volumeId>Fail Joliet</volumeId>
+			<volumeSetId>Fail Joliet</volumeSetId>
+			<enableRockRidge>false</enableRockRidge>
+			<failOnJolietFilenameTruncation>true</failOnJolietFilenameTruncation>
+		</configuration>
             </plugin>
         </plugins>
     </build>
@@ -66,8 +66,4 @@
     <organization>
         <name>Foobar Ltd</name>
     </organization>
-
-    <modules>
-    	<module>?</module>
-    </modules>
 </project>

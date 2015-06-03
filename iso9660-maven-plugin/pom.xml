@@ -93,6 +93,15 @@
                 		<version>${project.version}</version>
                 	</dependency>
                 </dependencies>
+		<executions>
+			<execution>
+				<id>integration-test</id>
+				<goals>
+					<goal>install</goal>
+					<goal>run</goal>
+				</goals>
+			</execution>
+		</executions>
             </plugin>
             <plugin>
                 <artifactId>maven-plugin-plugin</artifactId>
@@ -100,37 +109,4 @@
             </plugin>
         </plugins>
     </build>
-
-    <profiles>
-        <profile>
-            <id>run-its</id>
-            <activation>
-                <os>
-                	<family>!mac</family>
-                </os>
-            </activation>
-            <build>
-                <defaultGoal>verify</defaultGoal>
-                <plugins>
-                    <plugin>
-                        <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-invoker-plugin</artifactId>
-                        <configuration>
-                            <streamLogs>false</streamLogs>
-                        </configuration>
-                        <executions>
-                            <execution>
-                                <id>integration-test</id>
-                                <goals>
-                                    <goal>install</goal>
-                                    <goal>run</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
-
 </project>
