@@ -54,7 +54,7 @@ public class JolietHandler extends StandardHandler {
 
         // Use a copy of the original root for Joliet
         ISO9660RootDirectory jolietRoot = (ISO9660RootDirectory) root.clone();
-        this.helper = new JolietLayoutHelper(this, jolietRoot, config.getMaxCharsInFilename());
+        this.helper = new JolietLayoutHelper(this, jolietRoot, config.getMaxCharsInFilename(), config.getFailOnTruncation());
         this.factory = new ISO9660Factory(this, config, helper, jolietRoot, volumeFixups);
 
         factory.applyNamingConventions();

@@ -28,6 +28,11 @@ import com.github.stephenc.javaisotools.sabre.HandlerException;
 
 public class JolietNamingConventions extends NamingConventions {
     private final int jolietMaxChars;
+
+    /**
+     * Whether to fail if a file name will be truncated
+     */
+	private boolean failOnTruncation;
     
 	public static boolean FORCE_DOT_DELIMITER = true;
 
@@ -38,9 +43,10 @@ public class JolietNamingConventions extends NamingConventions {
 	 * 
 	 * @see http://msdn.microsoft.com/en-us/library/ff469400.aspx
 	 */
-    public JolietNamingConventions(int maxChars) {
+    public JolietNamingConventions(int maxChars, boolean failOnTruncation) {
         super("Joliet");
         jolietMaxChars = maxChars;
+        this.failOnTruncation = failOnTruncation;
     }
 
     public void apply(ISO9660Directory dir) throws HandlerException {
@@ -92,6 +98,9 @@ public class JolietNamingConventions extends NamingConventions {
         // If the complete file name is too long (name + extension + version + . and ;)
         int fullLength = filename.length() + extension.length() + (file.getVersion() + "").length() + 2;
 		if (fullLength > jolietMaxChars) {
+			if (failOnTruncation) {
+				throw new HandlerException("File " + file.getFullName() + " is longer than the maximum Joliet name of " + jolietMaxChars + " characters");
+			}
             if (filename.length() >= extension.length()) {
                 // Shorten filename
                 filename = filename.substring(0, filename.length() - (fullLength - jolietMaxChars));

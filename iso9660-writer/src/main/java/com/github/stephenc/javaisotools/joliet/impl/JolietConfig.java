@@ -33,6 +33,8 @@ public class JolietConfig extends StandardConfig {
     int ucs2_level;
     
 	private int maxCharsInFilename = 64;
+	
+	private boolean failOnTruncation;
 
     public JolietConfig() {
         super();
@@ -132,5 +134,13 @@ public class JolietConfig extends StandardConfig {
 	
 	public void setMaxCharsInFilename(int maxCharsInFilename) {
 		this.maxCharsInFilename = maxCharsInFilename;
+	}
+
+	public boolean getFailOnTruncation() {
+		return failOnTruncation;
+	}
+	
+	public void setFailOnTruncation(boolean failOnTruncation) {
+		this.failOnTruncation = failOnTruncation;
 	}
 }

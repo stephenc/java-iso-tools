@@ -1,0 +1,21 @@
+import java.io.*;
+import java.util.*;
+
+File buildDir = new File( basedir, "target" );
+File isoFile = new File( buildDir, "truncate-1.2-SNAPSHOT.iso");
+
+/* Check that the ISO is generated */
+try
+{
+    if (isoFile.isFile()) {
+        System.err.println( isoFile.getAbsolutePath() + " file was created" );
+        return false;
+    }
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+return true;

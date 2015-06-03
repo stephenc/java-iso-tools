@@ -35,6 +35,7 @@ import com.github.stephenc.javaisotools.iso9660.ISO9660RootDirectory;
 import com.github.stephenc.javaisotools.joliet.impl.JolietConfig;
 import com.github.stephenc.javaisotools.rockridge.impl.RockRidgeConfig;
 import com.github.stephenc.javaisotools.sabre.DataReference;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 import com.github.stephenc.javaisotools.sabre.StreamHandler;
 import com.github.stephenc.javaisotools.sabre.impl.ByteArrayDataReference;
 import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
@@ -392,4 +393,36 @@ public class CreateISOTest {
 
          iso.process(iso9660Config, null, jolietConfig, null);
 	}
+    
+    @Test
+    public void canFailOnTruncatedName() throws Exception
+    {
+		File outfile = new File(workDir, "truncate.iso");
+		 
+		ISO9660RootDirectory root = new ISO9660RootDirectory();
+		 
+		root.addFile(new ISO9660File(new ByteArrayDataReference("Hello, world!".getBytes(StandardCharsets.UTF_8)) , "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.wsdl", 1121040000l));
+		 
+		StreamHandler streamHandler = new ISOImageFileHandler(outfile);
+		CreateISO iso = new CreateISO(streamHandler, root);
+		    
+		ISO9660Config iso9660Config = new ISO9660Config();
+		iso9660Config.setVolumeID("ISO Test");
+		iso9660Config.setVolumeSetID("ISO Test");
+		
+		JolietConfig jolietConfig = new JolietConfig();
+		jolietConfig.setVolumeID("ISO Test");
+		jolietConfig.setVolumeSetID("ISO Test");
+		jolietConfig.setMaxCharsInFilename(12);
+		jolietConfig.setFailOnTruncation(true);
+		
+		try {
+			iso.process(iso9660Config, null, jolietConfig, null);
+			
+			Assert.fail("Should have failed because a filename would have been truncated");
+		}
+		catch (HandlerException x) {
+			/* Success: the truncation was noted */
+		}
+    }
 }
