@@ -133,9 +133,9 @@ public class CreateISOTest {
 
         FileSystemManager fsManager = VFS.getManager();
         // TODO figure out why we can't just do
-        // FileObject isoFile = fsManager.resolveFile("iso:" + outfile.getPath() + "!/");
+        // FileObject isoFile = fsManager.resolveFile("iso:/" + outfile.getPath() + "!/");
         // smells like a bug between loop-fs and commons-vfs
-        FileObject isoFile = fsManager.resolveFile("iso:" + outfile.getPath() + "!/readme.txt").getParent();
+        FileObject isoFile = fsManager.resolveFile("iso:/" + outfile.getPath() + "!/readme.txt").getParent();
         assertThat(isoFile.getType(), is(FileType.FOLDER));
 
         FileObject[] children = isoFile.getChildren();
@@ -189,7 +189,7 @@ public class CreateISOTest {
         assertThat(outfile.length(), not(is(0L)));
 
         FileSystemManager fsManager = VFS.getManager();
-        FileObject isoFile = fsManager.resolveFile("iso:" + outfile.getPath() + "!/root");
+        FileObject isoFile = fsManager.resolveFile("iso:/" + outfile.getPath() + "!/root");
 
         FileObject t = isoFile.getChild("a.txt");
         assertThat(t, CoreMatchers.<Object>notNullValue());
@@ -254,7 +254,7 @@ public class CreateISOTest {
         FileSystemManager fsManager = VFS.getManager();
         for (int i = 0; i < numFiles; i++) {
             File content = new File(rootDir, Integer.toString(i) + ".bin");
-            FileObject t = fsManager.resolveFile("iso:" + outfile.getPath() + "!/" + Integer.toString(i) + ".bin");
+            FileObject t = fsManager.resolveFile("iso:/" + outfile.getPath() + "!/" + Integer.toString(i) + ".bin");
             assertThat(t, CoreMatchers.<Object>notNullValue());
             assertThat(t.getType(), is(FileType.FILE));
             assertThat(t.getContent().getSize(), is(content.length()));
@@ -364,7 +364,7 @@ public class CreateISOTest {
 
         // Trying to open a fake iso
         FileSystemManager fsManager = VFS.getManager();
-        FileObject fo = fsManager.resolveFile("iso:" + fakeIso.getPath() + "!/");
+        FileObject fo = fsManager.resolveFile("iso:/" + fakeIso.getPath() + "!/");
         assertFalse("The file '" + fakeIso.getName() + "' is not a valid iso file", fo.exists());
     }
     
