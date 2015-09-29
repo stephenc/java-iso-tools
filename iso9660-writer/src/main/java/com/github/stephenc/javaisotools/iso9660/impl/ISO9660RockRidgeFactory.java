@@ -417,13 +417,10 @@ public class ISO9660RockRidgeFactory extends ISO9660Factory {
         final POSIXFileMode ret = new POSIXFileMode();
         
         // Try to see if we can match the object name against one of the matchers
-        System.out.println(String.format("*** Checking permissions map for file with name \"%s\".", ho.getName()));
         for(String pattern:fileModesMap.keySet()) {
-            System.out.println(String.format("*** Comparing to pattern \"%s\"", pattern));
             Pattern p = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
             Matcher m = p.matcher(ho.getName());
             if (m.matches()) {
-                System.out.println(String.format("*** Matched object with name \"%s\".  Applying permission %o.", ho.getName(), fileModesMap.get(pattern)));
                 POSIXFileMode mode = new POSIXFileMode();
                 mode.setDefault(ho instanceof ISO9660Directory);
                 mode.setPermission(fileModesMap.get(pattern));
