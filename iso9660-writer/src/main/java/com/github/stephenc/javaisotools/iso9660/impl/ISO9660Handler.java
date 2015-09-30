@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2013. Brad BARCLAY <brad.barclay@infor.com>
  * Copyright (c) 2010. Stephen Connolly.
  * Copyright (C) 2007. Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
@@ -56,7 +57,7 @@ public class ISO9660Handler extends StandardHandler {
         this.helper = new ISO9660LayoutHelper(this, isoRoot);
 
         if (rrConfig != null) {
-            this.factory = new ISO9660RockRidgeFactory(this, config, helper, root, isoRoot, volumeFixups);
+            this.factory = new ISO9660RockRidgeFactory(this, config, helper, root, isoRoot, volumeFixups, rrConfig.getPatternToModeMap());
         } else {
             this.factory = new ISO9660Factory(this, config, helper, isoRoot, volumeFixups);
         }

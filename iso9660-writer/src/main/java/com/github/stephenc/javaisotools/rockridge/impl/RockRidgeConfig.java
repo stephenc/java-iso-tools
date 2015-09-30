@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2013. Brad BARCLAY <brad.barclay@infor.com>
  * Copyright (c) 2010. Stephen Connolly.
  * Copyright (C) 2007. Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
@@ -20,9 +21,14 @@
 package com.github.stephenc.javaisotools.rockridge.impl;
 
 import com.github.stephenc.javaisotools.iso9660.ConfigException;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RockRidgeConfig {
 
+    private Map<String, Integer> patternToModeMap = new HashMap<String, Integer>();
+    
     /**
      * Set mkisofs Compatibility<br> mkisofs implements version 1.09 of the Rock Ridge Interchange Protocol, whereas the
      * current version 1.12 was adopted as an IEEE standard. The differences are as follows:<br> 1. The ER System Use
@@ -79,5 +85,23 @@ public class RockRidgeConfig {
      */
     public void hideMovedDirectoriesStore(boolean flag) {
         RockRidgeNamingConventions.HIDE_MOVED_DIRECTORIES_STORE = flag;
+    }
+
+    /**
+     * Add a new mode for a specific file pattern.
+     * @param pattern the pattern to be matched
+     * @param mode the POSIX file mode for matching filenames
+     */
+    public void addModeForPattern(String pattern, Integer mode) {
+        System.out.println(String.format("*** Recording pattern \"%s\" with mode %o", pattern, mode));
+        patternToModeMap.put(pattern, mode);
+    }
+
+    /**
+     * Retrieve the pattern-to-mode map in an unmodifiable form.
+     * @return the pattern-to-mode map in an unmodifiable form.
+     */
+    public Map<String, Integer> getPatternToModeMap() {
+        return Collections.unmodifiableMap(patternToModeMap);
     }
 }
