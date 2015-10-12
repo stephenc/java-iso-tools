@@ -21,7 +21,7 @@
     <parent>
         <artifactId>java-iso-tools-parent</artifactId>
         <groupId>com.github.stephenc.java-iso-tools</groupId>
-        <version>2.0.1-SNAPSHOT</version>
+        <version>2.0.2-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -37,7 +37,7 @@
         <dependency>
             <groupId>com.github.stephenc.java-iso-tools</groupId>
             <artifactId>iso9660-writer</artifactId>
-            <version>2.0.1-SNAPSHOT</version>
+            <version>2.0.2-SNAPSHOT</version>
         </dependency>
     </dependencies>
     
@@ -69,7 +69,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-invoker-plugin</artifactId>
-          <version>1.5</version>
+          <version>2.0.0</version>
           <configuration>
             <projectsDirectory>src/it</projectsDirectory>
             <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>

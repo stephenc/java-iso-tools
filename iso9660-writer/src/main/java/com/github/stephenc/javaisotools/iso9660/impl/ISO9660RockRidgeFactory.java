@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2013. Brad BARCLAY <brad.barclay@infor.com>
  * Copyright (c) 2010. Stephen Connolly.
  * Copyright (C) 2007. Jens Hatlak <hatlak@rbg.informatik.tu-darmstadt.de>
  *
@@ -19,17 +20,11 @@
 
 package com.github.stephenc.javaisotools.iso9660.impl;
 
+import com.github.stephenc.javaisotools.iso9660.*;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
-import com.github.stephenc.javaisotools.iso9660.FilenameDataReference;
-import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
-import com.github.stephenc.javaisotools.iso9660.ISO9660File;
-import com.github.stephenc.javaisotools.iso9660.ISO9660RootDirectory;
-import com.github.stephenc.javaisotools.iso9660.LayoutHelper;
-import com.github.stephenc.javaisotools.iso9660.NamingConventions;
-import com.github.stephenc.javaisotools.iso9660.StandardConfig;
 import com.github.stephenc.javaisotools.iso9660.sabre.impl.BothWordDataReference;
 import com.github.stephenc.javaisotools.rockridge.impl.POSIXFileMode;
 import com.github.stephenc.javaisotools.rockridge.impl.RRIPFactory;
@@ -39,6 +34,9 @@ import com.github.stephenc.javaisotools.sabre.HandlerException;
 import com.github.stephenc.javaisotools.rockridge.impl.RockRidgeLayoutHelper;
 import com.github.stephenc.javaisotools.rockridge.impl.RockRidgeNamingConventions;
 import com.github.stephenc.javaisotools.sabre.StreamHandler;
+import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ISO9660RockRidgeFactory extends ISO9660Factory {
 
@@ -47,9 +45,10 @@ public class ISO9660RockRidgeFactory extends ISO9660Factory {
     private RockRidgeLayoutHelper helper;
     private ISO9660RootDirectory rripRoot;
     private HashMap originalParentMapper, parentLocationFixups, parentLocations, childLocationFixups, childLocations;
+    private final Map<String, Integer> fileModesMap;
 
     public ISO9660RockRidgeFactory(StreamHandler streamHandler, StandardConfig config, LayoutHelper helper,
-                                   ISO9660RootDirectory root, ISO9660RootDirectory isoRoot, HashMap volumeFixups) {
+                                   ISO9660RootDirectory root, ISO9660RootDirectory isoRoot, HashMap volumeFixups, Map<String, Integer> fileModesMap) {
         super(streamHandler, config, helper, isoRoot, volumeFixups);
         this.rripFactory = new RRIPFactory(streamHandler);
         this.unfinishedNMEntries = new LinkedList();
@@ -59,6 +58,7 @@ public class ISO9660RockRidgeFactory extends ISO9660Factory {
         this.helper = new RockRidgeLayoutHelper(streamHandler, isoRoot, rripRoot);
 
         originalParentMapper = new HashMap();
+        this.fileModesMap = fileModesMap;
     }
 
     public void applyNamingConventions() throws HandlerException {
@@ -139,9 +139,7 @@ public class ISO9660RockRidgeFactory extends ISO9660Factory {
         }
 
         // PX: POSIX File Attributes
-        POSIXFileMode fileMode = new POSIXFileMode();
-        fileMode.setDefault(true);
-        int fileModes = fileMode.getFileMode();
+        int fileModes = getPOSIXFileModeForObject(dir).getFileMode();
         int fileLinks = 2 + dir.getDirectories().size();
         rripFactory.doPXEntry(fileModes, fileLinks, 0, 0, 1);
 
@@ -169,8 +167,7 @@ public class ISO9660RockRidgeFactory extends ISO9660Factory {
         }
 
         // PX: POSIX File Attributes
-        POSIXFileMode fileMode = new POSIXFileMode();
-        fileMode.setDefault(false);
+        POSIXFileMode fileMode = getPOSIXFileModeForObject(file);
         int fileModes = fileMode.getFileMode();
         rripFactory.doPXEntry(fileModes, 1, 0, 0, 1);
 
@@ -207,8 +204,7 @@ public class ISO9660RockRidgeFactory extends ISO9660Factory {
         }
 
         // PX: POSIX File Attributes
-        POSIXFileMode fileMode = new POSIXFileMode();
-        fileMode.setDefault(true);
+        POSIXFileMode fileMode = getPOSIXFileModeForObject(dir);
         int fileModes = fileMode.getFileMode();
         int fileLinks = 2 + dir.getDirectories().size();
         rripFactory.doPXEntry(fileModes, fileLinks, 0, 0, 1);
@@ -243,8 +239,7 @@ public class ISO9660RockRidgeFactory extends ISO9660Factory {
         }
 
         // PX: POSIX File Attributes
-        POSIXFileMode fileMode = new POSIXFileMode();
-        fileMode.setDefault(true);
+        POSIXFileMode fileMode = getPOSIXFileModeForObject(dir);
         int fileModes = fileMode.getFileMode();
         int fileLinks = 2 + dir.getDirectories().size();
         rripFactory.doPXEntry(fileModes, fileLinks, 0, 0, 1);
@@ -289,8 +284,7 @@ public class ISO9660RockRidgeFactory extends ISO9660Factory {
         }
 
         // PX: POSIX File Attributes
-        POSIXFileMode fileMode = new POSIXFileMode();
-        fileMode.setDefault(true);
+        POSIXFileMode fileMode = getPOSIXFileModeForObject(dir);
         int fileModes = fileMode.getFileMode();
         int fileLinks = 2 + parentDir.getDirectories().size();
         rripFactory.doPXEntry(fileModes, fileLinks, 0, 0, 1);
@@ -419,6 +413,26 @@ public class ISO9660RockRidgeFactory extends ISO9660Factory {
         streamHandler.endElement();
     }
 
+    private POSIXFileMode getPOSIXFileModeForObject(ISO9660HierarchyObject ho) {
+        final POSIXFileMode ret = new POSIXFileMode();
+        
+        // Try to see if we can match the object name against one of the matchers
+        for(String pattern:fileModesMap.keySet()) {
+            Pattern p = Pattern.compile(pattern, Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(ho.getName());
+            if (m.matches()) {
+                POSIXFileMode mode = new POSIXFileMode();
+                mode.setDefault(ho instanceof ISO9660Directory);
+                mode.setPermission(fileModesMap.get(pattern));
+                return mode;
+            }
+        }
+        
+        // If not, return the default mode object
+        ret.setDefault(ho instanceof ISO9660Directory);
+        return ret;
+    }
+    
     class UnfinishedNMEntry {
 
         Fixup location, offset, length;

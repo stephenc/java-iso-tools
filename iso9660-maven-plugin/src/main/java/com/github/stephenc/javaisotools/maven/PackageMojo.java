@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2013. Brad BARCLAY <brad.barclay@infor.com>
  * Copyright (c) 2010. Stephen Connolly.
  *
  * This library is free software; you can redistribute it and/or
@@ -32,6 +33,8 @@ import com.github.stephenc.javaisotools.iso9660.impl.CreateISO;
 import com.github.stephenc.javaisotools.iso9660.impl.ISO9660Config;
 import com.github.stephenc.javaisotools.joliet.impl.JolietConfig;
 import com.github.stephenc.javaisotools.sabre.HandlerException;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
@@ -129,13 +132,11 @@ public class PackageMojo extends AbstractMojo {
     private Integer volumeSetSize;
     
     /**
-	* The maven project.  This is injected by Maven.
-	* 
-	* @parameter expression="${project}"
-	* @required
-	* @readonly
-	*/
-	private MavenProject project;
+     * The maven project. This is injected by Maven.
+     *
+     * @parameter expression="${project}" @required @readonly
+     */
+    private MavenProject project;
 
     /**
      * enable RockRidge.
@@ -255,6 +256,14 @@ public class PackageMojo extends AbstractMojo {
      * @parameter default-value="false"
      */
     private boolean genBootInfoTable;
+    
+    /**
+     * A list of file permissions, mapping a pattern to a permission.
+     * Used for burning Rock Ridge information as a way to include permissions for particular files.
+     * 
+     * @parameter
+     */
+    private List<FilePermission> permissions = new ArrayList<FilePermission>();
 
     /**
      * The maximum Joliet filename length. Values greater than 64 break the
@@ -272,6 +281,14 @@ public class PackageMojo extends AbstractMojo {
 	private boolean failOnJolietFilenameTruncation;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
+        if (permissions == null) {
+            System.out.println("*** Permissions list is null!");
+        } else {
+            if (permissions.isEmpty()) System.out.println("*** Permissions list is empty!");
+            else System.out.println(String.format("*** Permissions list has %d entries.", permissions.size()));
+        }
+        
+        
         if (outputDirectory.isFile()) {
             throw new MojoExecutionException("Output directory: " + outputDirectory + " is a file");
         }
@@ -309,6 +326,11 @@ public class PackageMojo extends AbstractMojo {
 	            rrConfig.setMkisofsCompatibility(mkisofsCompatibility.booleanValue());
 	            rrConfig.hideMovedDirectoriesStore(hideMovedDirectoriesStore.booleanValue());
 	            rrConfig.forcePortableFilenameCharacterSet(forcePortableFilenameCharacterSet.booleanValue());
+                    
+                    for(FilePermission fp:permissions) {
+                        // Cycle through the pom conifuration values, adding them to the rrConfig.
+                        rrConfig.addModeForPattern(fp.getFilePattern(), fp.getPermissionAsInt());
+                    }
             }
 
             JolietConfig jolietConfig = null;
