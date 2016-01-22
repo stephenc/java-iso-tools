@@ -33,16 +33,16 @@ class EntryInputStream extends InputStream {
     private Iso9660FileSystem fileSystem;
 
     // current position within entry data
-    private int pos;
+    private long pos;
 
     // number of remaining bytes within entry
-    private int rem;
+    private long rem;
 
     EntryInputStream(final Iso9660FileEntry entry, final Iso9660FileSystem fileSystem) {
         this.fileSystem = fileSystem;
         this.entry = entry;
         this.pos = 0;
-        this.rem = (int) entry.getSize();
+        this.rem = entry.getSize();
     }
 
     public int read(final byte b[], final int off, final int len) throws IOException {
@@ -58,7 +58,7 @@ class EntryInputStream extends InputStream {
         int toRead = len;
 
         if (toRead > this.rem) {
-            toRead = this.rem;
+            toRead = (int) this.rem;
         }
 
         int read;
@@ -94,7 +94,7 @@ class EntryInputStream extends InputStream {
     public long skip(final long n) {
         ensureOpen();
 
-        final int len = (n > this.rem) ? this.rem : (int) n;
+        final long len = (n > this.rem) ? this.rem : n;
 
         this.pos += len;
         this.rem -= len;
@@ -107,13 +107,13 @@ class EntryInputStream extends InputStream {
     }
 
     public int available() {
-        return Math.max(this.rem, 0);
+        return (int) Math.max(this.rem, 0);
     }
 
-    public int size() {
+    public long size() {
         ensureOpen();
 
-        return (int) this.entry.getSize();
+        return this.entry.getSize();
     }
 
     public void close() {
