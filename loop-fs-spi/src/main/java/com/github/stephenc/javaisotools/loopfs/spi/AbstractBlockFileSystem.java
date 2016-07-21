@@ -11,7 +11,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
  * Lesser General Public License for more details.
- *  
+ *
  * You should have received a copy of the GNU Lesser General Public
  * License along with this library; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -19,9 +19,7 @@
 
 package com.github.stephenc.javaisotools.loopfs.spi;
 
-import java.io.File;
 import java.io.IOException;
-import java.util.Enumeration;
 import java.util.Iterator;
 
 import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
@@ -36,10 +34,10 @@ public abstract class AbstractBlockFileSystem<T extends FileEntry> extends Abstr
     private final int reservedBlocks;
     private VolumeDescriptorSet<T> volumeDescriptorSet;
 
-    protected AbstractBlockFileSystem(final File file, final boolean readOnly, final int blockSize,
+    protected AbstractBlockFileSystem(final SeekableInput seekable, final boolean readOnly, final int blockSize,
                                       final int reservedBlocks)
             throws IOException {
-        super(file, readOnly);
+        super(seekable, readOnly);
 
         if (blockSize <= 0) {
             throw new IllegalArgumentException("'blockSize' must be > 0");
