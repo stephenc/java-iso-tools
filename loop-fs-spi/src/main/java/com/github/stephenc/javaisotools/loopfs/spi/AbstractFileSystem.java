@@ -19,38 +19,26 @@
 
 package com.github.stephenc.javaisotools.loopfs.spi;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.RandomAccessFile;
-import java.util.Enumeration;
-import java.util.Iterator;
 
 import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
 import com.github.stephenc.javaisotools.loopfs.api.FileSystem;
 
 /**
- * Implementation of FileSystem that is backed by a {@link RandomAccessFile}.
+ * Implementation of FileSystem that is backed by a {@link SeekableInput}.
  */
 public abstract class AbstractFileSystem<T extends FileEntry> implements FileSystem<T> {
 
     /**
      * Channel to the open file.
      */
-    private RandomAccessFile channel;
+    private SeekableInput channel;
 
-    protected AbstractFileSystem(final File file, final boolean readOnly) throws IOException {
+    protected AbstractFileSystem(final SeekableInput seekable, final boolean readOnly) throws IOException {
         if (!readOnly) {
-            throw new IllegalArgumentException("Currrently, only read-only is supported");
+            throw new IllegalArgumentException("Currently, only read-only is supported");
         }
-
-        // check that the underlying file is valid
-        if (!file.exists()) {
-            throw new FileNotFoundException("File does not exist: " + file);
-        }
-
-        // open the channel
-        this.channel = new RandomAccessFile(file, "r");
+        this.channel = seekable;
     }
 
     // TODO: close open streams automatically
@@ -59,7 +47,6 @@ public abstract class AbstractFileSystem<T extends FileEntry> implements FileSys
         if (isClosed()) {
             return;
         }
-
         try {
             this.channel.close();
         }

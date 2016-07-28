@@ -25,12 +25,18 @@ import java.io.InputStream;
 import java.util.Iterator;
 
 import com.github.stephenc.javaisotools.loopfs.spi.AbstractBlockFileSystem;
+import com.github.stephenc.javaisotools.loopfs.spi.SeekableInput;
+import com.github.stephenc.javaisotools.loopfs.spi.SeekableInputFile;
 import com.github.stephenc.javaisotools.loopfs.spi.VolumeDescriptorSet;
 
 public class Iso9660FileSystem extends AbstractBlockFileSystem<Iso9660FileEntry> {
 
     public Iso9660FileSystem(File file, boolean readOnly) throws IOException {
-        super(file, readOnly, Constants.DEFAULT_BLOCK_SIZE, Constants.RESERVED_SECTORS);
+        this(new SeekableInputFile(file), readOnly);
+    }
+
+    public Iso9660FileSystem(SeekableInput seekable, boolean readOnly) throws IOException {
+        super(seekable, readOnly, Constants.DEFAULT_BLOCK_SIZE, Constants.RESERVED_SECTORS);
     }
 
     public String getEncoding() {

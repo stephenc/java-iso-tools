@@ -23,14 +23,17 @@ import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
 
+import com.github.stephenc.javaisotools.loopfs.spi.SeekableInputFileHadoop;
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.hdfs.MiniDFSCluster;
 import org.junit.*;
 
-import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
-import com.github.stephenc.javaisotools.loopfs.api.FileSystem;
 import org.codehaus.plexus.util.IOUtil;
 
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.*;
+import static org.junit.Assume.assumeTrue;
 
 /**
  * Tests the Iso9660 implementation.
@@ -41,6 +44,7 @@ import static org.junit.Assert.*;
 public class Iso9660FileSystemTest {
 
     private static Properties testProperties;
+    private static String filePath;
 
     @BeforeClass
     public static void loadConfiguration() throws Exception {
@@ -49,6 +53,7 @@ public class Iso9660FileSystemTest {
         try {
             is = Iso9660FileSystemTest.class.getResourceAsStream("/test.properties");
             testProperties.load(is);
+            filePath = testProperties.getProperty("source-image");
         } finally {
             IOUtil.close(is);
         }
@@ -56,7 +61,26 @@ public class Iso9660FileSystemTest {
 
     @Test
     public void smokes() throws Exception {
-        Iso9660FileSystem image = new Iso9660FileSystem(new File(testProperties.getProperty("source-image")), true);
+        Iso9660FileSystem image = new Iso9660FileSystem(new File(filePath), true);
+        this.runCheck(image);
+    }
+
+    @Test
+    public void hdfsSmokes() throws Exception {
+        assumeTrue(isNotWindows());
+        //Creating a Mini DFS Cluster as the default File System does not return a Seekable Stream
+        MiniDFSCluster.Builder builder = new MiniDFSCluster.Builder(new Configuration());
+        MiniDFSCluster hdfsCluster = builder.build();
+        String hdfsTestFile = "hdfs://127.0.0.1:"+ hdfsCluster.getNameNodePort() + "/test/" + filePath;
+        hdfsCluster.getFileSystem()
+                .copyFromLocalFile(new Path(filePath), new Path(hdfsTestFile));
+        InputStream is = hdfsCluster.getFileSystem().open(new Path(hdfsTestFile));
+        Iso9660FileSystem image = new Iso9660FileSystem(new SeekableInputFileHadoop(is), true);
+        this.runCheck(image);
+        hdfsCluster.shutdown();
+    }
+
+    private void runCheck(Iso9660FileSystem image) throws Exception {
         File source = new File(testProperties.getProperty("source-root"));
         for (Iso9660FileEntry entry : image) {
             File sourceFile = new File(source, entry.getPath());
@@ -67,5 +91,10 @@ public class Iso9660FileSystemTest {
                         IOUtil.contentEquals(image.getInputStream(entry), new FileInputStream(sourceFile)), is(true));
             }
         }
+    }
+
+    private boolean isNotWindows() {
+        String os = System.getProperty("os.name");
+        return !os.startsWith("Windows");
     }
 }

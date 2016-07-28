@@ -22,20 +22,20 @@ package com.github.stephenc.javaisotools.loopfs.udf;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Enumeration;
 import java.util.Iterator;
 
-import com.github.stephenc.javaisotools.loopfs.api.FileEntry;
 import com.github.stephenc.javaisotools.loopfs.spi.AbstractBlockFileSystem;
+import com.github.stephenc.javaisotools.loopfs.spi.SeekableInput;
+import com.github.stephenc.javaisotools.loopfs.spi.SeekableInputFile;
 import com.github.stephenc.javaisotools.loopfs.spi.VolumeDescriptorSet;
 
 public class UDFFileSystem extends AbstractBlockFileSystem<UDFFileEntry> {
 
     public UDFFileSystem(File file, boolean readOnly) throws IOException {
-        this(file, readOnly, Constants.DEFAULT_BLOCK_SIZE);
+        this(new SeekableInputFile(file), readOnly, Constants.DEFAULT_BLOCK_SIZE);
     }
 
-    public UDFFileSystem(File file, boolean readOnly, int sectorSize) throws IOException {
+    public UDFFileSystem(SeekableInput file, boolean readOnly, int sectorSize) throws IOException {
         super(file, readOnly, sectorSize, Constants.RESERVED_SECTORS);
     }
 
