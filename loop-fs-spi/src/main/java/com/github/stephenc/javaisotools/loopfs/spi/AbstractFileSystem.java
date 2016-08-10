@@ -85,7 +85,21 @@ public abstract class AbstractFileSystem<T extends FileEntry> implements FileSys
      */
     protected final int read(byte[] buffer, int offset, int length) throws IOException {
         ensureOpen();
-        return this.channel.read(buffer, offset, length);
+        return readFully(buffer, offset, length);
+    }
+
+    private int readFully(byte[] buffer, int offset, int length) throws IOException {
+        int bytesRead;
+        int remaining = length;
+
+        // read doesn't guarantee a full buffer is read. Reading until we have a full buffer or end of stream
+        while (remaining != 0 &&
+                (bytesRead = this.channel.read(buffer, offset, remaining)) != -1) {
+            offset += bytesRead;
+            remaining -= bytesRead;
+        }
+        int totalBytesRead = length - remaining;
+        return totalBytesRead;
     }
 
 }
