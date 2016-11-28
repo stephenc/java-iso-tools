@@ -1,7 +1,9 @@
+build
 target
 *.iml
 *.ipr
 *.iws
+.idea
 .project
 .settings
 .classpath
