@@ -21,17 +21,32 @@ package com.github.stephenc.javaisotools.joliet.impl;
 
 import java.util.Vector;
 
-import com.github.stephenc.javaisotools.sabre.HandlerException;
 import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
 import com.github.stephenc.javaisotools.iso9660.ISO9660File;
 import com.github.stephenc.javaisotools.iso9660.NamingConventions;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 
 public class JolietNamingConventions extends NamingConventions {
+    private final int jolietMaxChars;
 
-    public static boolean FORCE_DOT_DELIMITER = true;
+    /**
+     * Whether to fail if a file name will be truncated
+     */
+	private boolean failOnTruncation;
+    
+	public static boolean FORCE_DOT_DELIMITER = true;
 
-    public JolietNamingConventions() {
+	/**
+	 * @param maxChars
+	 *            Maximum number of characters permitted in the filename: (64
+	 *            for the specification; 103 from mkisofs; 110 from Microsoft.)
+	 * 
+	 * @see http://msdn.microsoft.com/en-us/library/ff469400.aspx
+	 */
+    public JolietNamingConventions(int maxChars, boolean failOnTruncation) {
         super("Joliet");
+        jolietMaxChars = maxChars;
+        this.failOnTruncation = failOnTruncation;
     }
 
     public void apply(ISO9660Directory dir) throws HandlerException {
@@ -80,13 +95,18 @@ public class JolietNamingConventions extends NamingConventions {
             }
         }
 
-        if (filename.length() + extension.length() + (file.getVersion() + "").length() + 2 > 64) {
+        // If the complete file name is too long (name + extension + version + . and ;)
+        int fullLength = filename.length() + extension.length() + (file.getVersion() + "").length() + 2;
+		if (fullLength > jolietMaxChars) {
+			if (failOnTruncation) {
+				throw new HandlerException("File " + file.getFullName() + " is longer than the maximum Joliet name of " + jolietMaxChars + " characters");
+			}
             if (filename.length() >= extension.length()) {
                 // Shorten filename
-                filename = filename.substring(0, 64 - extension.length());
+                filename = filename.substring(0, filename.length() - (fullLength - jolietMaxChars));
             } else {
                 // Shorten extension
-                extension = extension.substring(0, 64 - filename.length());
+                extension = extension.substring(0, extension.length() - (fullLength - jolietMaxChars));
             }
         }
 

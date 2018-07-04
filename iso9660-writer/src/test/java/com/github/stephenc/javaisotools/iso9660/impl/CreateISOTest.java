@@ -23,17 +23,23 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Properties;
 import java.util.Random;
 
 import org.junit.*;
 import org.hamcrest.*;
 
+import com.github.stephenc.javaisotools.iso9660.ISO9660File;
 import com.github.stephenc.javaisotools.iso9660.ISO9660RootDirectory;
 import com.github.stephenc.javaisotools.joliet.impl.JolietConfig;
 import com.github.stephenc.javaisotools.rockridge.impl.RockRidgeConfig;
+import com.github.stephenc.javaisotools.sabre.DataReference;
+import com.github.stephenc.javaisotools.sabre.HandlerException;
 import com.github.stephenc.javaisotools.sabre.StreamHandler;
+import com.github.stephenc.javaisotools.sabre.impl.ByteArrayDataReference;
 import com.github.stephenc.javaisotools.iso9660.ISO9660Directory;
+
 import org.apache.commons.vfs.FileObject;
 import org.apache.commons.vfs.FileSystemManager;
 import org.apache.commons.vfs.FileType;
@@ -127,9 +133,9 @@ public class CreateISOTest {
 
         FileSystemManager fsManager = VFS.getManager();
         // TODO figure out why we can't just do
-        // FileObject isoFile = fsManager.resolveFile("iso:" + outfile.getPath() + "!/");
+        // FileObject isoFile = fsManager.resolveFile("iso:/" + outfile.getPath() + "!/");
         // smells like a bug between loop-fs and commons-vfs
-        FileObject isoFile = fsManager.resolveFile("iso:" + outfile.getPath() + "!/readme.txt").getParent();
+        FileObject isoFile = fsManager.resolveFile("iso:/" + outfile.getPath() + "!/readme.txt").getParent();
         assertThat(isoFile.getType(), is(FileType.FOLDER));
 
         FileObject[] children = isoFile.getChildren();
@@ -183,7 +189,7 @@ public class CreateISOTest {
         assertThat(outfile.length(), not(is(0L)));
 
         FileSystemManager fsManager = VFS.getManager();
-        FileObject isoFile = fsManager.resolveFile("iso:" + outfile.getPath() + "!/root");
+        FileObject isoFile = fsManager.resolveFile("iso:/" + outfile.getPath() + "!/root");
 
         FileObject t = isoFile.getChild("a.txt");
         assertThat(t, CoreMatchers.<Object>notNullValue());
@@ -248,7 +254,7 @@ public class CreateISOTest {
         FileSystemManager fsManager = VFS.getManager();
         for (int i = 0; i < numFiles; i++) {
             File content = new File(rootDir, Integer.toString(i) + ".bin");
-            FileObject t = fsManager.resolveFile("iso:" + outfile.getPath() + "!/" + Integer.toString(i) + ".bin");
+            FileObject t = fsManager.resolveFile("iso:/" + outfile.getPath() + "!/" + Integer.toString(i) + ".bin");
             assertThat(t, CoreMatchers.<Object>notNullValue());
             assertThat(t.getType(), is(FileType.FILE));
             assertThat(t.getContent().getSize(), is(content.length()));
@@ -358,7 +364,65 @@ public class CreateISOTest {
 
         // Trying to open a fake iso
         FileSystemManager fsManager = VFS.getManager();
-        FileObject fo = fsManager.resolveFile("iso:" + fakeIso.getPath() + "!/");
+        FileObject fo = fsManager.resolveFile("iso:/" + fakeIso.getPath() + "!/");
         assertFalse("The file '" + fakeIso.getName() + "' is not a valid iso file", fo.exists());
+    }
+    
+    @Test
+	public void cahShortenLongFileNames() throws Exception {
+    	 File outfile = new File(workDir, "64chars.iso");
+    	 
+    	 ISO9660RootDirectory root = new ISO9660RootDirectory();
+    	 
+   		 root.addFile(new ISO9660File(new ByteArrayDataReference("Hello, world!".getBytes(StandardCharsets.UTF_8)) , "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.wsdl", 1121040000l));
+   		 root.addFile(new ISO9660File(new ByteArrayDataReference("Hello, world!".getBytes(StandardCharsets.UTF_8)) , "yxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.wsdl", 1121040000l));
+
+   		 root.addFile(new ISO9660File(new ByteArrayDataReference("Hello, world!".getBytes(StandardCharsets.UTF_8)) , "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 1121040000l));
+   		 root.addFile(new ISO9660File(new ByteArrayDataReference("Hello, world!".getBytes(StandardCharsets.UTF_8)) , "yxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx", 1121040000l));
+    	 
+    	 StreamHandler streamHandler = new ISOImageFileHandler(outfile);
+         CreateISO iso = new CreateISO(streamHandler, root);
+         
+         ISO9660Config iso9660Config = new ISO9660Config();
+         iso9660Config.setVolumeID("ISO Test");
+         iso9660Config.setVolumeSetID("ISO Test");
+
+         JolietConfig jolietConfig = new JolietConfig();
+         jolietConfig.setVolumeID("ISO Test");
+         jolietConfig.setVolumeSetID("ISO Test");
+
+         iso.process(iso9660Config, null, jolietConfig, null);
+	}
+    
+    @Test
+    public void canFailOnTruncatedName() throws Exception
+    {
+		File outfile = new File(workDir, "truncate.iso");
+		 
+		ISO9660RootDirectory root = new ISO9660RootDirectory();
+		 
+		root.addFile(new ISO9660File(new ByteArrayDataReference("Hello, world!".getBytes(StandardCharsets.UTF_8)) , "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.wsdl", 1121040000l));
+		 
+		StreamHandler streamHandler = new ISOImageFileHandler(outfile);
+		CreateISO iso = new CreateISO(streamHandler, root);
+		    
+		ISO9660Config iso9660Config = new ISO9660Config();
+		iso9660Config.setVolumeID("ISO Test");
+		iso9660Config.setVolumeSetID("ISO Test");
+		
+		JolietConfig jolietConfig = new JolietConfig();
+		jolietConfig.setVolumeID("ISO Test");
+		jolietConfig.setVolumeSetID("ISO Test");
+		jolietConfig.setMaxCharsInFilename(12);
+		jolietConfig.setFailOnTruncation(true);
+		
+		try {
+			iso.process(iso9660Config, null, jolietConfig, null);
+			
+			Assert.fail("Should have failed because a filename would have been truncated");
+		}
+		catch (HandlerException x) {
+			/* Success: the truncation was noted */
+		}
     }
 }

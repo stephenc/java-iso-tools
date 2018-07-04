@@ -1,0 +1,44 @@
+import java.io.*;
+import java.util.*;
+import org.codehaus.plexus.util.FileUtils;
+import com.github.stephenc.javaisotools.loopfs.iso9660.*;
+
+File buildDir = new File( basedir, "target" );
+File isoFile = new File( buildDir, "long-1.2-SNAPSHOT.iso");
+
+/* Check that the ISO is generated */
+try
+{
+    if (!isoFile.isFile()) {
+        System.err.println( isoFile.getAbsolutePath() + " file was not created" );
+        return false;
+    }
+}
+catch( Throwable t )
+{
+    t.printStackTrace();
+    return false;
+}
+
+/* Check that the ISO has the right files in it */
+Iso9660FileSystem fs = new Iso9660FileSystem(isoFile, true);
+
+Set files = new TreeSet();
+
+for (Iterator i = fs.iterator(); i.hasNext();)
+{
+	Iso9660FileEntry e = (Iso9660FileEntry)i.next();
+
+	files.add(e.getName());
+}
+
+if (!files.contains("012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345.txt"))
+{
+	System.err.println("Could not find file with really long name");
+	
+	System.err.println("Found only " + files);
+	
+	return false; 
+}
+
+return true;

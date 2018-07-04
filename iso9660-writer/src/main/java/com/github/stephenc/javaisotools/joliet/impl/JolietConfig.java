@@ -20,6 +20,7 @@
 package com.github.stephenc.javaisotools.joliet.impl;
 
 import com.github.stephenc.javaisotools.iso9660.ConfigException;
+import com.github.stephenc.javaisotools.iso9660.NamingConventions;
 import com.github.stephenc.javaisotools.sabre.impl.ByteArrayDataReference;
 import com.github.stephenc.javaisotools.iso9660.StandardConfig;
 
@@ -30,6 +31,10 @@ public class JolietConfig extends StandardConfig {
             {0x25, 0x2F, 0x43},
             {0x25, 0x2F, 0x45}};
     int ucs2_level;
+    
+	private int maxCharsInFilename = 64;
+	
+	private boolean failOnTruncation;
 
     public JolietConfig() {
         super();
@@ -122,4 +127,20 @@ public class JolietConfig extends StandardConfig {
         }
         super.setVolumeID(volumeID);
     }
+
+	public int getMaxCharsInFilename() {
+		return maxCharsInFilename;
+	}
+	
+	public void setMaxCharsInFilename(int maxCharsInFilename) {
+		this.maxCharsInFilename = maxCharsInFilename;
+	}
+
+	public boolean getFailOnTruncation() {
+		return failOnTruncation;
+	}
+	
+	public void setFailOnTruncation(boolean failOnTruncation) {
+		this.failOnTruncation = failOnTruncation;
+	}
 }

@@ -70,9 +70,10 @@
     </dependencies>
     <build>
         <plugins> 
-            <!-- <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-invoker-plugin</artifactId>
+                <version>1.5</version>
                 <configuration>
                     <projectsDirectory>src/it</projectsDirectory>
                     <cloneProjectsTo>${project.build.directory}/it</cloneProjectsTo>
@@ -85,7 +86,23 @@
                     </pomIncludes>
                     <postBuildHookScript>verify.bsh</postBuildHookScript>
                 </configuration>
-            </plugin> -->
+                <dependencies>
+                	<dependency>
+                		<groupId>${project.groupId}</groupId>
+                		<artifactId>loop-fs-iso-impl</artifactId>
+                		<version>${project.version}</version>
+                	</dependency>
+                </dependencies>
+		<executions>
+			<execution>
+				<id>integration-test</id>
+				<goals>
+					<goal>install</goal>
+					<goal>run</goal>
+				</goals>
+			</execution>
+		</executions>
+            </plugin>
             <plugin>
                 <artifactId>maven-plugin-plugin</artifactId>
                 <version>3.4</version>

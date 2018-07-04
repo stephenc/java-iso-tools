@@ -265,6 +265,21 @@ public class PackageMojo extends AbstractMojo {
      */
     private List<FilePermission> permissions = new ArrayList<FilePermission>();
 
+    /**
+     * The maximum Joliet filename length. Values greater than 64 break the
+     * Joliet standard.
+     * 
+     * @parameter default-value="64"
+     */
+	private Integer maxJolietFilenameLength = 64;
+	
+	/**
+	 * Whether to fail if a Joliet filename would have to be truncated.
+	 * 
+	 * @parameter default-value="false"
+	 */
+	private boolean failOnJolietFilenameTruncation;
+
     public void execute() throws MojoExecutionException, MojoFailureException {
         if (permissions == null) {
             System.out.println("*** Permissions list is null!");
@@ -323,6 +338,8 @@ public class PackageMojo extends AbstractMojo {
             if (enableJoliet.booleanValue()) {
 	            jolietConfig = new JolietConfig();
 	            jolietConfig.forceDotDelimiter(forceDotDelimiter.booleanValue());
+	            jolietConfig.setMaxCharsInFilename(maxJolietFilenameLength);
+	            jolietConfig.setFailOnTruncation(failOnJolietFilenameTruncation);
 	            applyConfig(jolietConfig);
             }
 
