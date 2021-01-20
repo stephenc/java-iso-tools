@@ -2,7 +2,9 @@
 
 This project provides a number of tools for manipulating iso9660 filesystems natively within Java.
 
-image:https://img.shields.io/badge/project%20status-unmaintained-red[] image:https://img.shields.io/maven-central/v/com.github.stephenc.java-iso-tools/java-iso-tools-parent[]
+image:https://img.shields.io/badge/project%20status-unmaintained-red[Project Status]
+image:https://img.shields.io/maven-central/v/com.github.stephenc.java-iso-tools/java-iso-tools-parent[Maven Central Latest Version]
+image:https://github.com/stephenc/java-iso-tools/workflows/Java%20CI%20with%20Maven/badge.svg[Java CI with Maven]
 
 == Getting started quickly
 
