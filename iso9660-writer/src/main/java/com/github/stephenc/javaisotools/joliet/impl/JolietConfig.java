@@ -59,7 +59,7 @@ public class JolietConfig extends StandardConfig {
      * @param level 1, 2 or 3
      *
      * @throws ConfigException Invalid UCS-2 level
-     * @see http://www.nada.kth.se/i18n/ucs/unicode-iso10646-oview.html
+     * @see <a href="http://www.nada.kth.se/i18n/ucs/unicode-iso10646-oview.html">link</a>
      */
     public void setUCS2Level(int level) throws ConfigException {
         if (level != 1 && level != 2 && level != 3) {

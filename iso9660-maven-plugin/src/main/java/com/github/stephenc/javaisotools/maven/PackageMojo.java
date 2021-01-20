@@ -38,246 +38,216 @@ import java.util.List;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.LifecyclePhase;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.apache.maven.project.MavenProject;
 import org.codehaus.plexus.util.StringUtils;
 
 /**
  * Creates an iso9660 image.
- *
- * @goal iso
- * @phase package
  */
+@Mojo(name="iso", defaultPhase = LifecyclePhase.PACKAGE)
 public class PackageMojo extends AbstractMojo {
 
     /**
      * The directory to place the iso9660 image.
-     *
-     * @parameter default-value="${project.build.directory}"
      */
+    @Parameter(defaultValue = "${project.build.directory}")
     private File outputDirectory;
 
     /**
      * The directory to capture the content from.
-     *
-     * @parameter default-value="${project.build.outputDirectory}"
      */
+    @Parameter(defaultValue = "${project.build.outputDirectory}")
     private File inputDirectory;
 
     /**
      * The name of the file to create.
-     *
-     * @parameter default-value="${project.build.finalName}.${project.packaging}"
      */
+    @Parameter(defaultValue = "${project.build.finalName}.${project.packaging}")
     private String finalName;
 
     /**
      * The system id.
-     *
-     * @parameter
      */
+    @Parameter
     private String systemId;
 
     /**
      * The volume id.
-     *
-     * @parameter default-value="${project.artifactId}"
      */
+    @Parameter(defaultValue = "${project.artifactId}")
     private String volumeId;
 
     /**
      * The volume set id.
-     *
-     * @parameter
      */
+    @Parameter
     private String volumeSetId;
 
     /**
      * The publisher.
-     *
-     * @parameter default-value="${project.organization.name}"
      */
+    @Parameter(defaultValue = "${project.organization.name}")
     private String publisher;
 
     /**
      * The preparer.
-     *
-     * @parameter default-value="${project.organization.name}"
      */
+    @Parameter(defaultValue = "${project.organization.name}")
     private String preparer;
 
     /**
      * The application.
-     *
-     * @parameter default-value="iso9660-maven-plugin"
      */
+    @Parameter(defaultValue = "iso9660-maven-plugin")
     private String application;
 
     /**
      * Moved Directories Store Name.
-     *
-     * @parameter default-value="rr_moved"
      */
+    @Parameter(defaultValue = "rr_moved")
     private String movedDirectoriesStoreName;
 
     /**
      * The volume sequence number.
-     *
-     * @parameter
      */
+    @Parameter
     private Integer volumeSequenceNumber;
 
     /**
      * The volume set size.
      */
+    @Parameter
     private Integer volumeSetSize;
     
     /**
      * The maven project. This is injected by Maven.
-     *
-     * @parameter expression="${project}" @required @readonly
      */
+    @Parameter(defaultValue = "${project}", readonly = true)
     private MavenProject project;
 
     /**
-     * enable RockRidge.
-     *
-     * @parameter default-value="true"
+     * Enable RockRidge.
      */
+    @Parameter(defaultValue = "true")
     private Boolean enableRockRidge;
 
     /**
-     * enable Joliet.
-     *
-     * @parameter default-value="true"
+     * Enable Joliet.
      */
+    @Parameter(defaultValue = "true")
     private Boolean enableJoliet;
 
     /**
      * Allow Ascii.
-     *
-     * @parameter default-value="false"
      */
+    @Parameter(defaultValue = "false")
     private Boolean allowASCII;
 
     /**
      * The Interchange Level.
-     *
-     * @parameter default-value="1"
      */
+    @Parameter(defaultValue = "1")
     private Integer interchangeLevel;
 
     /**
      * Pad End.
-     *
-     * @parameter default-value="true"
      */
+    @Parameter(defaultValue = "true")
     private Boolean padEnd;
 
     /**
      * Restric Directory Depth to 8.
-     *
-     * @parameter default-value="true"
      */
+    @Parameter(defaultValue = "true")
     private Boolean restrictDirDepthTo8;
 
     /**
      * Force Dot Delimiter.
-     *
-     * @parameter default-value="true"
      */
+    @Parameter(defaultValue = "true")
     private Boolean forceDotDelimiter;
 
     /**
      * Mkisofs Compatibility.
-     *
-     * @parameter default-value="false"
      */
+    @Parameter(defaultValue = "false")
     private Boolean mkisofsCompatibility;
 
     /**
      * Hide Moved Directories Store.
-     *
-     * @parameter default-value="true"
      */
+    @Parameter(defaultValue = "true")
     private Boolean hideMovedDirectoriesStore;
 
     /**
      * Force Portable Filename CharacterSet
-     *
-     * @parameter default-value="true"
      */
+    @Parameter(defaultValue = "true")
     private Boolean forcePortableFilenameCharacterSet;
 
     /**
      * Boot Image ID
-     *
-     * @parameter default-value=""
      */
+    @Parameter(defaultValue = "")
     private String bootImagePlatformID;
 
     /**
      * Boot Image Emulation
-     *
-     * @parameter default-value=""
      */
+    @Parameter(defaultValue = "")
     private String bootImageEmulation;
 
     /**
      * The boot Image.
-     *
-     * @parameter
      */
+    @Parameter
     private File bootImage;
 
     /**
      * Boot Image ID
-     *
-     * @parameter default-value=""
      */
+    @Parameter(defaultValue = "")
     private String bootImageID;
 
     /**
      * Boot Image SectorCount
-     *
-     * @parameter default-value="1"
      */
+    @Parameter(defaultValue = "1")
     private Integer bootImageSectorCount;
 
     /**
-     * Boot Image SectorCount
-     *
-     * @parameter default-value="0"
+     * Boot Image Load Segment
      */
+    @Parameter(defaultValue = "0")
     private Integer bootImageLoadSegment;
 
     /**
      * Generate Boot Info Table
-     *
-     * @parameter default-value="false"
      */
+    @Parameter(defaultValue = "false")
     private boolean genBootInfoTable;
     
     /**
      * A list of file permissions, mapping a pattern to a permission.
      * Used for burning Rock Ridge information as a way to include permissions for particular files.
-     * 
-     * @parameter
      */
+    @Parameter
     private List<FilePermission> permissions = new ArrayList<FilePermission>();
 
     /**
      * The maximum Joliet filename length. Values greater than 64 break the
      * Joliet standard.
-     * 
-     * @parameter default-value="64"
      */
+    @Parameter(defaultValue = "64")
 	private Integer maxJolietFilenameLength = 64;
 	
 	/**
 	 * Whether to fail if a Joliet filename would have to be truncated.
-	 * 
-	 * @parameter default-value="false"
-	 */
+     */
+    @Parameter(defaultValue = "false")
 	private boolean failOnJolietFilenameTruncation;
 
     public void execute() throws MojoExecutionException, MojoFailureException {

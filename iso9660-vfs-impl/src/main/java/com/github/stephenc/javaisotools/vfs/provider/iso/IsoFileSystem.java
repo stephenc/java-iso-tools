@@ -42,7 +42,7 @@ import org.apache.commons.vfs.provider.UriParser;
 
 /**
  * Implementation of {@link org.apache.commons.vfs.FileSystem} for ISO9660 (.iso) files.
- * <p/>
+ * <p>
  * TODO: perf test with ISO files containing lots of entries; possibly optimize by creating FileObjects on-demand via
  * the createFile() method.
  */

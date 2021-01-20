@@ -30,12 +30,6 @@ import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-/**
- * @author hartle
- *         <p/>
- *         TODO To change the template for this generated type comment go to Window - Preferences - Java - Code Style -
- *         Code Templates
- */
 public class LimitingInputStream extends FilterInputStream {
 
     protected int limit = -1;

@@ -30,11 +30,19 @@
     <name>Iso9660 Maven Plugin</name>
     <packaging>maven-plugin</packaging>
 
+    <prerequisites>
+        <maven>3.0</maven>
+    </prerequisites>
+
+    <properties>
+        <maven.version>3.0.5</maven.version>
+    </properties>
+
     <dependencies>
         <dependency>
             <groupId>org.apache.maven</groupId>
             <artifactId>maven-plugin-api</artifactId>
-            <version>3.0.4</version>
+            <version>${maven.version}</version>
         </dependency>
         <dependency>
             <groupId>org.apache.maven</groupId>
@@ -60,6 +68,12 @@
             <groupId>org.codehaus.plexus</groupId>
             <artifactId>plexus-component-annotations</artifactId>
             <version>1.5.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.maven.plugin-tools</groupId>
+            <artifactId>maven-plugin-annotations</artifactId>
+            <version>3.0</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
