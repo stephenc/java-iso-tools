@@ -6,6 +6,15 @@ image:https://img.shields.io/badge/project%20status-unmaintained-red[Project Sta
 image:https://img.shields.io/maven-central/v/com.github.stephenc.java-iso-tools/java-iso-tools-parent[Maven Central Latest Version]
 image:https://github.com/stephenc/java-iso-tools/workflows/Java%20CI%20with%20Maven/badge.svg[Java CI with Maven]
 
+== Project status
+
+I (link:https://github.com/stephenc[@stephenc]) not actively maintaining this repository.
+Because the Maven Central publishing of this is tied to my personal account, I cannot transfer the project to somebody else without changing the GroupId.
+
+If somebody wants to take responsibility for vetting pull requests, etc I am happy to give them commit permissions and I can set up something to allow periodic releases.
+
+If nobody steps forward, do not expect any new releases or any work on the open issues.
+
 == Getting started quickly
 
 Visit link:https://mvnrepository.com/artifact/com.github.stephenc.java-iso-tools[mvnrepository.com], select the parts you need for your project, and then add that to your build system via Gradle, Maven, or other.
@@ -35,14 +44,14 @@ mvn compile
 
 NOTE: There are some default tests
 
-Use maven to run existing tests
+Use maven to run existing unit tests
 
 [source,bash]
 ----
 mvn test
 ----
 
-To run the Maven plugin tests:
+To run all tests including the Maven plugin integration tests:
 
 [source,bash]
 ----
