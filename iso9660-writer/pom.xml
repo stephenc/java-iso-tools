@@ -23,7 +23,7 @@
     <parent>
         <groupId>com.github.stephenc.java-iso-tools</groupId>
         <artifactId>java-iso-tools-parent</artifactId>
-        <version>2.0.2-SNAPSHOT</version>
+        <version>2.1.0-SNAPSHOT</version>
     </parent>
 
     <artifactId>iso9660-writer</artifactId>
@@ -45,7 +45,7 @@
         <dependency>
             <groupId>com.github.stephenc.java-iso-tools</groupId>
             <artifactId>sabre</artifactId>
-            <version>2.0.2-SNAPSHOT</version>
+            <version>2.1.0-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
@@ -62,7 +62,7 @@
         <dependency>
             <groupId>com.github.stephenc.java-iso-tools</groupId>
             <artifactId>iso9660-vfs-impl</artifactId>
-            <version>2.0.2-SNAPSHOT</version>
+            <version>2.1.0-SNAPSHOT</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

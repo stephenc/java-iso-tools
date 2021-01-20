@@ -101,7 +101,7 @@ public class Iso9660FileSystemTest {
             File sourceFile = new File(source, entry.getPath());
             assertThat(sourceFile.isDirectory(), is(entry.isDirectory()));
             if (!sourceFile.isDirectory()) {
-                assertThat(sourceFile.length(), is(entry.getSize() * 1L));
+                assertThat(sourceFile.length(), is(entry.getSize()));
                 assertThat("contents are equal",
                         IOUtil.contentEquals(image.getInputStream(entry), new FileInputStream(sourceFile)), is(true));
             }

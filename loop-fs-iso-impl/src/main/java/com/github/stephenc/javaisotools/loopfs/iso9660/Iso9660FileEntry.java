@@ -32,7 +32,7 @@ public final class Iso9660FileEntry implements FileEntry {
     private String parentPath;
     private final int entryLength;
     private final long startSector;
-    private final int dataLength;
+    private final long dataLength;
     private final long lastModifiedTime;
     private final int flags;
     private final String identifier;
@@ -63,7 +63,7 @@ public final class Iso9660FileEntry implements FileEntry {
         this.entryLength = Util.getUInt8(block, offset + 1);
         //this.extAttributeLength = Util.getUInt8(block, offset+2);
         this.startSector = Util.getUInt32LE(block, offset + 3);
-        this.dataLength = (int) Util.getUInt32LE(block, offset + 11);
+        this.dataLength = Util.getUInt32LE(block, offset + 11);
         this.lastModifiedTime = Util.getDateTime(block, offset + 19);
         this.flags = Util.getUInt8(block, offset + 26);
         //this.fileUnitSize = Util.getUInt8(block, offset+27);
