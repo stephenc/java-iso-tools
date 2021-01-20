@@ -2,13 +2,15 @@
 
 This project provides a number of tools for manipulating iso9660 filesystems natively within Java.
 
+image:https://img.shields.io/badge/project%20status-unmaintained-red[] image:https://img.shields.io/maven-central/v/com.github.stephenc.java-iso-tools/java-iso-tools-parent[]
+
 == Getting started quickly
 
 Visit link:https://mvnrepository.com/artifact/com.github.stephenc.java-iso-tools[mvnrepository.com], select the parts you need for your project, and then add that to your build system via Gradle, Maven, or other.
 
 == Building from source
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes. 
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 See deployment for notes on how to deploy the project on a live system.
 
 === Prerequisites
@@ -36,4 +38,11 @@ Use maven to run existing tests
 [source,bash]
 ----
 mvn test
+----
+
+To run the Maven plugin tests:
+
+[source,bash]
+----
+mvn verify
 ----
