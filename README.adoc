@@ -13,6 +13,9 @@ Because the Maven Central publishing of this is tied to my personal account, I c
 
 If somebody wants to take responsibility for vetting pull requests, etc I am happy to give them commit permissions and I can set up something to allow periodic releases.
 
+NOTE: If somebody wants to take over as an offical fork at the a new GroupId, create a pull request against this README with a pointer to the fork. 
+If, after 3 months there are more thumbs up from users than thumbs down, I will merge the pull request for the fork with the most "votes".
+
 If nobody steps forward, do not expect any new releases or any work on the open issues.
 
 == Getting started quickly
