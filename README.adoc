@@ -8,7 +8,7 @@ image:https://github.com/stephenc/java-iso-tools/workflows/Java%20CI%20with%20Ma
 
 == Project status
 
-I (link:https://github.com/stephenc[@stephenc]) not actively maintaining this repository.
+I (link:https://github.com/stephenc[@stephenc]) am not actively maintaining this repository.
 Because the Maven Central publishing of this is tied to my personal account, I cannot transfer the project to somebody else without changing the GroupId.
 
 If somebody wants to take responsibility for vetting pull requests, etc I am happy to give them commit permissions and I can set up something to allow periodic releases.
